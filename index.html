@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <title>多音轨音色设计工作站 Pro Max</title>
+  <style>
+    :root {
+      --bg-base: #0a0c10;
+      --bg-panel: #13171f;
+      --bg-card: #1c212b;
+      --bg-hover: #252b36;
+      --accent: #00e676;
+      --accent-glow: rgba(0, 230, 118, 0.25);
+      --accent-sec: #00b0ff;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --border: #2e3646;
+      --border-light: #3f4a5c;
+      --font-stack: system-ui, -apple-system, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    body { background-color: var(--bg-base); color: var(--text-main); font-family: var(--font-stack); display: flex; justify-content: center; padding: 30px 15px; margin: 0; min-height: 100vh; }
+    
+    .synth-container { background: var(--bg-panel); padding: 35px; border-radius: 20px; box-shadow: 0 25px 80px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.05); width: 1200px; border: 1px solid var(--border); display: flex; flex-direction: column; gap: 20px; }
+    
+    /* 标题区域 */
+    .header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid var(--border); padding-bottom: 15px; }
+    .main-title { color: var(--text-main); font-size: 32px; letter-spacing: 6px; font-weight: 900; margin: 0; text-shadow: 0 0 30px var(--accent-glow); display: flex; align-items: center; gap: 15px; }
+    .main-title span { color: var(--accent); }
+    .master-meter { width: 300px; height: 35px; border-radius: 8px; background: var(--bg-card); border: 1px solid var(--border); overflow: hidden; }
+
+    /* 布局网格 - 修复溢出问题 */
+    .layout-top { display: grid; grid-template-columns: 1.1fr 1.9fr; gap: 20px; }
+    
+    /* 模块基础样式 */
+    .module { background: var(--bg-card); padding: 20px; border-radius: 14px; border: 1px solid var(--border); position: relative; display: flex; flex-direction: column; min-width: 0; }
+    .module-title { font-size: 13px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700; margin: 0 0 15px 0; display: flex; align-items: center; gap: 8px; }
+    .module-title::before { content: ""; display: block; width: 4px; height: 14px; background: var(--accent); border-radius: 2px; }
+
+    /* DAW 区域 */
+    .daw-controls { display: flex; gap: 10px; margin-bottom: 20px; align-items: center; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 10px; border: 1px solid var(--border); flex-wrap: wrap; }
+    .btn { background: var(--bg-hover); color: var(--text-main); border: 1px solid var(--border-light); padding: 8px 16px; border-radius: 6px; font-weight: 600; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 6px; font-size: 13px; }
+    .btn:hover { background: var(--accent); color: #000; border-color: var(--accent); box-shadow: 0 0 15px var(--accent-glow); }
+    .btn.primary { background: var(--accent); color: #000; border-color: var(--accent); }
+    .btn.write-btn { background: var(--accent-sec); color: #000; border-color: var(--accent-sec); margin-left: auto; }
+    
+    .track-lane { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; background: rgba(0,0,0,0.15); padding: 10px 12px; border-radius: 8px; border: 1px solid transparent; transition: 0.3s; }
+    .track-lane:hover { border-color: var(--border-light); background: var(--bg-hover); }
+    .track-label { flex: 0 0 75px; font-size: 12px; font-weight: bold; color: var(--accent-sec); }
+    .track-input { flex: 1; min-width: 0; height: 32px; background: var(--bg-base); color: var(--accent); border: 1px solid var(--border); padding: 0 12px; font-family: 'Courier New', monospace; font-size: 14px; border-radius: 6px; outline: none; transition: 0.2s; letter-spacing: 1px; }
+    .track-input:focus { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-glow); }
+    
+    .vol-box { display: flex; align-items: center; gap: 6px; flex: 0 0 85px; }
+    .vol-box span { font-size: 10px; color: var(--text-muted); width: 20px; }
+    .vol-box input[type=range] { margin: 0; width: 100%; flex: 1; min-width: 0; }
+
+    /* 检查器 (多音轨参数) */
+    .inspector-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 15px; }
+    .inspector-tabs { display: flex; gap: 8px; background: var(--bg-base); padding: 6px; border-radius: 10px; border: 1px solid var(--border); flex: 1; }
+    .tab { flex: 1; text-align: center; padding: 8px 0; font-size: 13px; font-weight: bold; color: var(--text-muted); background: transparent; border: none; border-radius: 6px; cursor: pointer; transition: 0.2s; }
+    .tab:hover { color: var(--text-main); background: rgba(255,255,255,0.05); }
+    .tab.active { background: var(--accent); color: #000; box-shadow: 0 2px 10px var(--accent-glow); }
+
+    /* 修复后的参数网格 */
+    .inspector-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; flex: 1; min-width: 0; }
+    .param-group { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px; border: 1px solid var(--border); min-width: 0; }
+    .param-group h4 { margin: 0 0 12px 0; font-size: 11px; color: var(--accent-sec); border-bottom: 1px dashed var(--border); padding-bottom: 6px; }
+    
+    .row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; font-size: 11px; }
+    .row > span:first-child { width: 40px; color: var(--text-muted); flex-shrink: 0; }
+    
+    /* 自定义滑块限制 */
+    input[type=range] { -webkit-appearance: none; flex: 1; margin: 0 8px; background: transparent; height: 16px; min-width: 30px; }
+    input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; background: var(--border-light); border-radius: 2px; }
+    input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 14px; width: 14px; border-radius: 50%; background: var(--accent); cursor: pointer; margin-top: -5px; box-shadow: 0 0 8px rgba(0,0,0,0.5); transition: 0.1s; }
+    input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+    
+    .val-box { width: 38px; text-align: right; font-family: monospace; color: var(--accent); font-size: 11px; background: var(--bg-base); padding: 3px; border-radius: 4px; border: 1px solid var(--border); flex-shrink: 0; }
+    select.styled-sel { background: var(--bg-base); color: var(--text-main); border: 1px solid var(--border); padding: 6px 10px; border-radius: 6px; font-size: 12px; outline: none; width: 100%; margin-bottom: 15px; cursor: pointer; }
+
+    canvas.mini-canvas { background: var(--bg-base); border: 1px solid var(--border); border-radius: 6px; width: 100%; height: 65px; display: block; margin-top: 5px; }
+
+    /* 全局写谱 Modal */
+    .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.75); display: flex; justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(8px); }
+    .modal-content { background: var(--bg-panel); border: 1px solid var(--border); padding: 25px; border-radius: 14px; width: 650px; box-shadow: 0 20px 60px rgba(0,0,0,0.9); display: flex; flex-direction: column; gap: 15px; }
+    .modal-content h3 { margin: 0; color: var(--accent); font-size: 18px; letter-spacing: 2px; display: flex; align-items: center; gap: 10px; }
+    .modal-content h3::before { content: ""; display: block; width: 6px; height: 18px; background: var(--accent); border-radius: 3px; }
+    .modal-body { display: flex; flex-direction: column; gap: 12px; }
+    .modal-track { display: flex; flex-direction: column; gap: 6px; }
+    .modal-track label { font-size: 13px; font-weight: bold; color: var(--accent-sec); }
+    .modal-track textarea { background: var(--bg-base); color: var(--accent); border: 1px solid var(--border); padding: 12px; border-radius: 6px; font-family: 'Courier New', monospace; font-size: 15px; resize: vertical; min-height: 70px; outline: none; letter-spacing: 2px; }
+    .modal-track textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-glow); }
+    .modal-footer { display: flex; justify-content: flex-end; gap: 12px; margin-top: 10px; }
+
+    /* 和弦与键盘 */
+    .chords-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-top: 15px; }
+    .chord-card { background: rgba(0,0,0,0.2); border: 1px solid var(--border); padding: 12px 5px; border-radius: 10px; text-align: center; cursor: pointer; transition: 0.2s; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    .chord-card:hover, .chord-card.active { background: var(--accent); border-color: var(--accent); color: #000; box-shadow: 0 5px 15px var(--accent-glow); transform: translateY(-2px); }
+    .chord-card:hover select, .chord-card.active select { background: transparent; color: #000; border-color: rgba(0,0,0,0.2); }
+    .chord-card .degree { font-size: 12px; font-weight: 800; opacity: 0.7; margin-bottom: 6px; }
+    .chord-card select { background: var(--bg-base); color: var(--text-muted); border: 1px solid var(--border); border-radius: 4px; font-size: 10px; padding: 2px; width: 90%; outline: none; cursor: pointer; margin-bottom: 8px; text-align: center; }
+    .chord-card .name { font-size: 15px; font-weight: bold; }
+
+    .piano-wrapper { display: flex; background: var(--bg-base); padding: 15px; border-radius: 10px; overflow-x: auto; box-shadow: inset 0 0 20px rgba(0,0,0,0.8); border: 1px solid var(--border); margin-top: 15px; }
+    .piano { position: relative; height: 140px; user-select: none; }
+    .key { position: absolute; box-sizing: border-box; cursor: pointer; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; padding-bottom: 8px; font-weight: bold; border-radius: 0 0 6px 6px; transition: background 0.1s; }
+    .key.white { width: 40px; height: 140px; background: #eaebed; color: #333; border: 1px solid #ccc; z-index: 1; font-size: 14px; box-shadow: inset 0 -3px 5px rgba(0,0,0,0.1); }
+    .key.white.active { background: var(--accent) !important; color: #000; box-shadow: 0 0 20px var(--accent-glow), inset 0 -2px 5px rgba(0,0,0,0.2); }
+    .key.black { width: 26px; height: 85px; background: #1a1a1a; color: var(--accent); border: 1px solid #000; z-index: 2; font-size: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.6), inset 0 -2px 3px rgba(255,255,255,0.1); }
+    .key.black.active { background: var(--accent) !important; color: #000; box-shadow: 0 0 20px var(--accent-glow); }
+    .key.out-scale { opacity: 0.15; }
+
+    /* 滚动条 */
+    ::-webkit-scrollbar { height: 10px; width: 10px; }
+    ::-webkit-scrollbar-track { background: var(--bg-base); border-radius: 5px; }
+    ::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 5px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent-sec); }
+    
+    .jp-box { position: relative; display: inline-flex; flex-direction: column; align-items: center; line-height: 1; }
+    .jp-num { z-index: 2; font-family: monospace; }
+    .jp-dot { position: absolute; width: 4px; height: 4px; background: currentColor; border-radius: 50%; left: 50%; transform: translateX(-50%); }
+    .jp-dot.top { top: -7px; } .jp-dot.top.double { top: -13px; }
+    .jp-dot.bottom { bottom: -6px; } .jp-dot.bottom.double { bottom: -12px; }
+    
+    label { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; cursor: pointer; color: var(--text-muted); }
+    label input[type=checkbox] { accent-color: var(--accent); width: 16px; height: 16px; cursor: pointer; }
+    label:hover { color: var(--text-main); }
+
+    /* ===== MOBILE / TOUCH OPTIMIZATION ===== */
+    html, body { overscroll-behavior: none; }
+    body { -webkit-tap-highlight-color: transparent; }
+    button, select, input, textarea { touch-action: manipulation; }
+    .piano-wrapper, .piano, .key { touch-action: none; }
+    .key { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+
+    @media (max-width: 900px) {
+      body { padding: 8px; align-items: flex-start; }
+      .synth-container {
+        width: 100%; max-width: 100%; padding: 12px; border-radius: 14px; gap: 12px;
+        box-shadow: none;
+      }
+      .header { align-items: center; gap: 10px; }
+      .main-title { font-size: 18px; letter-spacing: 2px; white-space: nowrap; }
+      .master-meter { width: 130px; height: 28px; flex: 0 0 auto; }
+      .layout-top { grid-template-columns: 1fr; gap: 12px; }
+      .module { padding: 12px; border-radius: 12px; }
+      .inspector-grid { grid-template-columns: 1fr; gap: 10px; }
+      .chords-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 7px; }
+      .chord-card { padding: 9px 3px; min-height: 76px; }
+      .chord-card .name { font-size: 13px; }
+      .daw-controls { padding: 8px; gap: 7px; }
+      .btn { min-height: 42px; padding: 9px 12px; font-size: 13px; }
+      .track-lane { flex-wrap: wrap; gap: 7px; }
+      .track-label { flex: 0 0 70px; }
+      .track-input { flex: 1 1 calc(100% - 82px); min-height: 42px; }
+      .vol-box { flex: 1 1 100%; min-width: 0; }
+      .vol-box input[type=range] { min-height: 28px; }
+      .inspector-header { flex-direction: column; align-items: stretch; gap: 8px; }
+      .inspector-tabs { width: 100%; overflow-x: auto; flex-wrap: nowrap; }
+      .tab { min-width: 112px; min-height: 42px; }
+      select.styled-sel { min-height: 42px; }
+      .piano-wrapper { padding: 10px; margin-top: 8px; overflow-x: auto; overscroll-behavior-x: contain; }
+      .piano { height: 180px; }
+      .key.white { width: 48px; height: 180px; }
+      .key.black { width: 30px; height: 108px; }
+    }
+
+    @media (max-width: 600px) {
+      .main-title { font-size: 15px; }
+      .master-meter { width: 100px; height: 24px; }
+      .chords-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .piano { height: 170px; }
+      .key.white { width: 46px; height: 170px; }
+      .key.black { width: 29px; height: 102px; }
+    }
+
+    @media (orientation: landscape) and (max-width: 900px) {
+      body { padding: 6px; }
+      .synth-container { padding: 8px; gap: 8px; }
+      .layout-top { grid-template-columns: minmax(280px, 1fr) minmax(420px, 1.6fr); }
+      .inspector-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .chords-grid { grid-template-columns: repeat(7, minmax(0, 1fr)); }
+      .module { padding: 10px; }
+      .piano { height: 150px; }
+      .key.white { height: 150px; width: 42px; }
+      .key.black { height: 92px; width: 27px; }
+    }
+
+    /* 非触摸设备继续保留 hover，但触摸设备不需要 hover 样式 */
+    @media (hover: none) {
+      .btn:hover, .chord-card:hover { background: initial; color: inherit; box-shadow: none; transform: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="synth-container">
+  
+  <div class="header">
+    <h1 class="main-title">SOUND<span>WORKSTATION</span></h1>
+    <canvas id="masterSpectrum" class="master-meter"></canvas>
+  </div>
+
+  <div class="layout-top">
+    <!-- DAW 引擎 -->
+    <div class="module">
+      <h3 class="module-title">DAW 多轨音序器</h3>
+      <div class="daw-controls">
+        <button id="btnPlay" class="btn primary">▶ 播放</button>
+        <button id="btnPause" class="btn">⏸ 暂停</button>
+        <button id="btnStop" class="btn">⏹ 停止</button>
+        <label><input type="checkbox" id="chkLoop" checked> 循环播放</label>
+        <div style="display: flex; align-items: center; font-size: 12px; gap: 8px;">
+          BPM <input type="range" id="bpmSlider" min="60" max="240" value="120" style="width: 70px; margin: 0;"> <span id="bpmVal" class="val-box">120</span>
+        </div>
+        <button id="btnMultiWrite" class="btn write-btn">📝 批量写谱</button>
+      </div>
+
+      <div class="track-lane">
+        <span class="track-label">轨1 (旋律)</span>
+        <input type="text" id="melodyInput" class="track-input" value="1 1 5 5 | 6 6 5 - | 4 4 3 3 | 2 2 1 -">
+        <div class="vol-box">
+          <span>Vol</span><input type="range" id="vol_melody" min="0" max="1" step="0.05" value="1.0">
+        </div>
+      </div>
+      <div class="track-lane">
+        <span class="track-label">轨2 (和弦)</span>
+        <input type="text" id="chordInput" class="track-input" value="1 - 5 - | 6 - 3 - | 4 - 1 - | 5 - 1 -">
+        <div class="vol-box">
+          <span>Vol</span><input type="range" id="vol_chord" min="0" max="1" step="0.05" value="0.7">
+        </div>
+      </div>
+      <div class="track-lane">
+        <span class="track-label">轨3 (贝斯)</span>
+        <input type="text" id="bassInput" class="track-input" value="1 1 5 5 | 6 6 3 3 | 4 4 1 1 | 5 5 1 -">
+        <div class="vol-box">
+          <span>Vol</span><input type="range" id="vol_bass" min="0" max="1" step="0.05" value="0.9">
+        </div>
+      </div>
+      <div style="font-size: 11px; color: var(--text-muted); margin-top: auto; padding-top: 15px; line-height: 1.6;">
+        语法指南：<strong>1-7</strong> 代表音级，<strong>0</strong> 休止，<strong>-</strong> 延长一拍，<strong>'</strong> 高八度，<strong>,</strong> 低八度。空格或 <strong>|</strong> 无视。
+      </div>
+    </div>
+
+    <!-- 音色检查器 (独立通道控制) -->
+    <div class="module">
+      <h3 class="module-title">独立通道条检查器 (Channel Strip)</h3>
+      
+      <!-- 包含预设选择的新头部 -->
+      <div class="inspector-header">
+        <div class="inspector-tabs" id="trackTabs">
+          <button class="tab active" data-track="melody">轨1 [旋律]</button>
+          <button class="tab" data-track="chord">轨2 [和弦]</button>
+          <button class="tab" data-track="bass">轨3 [贝斯]</button>
+          <button class="tab" data-track="user">键盘/监听</button>
+        </div>
+        <select id="presetSelect" class="styled-sel" style="width: 160px; margin: 0;">
+          <option value="">✨ 加载音色预设...</option>
+          <option value="citypop">City Pop 电钢</option>
+          <option value="funkbass">Funk 合成贝斯</option>
+          <option value="shoegaze">Shoegaze 音墙</option>
+          <option value="jazzlead">爵士 R&B Lead</option>
+          <option value="psych">迷幻摇滚风琴</option>
+        </select>
+      </div>
+
+      <div class="inspector-grid">
+        <!-- 列1：振荡器与包络 -->
+        <div class="param-group">
+          <h4>OSC & FILTER</h4>
+          <select id="p_source" class="styled-sel">
+            <optgroup label="合成器波形"><option value="sawtooth">锯齿波 (Sawtooth)</option><option value="square">方波 (Square)</option><option value="triangle">三角波 (Triangle)</option><option value="sine">正弦波 (Sine)</option></optgroup>
+            <optgroup label="物理建模乐器"><option value="piano">钢琴 (Piano)</option><option value="guitar">弹拨吉他 (Plucked)</option><option value="bass">贝斯 (Bass)</option></optgroup>
+          </select>
+          <div class="row"><span>Cutoff</span><input type="range" id="p_cutoff" min="40" max="12000" step="10"><span id="v_cutoff" class="val-box"></span></div>
+          <div class="row"><span>Reso</span><input type="range" id="p_resonance" min="0" max="20" step="0.1"><span id="v_resonance" class="val-box"></span></div>
+          
+          <h4 style="margin-top:15px;">ADSR</h4>
+          <div class="row"><span>A</span><input type="range" id="p_attack" min="0.001" max="2" step="0.01"><span id="v_attack" class="val-box"></span></div>
+          <div class="row"><span>D</span><input type="range" id="p_decay" min="0.01" max="2" step="0.01"><span id="v_decay" class="val-box"></span></div>
+          <div class="row"><span>S</span><input type="range" id="p_sustain" min="0" max="1" step="0.01"><span id="v_sustain" class="val-box"></span></div>
+          <div class="row"><span>R</span><input type="range" id="p_release" min="0.01" max="4" step="0.01"><span id="v_release" class="val-box"></span></div>
+          <canvas id="adsrCanvas" class="mini-canvas"></canvas>
+        </div>
+
+        <!-- 列2：EQ, 失真与声像 -->
+        <div class="param-group">
+          <h4>3-BAND EQ</h4>
+          <div class="row"><span>High</span><input type="range" id="p_eqHigh" min="-15" max="15" step="0.5"><span id="v_eqHigh" class="val-box"></span></div>
+          <div class="row"><span>Mid</span><input type="range" id="p_eqMid" min="-15" max="15" step="0.5"><span id="v_eqMid" class="val-box"></span></div>
+          <div class="row"><span>Low</span><input type="range" id="p_eqLow" min="-15" max="15" step="0.5"><span id="v_eqLow" class="val-box"></span></div>
+          
+          <h4 style="margin-top:25px;">SATURATION & PAN</h4>
+          <div class="row"><span>Drive</span><input type="range" id="p_distDrive" min="0" max="100" step="1"><span id="v_distDrive" class="val-box"></span></div>
+          <div class="row"><span>Pan</span><input type="range" id="p_pan" min="-1" max="1" step="0.05"><span id="v_pan" class="val-box"></span></div>
+        </div>
+
+        <!-- 列3：空间效果 -->
+        <div class="param-group">
+          <h4>DELAY (Send)</h4>
+          <div class="row"><span>Time</span><input type="range" id="p_delayTime" min="0.1" max="1.0" step="0.05"><span id="v_delayTime" class="val-box"></span></div>
+          <div class="row"><span>FBack</span><input type="range" id="p_delayFb" min="0" max="0.9" step="0.05"><span id="v_delayFb" class="val-box"></span></div>
+          <div class="row"><span>Mix</span><input type="range" id="p_delayMix" min="0" max="1" step="0.05"><span id="v_delayMix" class="val-box"></span></div>
+          
+          <h4 style="margin-top:25px;">REVERB (Send)</h4>
+          <div class="row"><span>Mix</span><input type="range" id="p_reverbMix" min="0" max="1" step="0.05"><span id="v_reverbMix" class="val-box"></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="module">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h3 class="module-title" style="margin:0;">智能和弦映射系统</h3>
+      <div style="display: flex; gap: 20px; align-items: center;">
+        <label><input type="checkbox" id="toggleBass"> 附加同步根音</label>
+        <label><input type="checkbox" id="toggleVoiceLeading" checked> 启用就近连接 (Voice Leading)</label>
+        <select id="keySelect" class="styled-sel" style="width: 120px; margin: 0;">
+          <option value="0">C 大调</option><option value="1">Db 大调</option><option value="2">D 大调</option>
+          <option value="3">Eb 大调</option><option value="4">E 大调</option><option value="5">F 大调</option>
+          <option value="6">Gb 大调</option><option value="7">G 大调</option><option value="8">Ab 大调</option>
+          <option value="9">A 大调</option><option value="10">Bb 大调</option><option value="11">B 大调</option>
+        </select>
+      </div>
+    </div>
+    <div class="chords-grid" id="chordsGrid"></div>
+  </div>
+
+  <div class="module">
+    <div style="display: flex; justify-content: space-between; margin-bottom: 15px; align-items: center;">
+      <div>
+        <button id="octDown" class="btn">◄ 低八度</button>
+        <span id="octDisplay" style="margin: 0 15px; font-family: monospace; font-size: 14px; font-weight: bold; color: var(--accent);">音区: C4</span>
+        <button id="octUp" class="btn">高八度 ►</button>
+      </div>
+      <label><input type="checkbox" id="toggleSolfege" checked> 显示唱名与八度点</label>
+    </div>
+    <div class="piano-wrapper">
+      <div class="piano" id="piano"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- 全局多轨写谱弹窗 -->
+<div id="multiSeqModal" class="modal-overlay" style="display: none;">
+  <div class="modal-content">
+    <h3>全局多轨乐谱编写</h3>
+    <div class="modal-body">
+      <div class="modal-track">
+        <label>轨1 [旋律]</label>
+        <textarea id="modalMelody"></textarea>
+      </div>
+      <div class="modal-track">
+        <label>轨2 [和弦]</label>
+        <textarea id="modalChord"></textarea>
+      </div>
+      <div class="modal-track">
+        <label>轨3 [贝斯]</label>
+        <textarea id="modalBass"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeMultiModal()">取消</button>
+      <button class="btn primary" onclick="applyMultiModal()">确认并写入音轨</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // --- 核心状态与参数配置 ---
+  const trackParams = {
+    melody: { source: 'sawtooth', attack: 0.05, decay: 0.3, sustain: 0.7, release: 0.8, cutoff: 6000, resonance: 1, eqLow: 0, eqMid: 2, eqHigh: 4, distDrive: 0, pan: 0, delayTime: 0.3, delayFb: 0.3, delayMix: 0.4, reverbMix: 0.2 },
+    chord: { source: 'guitar', attack: 0.01, decay: 1.0, sustain: 0.3, release: 1.5, cutoff: 4000, resonance: 1, eqLow: -2, eqMid: 0, eqHigh: 2, distDrive: 0, pan: 0, delayTime: 0.4, delayFb: 0.2, delayMix: 0, reverbMix: 0.3 },
+    bass: { source: 'bass', attack: 0.03, decay: 0.2, sustain: 0.8, release: 0.4, cutoff: 800, resonance: 2, eqLow: 6, eqMid: -2, eqHigh: 0, distDrive: 15, pan: 0, delayTime: 0.3, delayFb: 0, delayMix: 0, reverbMix: 0 },
+    user: { source: 'piano', attack: 0.02, decay: 0.8, sustain: 0.5, release: 1.2, cutoff: 8000, resonance: 1, eqLow: 0, eqMid: 0, eqHigh: 0, distDrive: 0, pan: 0, delayTime: 0.3, delayFb: 0.3, delayMix: 0.1, reverbMix: 0.15 }
+  };
+  
+  // 新增五种音色预设
+  const timbrePresets = {
+    citypop: { source: 'piano', attack: 0.05, decay: 0.8, sustain: 0.4, release: 1.5, cutoff: 4500, resonance: 1, eqLow: 2, eqMid: 0, eqHigh: 3, distDrive: 0, pan: 0, delayTime: 0.35, delayFb: 0.2, delayMix: 0.2, reverbMix: 0.4 },
+    funkbass: { source: 'sawtooth', attack: 0.01, decay: 0.15, sustain: 0.1, release: 0.1, cutoff: 1500, resonance: 6, eqLow: 8, eqMid: -2, eqHigh: 1, distDrive: 10, pan: 0, delayTime: 0.1, delayFb: 0, delayMix: 0, reverbMix: 0 },
+    shoegaze: { source: 'sawtooth', attack: 0.8, decay: 1.0, sustain: 1.0, release: 2.5, cutoff: 8000, resonance: 2, eqLow: 4, eqMid: 2, eqHigh: 6, distDrive: 45, pan: 0, delayTime: 0.4, delayFb: 0.6, delayMix: 0.6, reverbMix: 0.9 },
+    jazzlead: { source: 'square', attack: 0.02, decay: 0.3, sustain: 0.6, release: 0.5, cutoff: 3500, resonance: 3, eqLow: 0, eqMid: 4, eqHigh: -2, distDrive: 5, pan: 0, delayTime: 0.25, delayFb: 0.3, delayMix: 0.15, reverbMix: 0.2 },
+    psych: { source: 'triangle', attack: 0.05, decay: 0.5, sustain: 0.8, release: 1.0, cutoff: 6000, resonance: 5, eqLow: 2, eqMid: 5, eqHigh: 4, distDrive: 20, pan: 0, delayTime: 0.5, delayFb: 0.7, delayMix: 0.5, reverbMix: 0.6 }
+  };
+
+  let currentEditingTrack = 'melody';
+
+  let audioCtx, masterGain, masterAnalyser;
+  let globalReverbBuffer = null;
+  const channelStrips = {}; 
+  const activeVoices = {};
+  
+  let baseOctave = 4;
+  let lastChordNotes = []; 
+  const majorScaleIntervals = [0, 2, 4, 5, 7, 9, 11];
+
+  // 生成混响 IR
+  const generateReverbIR = (duration = 2.5, decay = 2.0) => {
+    if(!audioCtx) return null;
+    const length = audioCtx.sampleRate * duration; const impulse = audioCtx.createBuffer(2, length, audioCtx.sampleRate);
+    for (let i = 0; i < 2; i++) {
+      const channel = impulse.getChannelData(i);
+      for (let j = 0; j < length; j++) channel[j] = (Math.random() * 2 - 1) * Math.pow(1 - j / length, decay);
+    }
+    return impulse;
+  };
+
+  const makeDistortionCurve = (amount) => {
+    const k = parseFloat(amount); if (k === 0) return null;
+    const n_samples = 44100; const curve = new Float32Array(n_samples); const deg = Math.PI / 180;
+    for (let i = 0; i < n_samples; ++i) { const x = i * 2 / n_samples - 1; curve[i] = (3 + k) * x * 20 * deg / (Math.PI + k * Math.abs(x)); }
+    return curve;
+  };
+
+  // --- 初始化音频与独立通道条 ---
+  const initAudio = () => {
+    if (audioCtx) return;
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    masterAnalyser = audioCtx.createAnalyser(); masterAnalyser.fftSize = 512;
+    masterGain = audioCtx.createGain(); masterGain.gain.value = 0.5;
+    masterGain.connect(masterAnalyser); masterAnalyser.connect(audioCtx.destination);
+    
+    globalReverbBuffer = generateReverbIR();
+
+    Object.keys(trackParams).forEach(trackId => {
+      const strip = {};
+      strip.input = audioCtx.createGain();
+      strip.dist = audioCtx.createWaveShaper(); strip.dist.oversample = '4x';
+      strip.eqLow = audioCtx.createBiquadFilter(); strip.eqLow.type = 'lowshelf'; strip.eqLow.frequency.value = 250;
+      strip.eqMid = audioCtx.createBiquadFilter(); strip.eqMid.type = 'peaking'; strip.eqMid.frequency.value = 1000;
+      strip.eqHigh = audioCtx.createBiquadFilter(); strip.eqHigh.type = 'highshelf'; strip.eqHigh.frequency.value = 4000;
+      
+      strip.panner = audioCtx.createStereoPanner(); 
+      strip.fader = audioCtx.createGain();
+      
+      strip.delay = audioCtx.createDelay();
+      strip.delayFb = audioCtx.createGain();
+      strip.delayMixGain = audioCtx.createGain();
+      strip.delay.connect(strip.delayFb); strip.delayFb.connect(strip.delay);
+      
+      strip.reverb = audioCtx.createConvolver(); strip.reverb.buffer = globalReverbBuffer;
+      strip.reverbMixGain = audioCtx.createGain();
+
+      strip.input.connect(strip.dist); strip.dist.connect(strip.eqLow); 
+      strip.eqLow.connect(strip.eqMid); strip.eqMid.connect(strip.eqHigh); 
+      strip.eqHigh.connect(strip.panner); strip.panner.connect(strip.fader);
+      strip.fader.connect(masterGain);
+      
+      strip.fader.connect(strip.delay); strip.delay.connect(strip.delayMixGain); strip.delayMixGain.connect(masterGain);
+      strip.fader.connect(strip.reverb); strip.reverb.connect(strip.reverbMixGain); strip.reverbMixGain.connect(masterGain);
+
+      channelStrips[trackId] = strip;
+      applyLiveTrackParams(trackId);
+    });
+
+    drawSpectrum();
+  };
+
+  const applyLiveTrackParams = (trackId) => {
+    if(!channelStrips[trackId]) return;
+    const p = trackParams[trackId]; const strip = channelStrips[trackId];
+    strip.dist.curve = makeDistortionCurve(p.distDrive);
+    strip.eqLow.gain.value = p.eqLow; strip.eqMid.gain.value = p.eqMid; strip.eqHigh.gain.value = p.eqHigh;
+    strip.panner.pan.value = p.pan || 0;
+    strip.delay.delayTime.value = p.delayTime; strip.delayFb.gain.value = p.delayFb; strip.delayMixGain.gain.value = p.delayMix;
+    strip.reverbMixGain.gain.value = p.reverbMix;
+  };
+
+  // --- UI 与参数同步逻辑 ---
+  const paramConfig = {
+    source: { type: 'select' },
+    cutoff: { unit: 'Hz' }, resonance: { unit: '' },
+    attack: { unit: 's' }, decay: { unit: 's' }, sustain: { unit: '%', mod: v=>Math.round(v*100) }, release: { unit: 's' },
+    eqLow: { unit: 'dB' }, eqMid: { unit: 'dB' }, eqHigh: { unit: 'dB' },
+    distDrive: { unit: '' }, 
+    pan: { unit: '', mod: v => v === 0 ? 'C' : (v > 0 ? 'R'+Math.round(v*100) : 'L'+Math.round(-v*100)) },
+    delayTime: { unit: 's' }, delayFb: { unit: '%', mod: v=>Math.round(v*100) }, 
+    delayMix: { unit: '%', mod: v=>Math.round(v*100) }, reverbMix: { unit: '%', mod: v=>Math.round(v*100) }
+  };
+
+  const syncInspectorUI = () => {
+    const p = trackParams[currentEditingTrack];
+    Object.keys(paramConfig).forEach(key => {
+      const el = document.getElementById('p_' + key);
+      if(el) {
+        el.value = p[key] || 0;
+        if(paramConfig[key].type !== 'select') {
+          const valEl = document.getElementById('v_' + key);
+          const displayVal = paramConfig[key].mod ? paramConfig[key].mod(p[key] || 0) : p[key];
+          if(valEl) valEl.innerText = displayVal + paramConfig[key].unit;
+        }
+      }
+    });
+    drawADSR();
+  };
+
+  // 绑定预设选择事件
+  document.getElementById('presetSelect').addEventListener('change', (e) => {
+    const key = e.target.value;
+    if(timbrePresets[key]) {
+      Object.assign(trackParams[currentEditingTrack], timbrePresets[key]);
+      syncInspectorUI();
+      applyLiveTrackParams(currentEditingTrack);
+    }
+    e.target.value = ""; // 选中后重置下拉框显示
+  });
+
+  // 绑定所有输入事件
+  Object.keys(paramConfig).forEach(key => {
+    const el = document.getElementById('p_' + key);
+    if(el) {
+      el.addEventListener('input', (e) => {
+        let val = paramConfig[key].type === 'select' ? e.target.value : parseFloat(e.target.value);
+        trackParams[currentEditingTrack][key] = val;
+        
+        if(paramConfig[key].type !== 'select') {
+          const valEl = document.getElementById('v_' + key);
+          const displayVal = paramConfig[key].mod ? paramConfig[key].mod(val) : val;
+          if(valEl) valEl.innerText = displayVal + paramConfig[key].unit;
+        }
+        
+        if(['attack','decay','sustain','release'].includes(key)) drawADSR();
+        if(['eqLow','eqMid','eqHigh','distDrive','pan','delayTime','delayFb','delayMix','reverbMix'].includes(key)) {
+          applyLiveTrackParams(currentEditingTrack);
+        }
+      });
+    }
+  });
+
+  // 标签页切换逻辑
+  document.querySelectorAll('.tab').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      e.target.classList.add('active');
+      currentEditingTrack = e.target.dataset.track;
+      syncInspectorUI();
+    });
+  });
+
+  const drawADSR = () => {
+    const canvas = document.getElementById('adsrCanvas'); if (!canvas || !canvas.getContext) return;
+    const ctx = canvas.getContext('2d'); const W = canvas.width; const H = canvas.height;
+    const p = trackParams[currentEditingTrack];
+    const maxTime = 8.5; const hold = 0.5; const pps = W / maxTime;
+    ctx.clearRect(0, 0, W, H);
+    ctx.strokeStyle = '#3f4a5c'; ctx.lineWidth = 1; ctx.beginPath();
+    for(let i=1; i<4; i++) { ctx.moveTo(0, H/4*i); ctx.lineTo(W, H/4*i); } ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0, H); ctx.lineTo(p.attack * pps, 0); ctx.lineTo((p.attack + p.decay) * pps, H - (p.sustain * H));
+    ctx.lineTo((p.attack + p.decay + hold) * pps, H - (p.sustain * H)); ctx.lineTo((p.attack + p.decay + hold + p.release) * pps, H); 
+    ctx.fillStyle = 'rgba(0, 230, 118, 0.2)'; ctx.fill(); ctx.lineWidth = 2; ctx.strokeStyle = '#00e676'; ctx.stroke();
+  };
+
+  const drawSpectrum = () => {
+    requestAnimationFrame(drawSpectrum);
+    const canvas = document.getElementById('masterSpectrum'); const ctx = canvas.getContext('2d');
+    const bufferLength = masterAnalyser.frequencyBinCount; const dataArray = new Uint8Array(bufferLength);
+    masterAnalyser.getByteFrequencyData(dataArray); ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const barWidth = (canvas.width / bufferLength) * 2.5; let x = 0;
+    for (let i = 0; i < bufferLength; i++) {
+      const barHeight = (dataArray[i] / 255) * canvas.height;
+      const grad = ctx.createLinearGradient(0, canvas.height, 0, 0); grad.addColorStop(0, '#00b0ff'); grad.addColorStop(1, '#00e676');
+      ctx.fillStyle = grad; ctx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
+      x += barWidth + 1;
+    }
+  };
+
+  // --- 音频触发核心 ---
+  const getFreq = (relativeNote) => { return 440 * Math.pow(2, ((baseOctave + 1) * 12 + relativeNote - 69) / 12); };
+
+  const triggerVoice = (noteIndex, sourceID = 'user', trackId = 'user', velocity = 1.0) => {
+    initAudio(); const voiceKey = `${sourceID}_${noteIndex}`; if (activeVoices[voiceKey]) return;
+    
+    const actualTrackId = (trackId === 'user') ? currentEditingTrack : trackId;
+    const p = trackParams[actualTrackId];
+    
+    const freq = getFreq(noteIndex); const now = audioCtx.currentTime;
+    const filter = audioCtx.createBiquadFilter(); filter.type = 'lowpass';
+    filter.frequency.value = p.cutoff; filter.Q.value = p.resonance;
+    const vca = audioCtx.createGain(); let sources = [];
+
+    if (p.source === 'guitar') {
+      const bufferSize = Math.round(audioCtx.sampleRate * 2.5); const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+      const data = buffer.getChannelData(0); const period = Math.round(audioCtx.sampleRate / freq);
+      for (let i = 0; i < period; i++) data[i] = Math.random() * 2 - 1; 
+      for (let i = period; i < bufferSize; i++) data[i] = ((data[i - period] + data[i - period + 1]) / 2) * 0.988;
+      const noise = audioCtx.createBufferSource(); noise.buffer = buffer; noise.connect(filter); noise.start(now); sources.push(noise);
+    } else {
+      const osc = audioCtx.createOscillator();
+      if (p.source === 'piano') { osc.type = 'triangle'; filter.frequency.setValueAtTime(5000, now); filter.frequency.exponentialRampToValueAtTime(300, now + 1.2); } 
+      else if (p.source === 'bass') { osc.type = 'sawtooth'; osc.frequency.value = freq / 2; filter.frequency.setValueAtTime(800, now); } 
+      else osc.type = p.source;
+      if (p.source !== 'bass') osc.frequency.value = freq;
+      osc.connect(filter); osc.start(now); sources.push(osc);
+    }
+
+    vca.gain.setValueAtTime(0, now);
+    vca.gain.linearRampToValueAtTime(1 * velocity, now + p.attack); vca.gain.linearRampToValueAtTime(p.sustain * velocity, now + p.attack + p.decay);
+    
+    filter.connect(vca); vca.connect(channelStrips[actualTrackId].input); 
+    activeVoices[voiceKey] = { sources, vca, trackId: actualTrackId };
+  };
+
+  const releaseVoice = (noteIndex, sourceID = 'user') => {
+    const voiceKey = `${sourceID}_${noteIndex}`; const voice = activeVoices[voiceKey];
+    if (voice) {
+      const p = trackParams[voice.trackId]; const now = audioCtx.currentTime;
+      voice.vca.gain.cancelScheduledValues(now); voice.vca.gain.setValueAtTime(voice.vca.gain.value, now);
+      voice.vca.gain.linearRampToValueAtTime(0, now + p.release);
+      setTimeout(() => { voice.sources.forEach(s => { try { s.stop(); } catch(e){} }); }, p.release * 1000 + 50);
+      delete activeVoices[voiceKey];
+    }
+  };
+
+  // --- 和弦与键盘生成 ---
+  const initKeyboard = () => {
+    const pianoDiv = document.getElementById('piano'); pianoDiv.innerHTML = ''; pianoDiv.style.width = (28 * 42) + 'px';
+    let whiteIndex = 0;
+    for (let i = 0; i < 48; i++) {
+      const pitchClass = i % 12; const isBlack = [1, 3, 6, 8, 10].includes(pitchClass);
+      const key = document.createElement('div'); key.className = 'key ' + (isBlack ? 'black' : 'white'); key.dataset.note = i;
+      if (!isBlack) { key.style.left = (whiteIndex * 42) + 'px'; whiteIndex++; } else { key.style.left = (whiteIndex * 42 - 13) + 'px'; }
+      // 触摸/鼠标统一处理：支持手机点按、按住、滑动换键，也保留电脑鼠标操作
+      let keyPointerId = null;
+      let keyDown = false;
+      const pressKey = () => {
+        if (keyDown) return;
+        initAudio();
+        triggerVoice(i, 'user', 'user');
+        key.classList.add('active');
+        keyDown = true;
+      };
+      const releaseKey = () => {
+        if (!keyDown) return;
+        releaseVoice(i, 'user');
+        key.classList.remove('active');
+        keyDown = false;
+      };
+      key.addEventListener('pointerdown', (e) => {
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
+        e.preventDefault();
+        keyPointerId = e.pointerId;
+        try { key.setPointerCapture(e.pointerId); } catch (_) {}
+        pressKey();
+      });
+      key.addEventListener('pointerup', (e) => {
+        e.preventDefault();
+        releaseKey();
+        if (keyPointerId === e.pointerId) keyPointerId = null;
+      });
+      key.addEventListener('pointercancel', (e) => {
+        e.preventDefault();
+        releaseKey();
+        if (keyPointerId === e.pointerId) keyPointerId = null;
+      });
+      key.addEventListener('lostpointercapture', () => releaseKey());
+      key.addEventListener('pointerleave', (e) => {
+        // 鼠标离开时松键；触摸滑出时交给 piano 的 pointermove 处理
+        if (e.pointerType === 'mouse') releaseKey();
+      });
+      pianoDiv.appendChild(key);
+    }
+
+    // 手机手指在键盘上横向滑动时，自动切换正在发声的琴键
+    let slidingPointerId = null;
+    let slidingNote = null;
+    const noteFromPoint = (clientX, clientY) => {
+      const el = document.elementFromPoint(clientX, clientY);
+      const keyEl = el && el.closest ? el.closest('.key') : null;
+      if (keyEl && pianoDiv.contains(keyEl)) return parseInt(keyEl.dataset.note, 10);
+      return null;
+    };
+    pianoDiv.addEventListener('pointerdown', (e) => {
+      if (e.pointerType === 'mouse') return;
+      slidingPointerId = e.pointerId;
+      const n = noteFromPoint(e.clientX, e.clientY);
+      if (n !== null) slidingNote = n;
+    }, { passive: false });
+    pianoDiv.addEventListener('pointermove', (e) => {
+      if (e.pointerType === 'mouse' || e.pointerId !== slidingPointerId) return;
+      e.preventDefault();
+      const n = noteFromPoint(e.clientX, e.clientY);
+      if (n === null || n === slidingNote) return;
+      if (slidingNote !== null) {
+        releaseVoice(slidingNote, 'user');
+        const oldEl = pianoDiv.querySelector(`.key[data-note="${slidingNote}"]`);
+        if (oldEl) oldEl.classList.remove('active');
+      }
+      slidingNote = n;
+      const newEl = pianoDiv.querySelector(`.key[data-note="${n}"]`);
+      if (newEl) {
+        triggerVoice(n, 'user', 'user');
+        newEl.classList.add('active');
+      }
+    }, { passive: false });
+    const endSliding = (e) => {
+      if (e.pointerType === 'mouse' || e.pointerId !== slidingPointerId) return;
+      if (slidingNote !== null) {
+        releaseVoice(slidingNote, 'user');
+        const el = pianoDiv.querySelector(`.key[data-note="${slidingNote}"]`);
+        if (el) el.classList.remove('active');
+      }
+      slidingPointerId = null;
+      slidingNote = null;
+    };
+    pianoDiv.addEventListener('pointerup', endSliding, { passive: false });
+    pianoDiv.addEventListener('pointercancel', endSliding, { passive: false });
+
+  };
+
+  const chordDictionary = [
+    { degree: "I", root: 0, triad: [0, 4, 7], seventh: [0, 4, 7, 11] }, { degree: "ii", root: 2, triad: [2, 5, 9], seventh: [2, 5, 9, 12] },
+    { degree: "iii", root: 4, triad: [4, 7, 11], seventh: [4, 7, 11, 14] }, { degree: "IV", root: 5, triad: [5, 9, 12], seventh: [5, 9, 12, 16] },
+    { degree: "V", root: 7, triad: [7, 11, 14], seventh: [7, 11, 14, 17] }, { degree: "vi", root: 9, triad: [9, 12, 16], seventh: [9, 12, 16, 19] },
+    { degree: "vii°", root: 11, triad: [11, 14, 17], seventh: [11, 14, 17, 21] }
+  ];
+  let userChordSelections = Array(7).fill('triad');
+
+  const updateScaleAndChords = () => {
+    const rootKey = parseInt(document.getElementById('keySelect').value);
+    const showSolfege = document.getElementById('toggleSolfege').checked;
+    const isFlat = [1, 3, 5, 8, 10].includes(rootKey);
+    const names = isFlat ? ["C","Db","D","Eb","E","F","Gb","G","Ab","A","Bb","B"] : ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
+    const scaleNotes = majorScaleIntervals.map(i => (rootKey + i) % 12);
+
+    document.querySelectorAll('.key').forEach(key => {
+      const rel = parseInt(key.dataset.note); const pc = rel % 12; const deg = scaleNotes.indexOf(pc);
+      if (showSolfege && deg !== -1) {
+        const shift = Math.floor((rel - (rootKey + 12)) / 12);
+        let dotT = shift===1?'<div class="jp-dot top"></div>':(shift>=2?'<div class="jp-dot top"></div><div class="jp-dot top double"></div>':'');
+        let dotB = shift===-1?'<div class="jp-dot bottom"></div>':(shift<=-2?'<div class="jp-dot bottom"></div><div class="jp-dot bottom double"></div>':'');
+        key.innerHTML = `<div class="jp-box">${dotT}<span class="jp-num">${deg+1}</span>${dotB}</div>`; key.classList.remove('out-scale');
+      } else if (!showSolfege) { key.innerHTML = names[pc]; key.classList.remove('out-scale'); } 
+      else { key.innerHTML = ""; key.classList.add('out-scale'); }
+    });
+
+    const grid = document.getElementById('chordsGrid'); grid.innerHTML = "";
+    chordDictionary.forEach((dict, i) => {
+      const variant = userChordSelections[i]; const chordNotes = dict[variant];
+      const rootName = names[(rootKey + dict.root) % 12];
+      const suffix = variant === 'seventh' ? (i===0||i===3?'maj7':(i===4?'7':(i===6?'m7b5':'m7'))) : (i===1||i===2||i===5?'m':(i===6?'dim':''));
+      const absNotes = chordNotes.map(n => rootKey + 12 + n);
+      
+      const card = document.createElement('div'); card.className = 'chord-card';
+      card.innerHTML = `<span class="degree">${dict.degree}</span><select><option value="triad" ${variant==='triad'?'selected':''}>三和弦</option><option value="seventh" ${variant==='seventh'?'selected':''}>七和弦</option></select><span class="name">${rootName}${suffix}</span>`;
+      
+      const play = () => {
+        card.classList.add('active'); let finalNotes = absNotes.slice();
+        if(document.getElementById('toggleVoiceLeading').checked && lastChordNotes.length) {
+            const prevAvg = lastChordNotes.reduce((a,b)=>a+b,0)/lastChordNotes.length;
+            const curAvg = finalNotes.reduce((a,b)=>a+b,0)/finalNotes.length;
+            const shift = Math.round((prevAvg - curAvg)/12)*12;
+            finalNotes = finalNotes.map(n => n + shift);
+        }
+        lastChordNotes = finalNotes.slice();
+        if(document.getElementById('toggleBass').checked) finalNotes.push(-12 + ((rootKey + dict.root) % 12));
+        finalNotes.forEach(n => { triggerVoice(n, 'chord', 'user'); const el = document.querySelector(`.key[data-note="${n}"]`); if(el) el.classList.add('active'); });
+        card.dataset.playing = JSON.stringify(finalNotes);
+      };
+      const stop = () => {
+        card.classList.remove('active');
+        if(card.dataset.playing) {
+          JSON.parse(card.dataset.playing).forEach(n => { releaseVoice(n, 'chord'); const el = document.querySelector(`.key[data-note="${n}"]`); if(el) el.classList.remove('active'); });
+          card.dataset.playing = "";
+        }
+      };
+      // 和弦卡片使用 Pointer Events，手机触摸与电脑鼠标统一
+      card.addEventListener('pointerdown', (e) => {
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
+        e.preventDefault();
+        try { card.setPointerCapture(e.pointerId); } catch (_) {}
+        play();
+      });
+      card.addEventListener('pointerup', (e) => { e.preventDefault(); stop(); });
+      card.addEventListener('pointercancel', (e) => { e.preventDefault(); stop(); });
+      card.addEventListener('lostpointercapture', stop);
+      const sel = card.querySelector('select'); sel.addEventListener('pointerdown', e=>e.stopPropagation());
+      sel.addEventListener('change', e => { userChordSelections[i] = e.target.value; updateScaleAndChords(); });
+      grid.appendChild(card);
+    });
+  };
+
+  // --- DAW 序列器 ---
+  let seqInterval = null; let isSeqPlaying = false; let seqCurrentBeat = 0; let seqLastTime = 0; let parsedSeqNotes = [];
+  const parseJianpuTrack = (text, rootKey, trackName) => {
+    const regex = /([0-7])(['\,\-\#b]*)/g; let match; const notes = []; let curBeat = 0; const cleanText = text.replace(/\s+|\|/g, ''); let trkLast = [];
+    while ((match = regex.exec(cleanText)) !== null) {
+      const degStr = match[1]; const mods = match[2]; let dur = 1; let pMod = 0;
+      for(let char of mods) { if(char==='-') dur++; else if(char==="'") pMod+=12; else if(char===",") pMod-=12; }
+      if(degStr === '0') { curBeat += dur; continue; }
+      const deg = parseInt(degStr) - 1;
+      if(trackName === 'chord') {
+        let nts = chordDictionary[deg][userChordSelections[deg]].map(n => rootKey + 12 + n + pMod);
+        if(document.getElementById('toggleVoiceLeading').checked && trkLast.length) {
+            const prevAvg = trkLast.reduce((a,b)=>a+b,0)/trkLast.length; const curAvg = nts.reduce((a,b)=>a+b,0)/nts.length;
+            nts = nts.map(n => n + Math.round((prevAvg - curAvg)/12)*12);
+        }
+        trkLast = nts.slice(); nts.forEach(p => notes.push({ pitch: p, start: curBeat, duration: dur, end: curBeat+dur-0.05, track: trackName }));
+      } else if (trackName === 'bass') { notes.push({ pitch: rootKey + majorScaleIntervals[deg] + pMod, start: curBeat, duration: dur, end: curBeat+dur-0.05, track: trackName }); }
+      else { notes.push({ pitch: rootKey + majorScaleIntervals[deg] + 24 + pMod, start: curBeat, duration: dur, end: curBeat+dur-0.05, track: trackName }); }
+      curBeat += dur;
+    }
+    return notes;
+  };
+
+  const clearSeqVoices = () => {
+    for (let key in activeVoices) { if (key.startsWith('seq_')) { const parts = key.split('_'); releaseVoice(parseInt(parts[2]), parts[0]+'_'+parts[1]); } }
+    document.querySelectorAll('.key.active').forEach(el => el.classList.remove('active'));
+  };
+
+  const stopSeq = () => { isSeqPlaying = false; seqCurrentBeat = 0; if(seqInterval) cancelAnimationFrame(seqInterval); clearSeqVoices(); };
+  const playSeq = () => {
+    initAudio(); if(isSeqPlaying) return;
+    if(seqCurrentBeat === 0) {
+      const root = parseInt(document.getElementById('keySelect').value);
+      parsedSeqNotes = [...parseJianpuTrack(document.getElementById('melodyInput').value, root, 'melody'), 
+                        ...parseJianpuTrack(document.getElementById('chordInput').value, root, 'chord'), 
+                        ...parseJianpuTrack(document.getElementById('bassInput').value, root, 'bass')];
+    }
+    isSeqPlaying = true; seqLastTime = audioCtx.currentTime; seqLoop();
+  };
+
+  const seqLoop = () => {
+    if(!isSeqPlaying) return; const now = audioCtx.currentTime; const delta = now - seqLastTime; seqLastTime = now;
+    seqCurrentBeat += delta * (parseFloat(document.getElementById('bpmSlider').value) / 60);
+    
+    if(channelStrips['melody']) channelStrips['melody'].fader.gain.value = parseFloat(document.getElementById('vol_melody').value);
+    if(channelStrips['chord']) channelStrips['chord'].fader.gain.value = parseFloat(document.getElementById('vol_chord').value);
+    if(channelStrips['bass']) channelStrips['bass'].fader.gain.value = parseFloat(document.getElementById('vol_bass').value);
+
+    parsedSeqNotes.forEach(note => {
+      const vId = `seq_${note.track}`;
+      if (note.start >= seqCurrentBeat - 0.1 && note.start < seqCurrentBeat) { 
+        triggerVoice(note.pitch, vId, note.track);
+        if(note.pitch>=0 && note.pitch<=47) { const el = document.querySelector(`.key[data-note="${note.pitch}"]`); if(el) el.classList.add('active'); }
+        note.start = Infinity; 
+      }
+      if (note.end < seqCurrentBeat && note.end !== -1) {
+        releaseVoice(note.pitch, vId);
+        if(note.pitch>=0 && note.pitch<=47) { const el = document.querySelector(`.key[data-note="${note.pitch}"]`); if(el) el.classList.remove('active'); }
+        note.end = -1;
+      }
+    });
+
+    const maxBeat = Math.max(...parsedSeqNotes.map(n => n.end === -1 ? 0 : n.end), 0);
+    if (maxBeat === 0 && seqCurrentBeat > 0.5) {
+      if (document.getElementById('chkLoop').checked) { stopSeq(); playSeq(); return; } 
+      else { stopSeq(); return; }
+    }
+    seqInterval = requestAnimationFrame(seqLoop);
+  };
+
+  // --- 全局写谱 Modal 逻辑 ---
+  const openMultiModal = () => {
+    document.getElementById('modalMelody').value = document.getElementById('melodyInput').value;
+    document.getElementById('modalChord').value = document.getElementById('chordInput').value;
+    document.getElementById('modalBass').value = document.getElementById('bassInput').value;
+    document.getElementById('multiSeqModal').style.display = 'flex';
+  };
+  
+  const closeMultiModal = () => {
+    document.getElementById('multiSeqModal').style.display = 'none';
+  };
+  
+  const applyMultiModal = () => {
+    document.getElementById('melodyInput').value = document.getElementById('modalMelody').value;
+    document.getElementById('chordInput').value = document.getElementById('modalChord').value;
+    document.getElementById('bassInput').value = document.getElementById('modalBass').value;
+    closeMultiModal();
+    if(isSeqPlaying) { stopSeq(); playSeq(); } // 如果正在播放则自动刷新序列
+  };
+
+  // 事件绑定
+  document.getElementById('btnPlay').addEventListener('click', playSeq);
+  document.getElementById('btnPause').addEventListener('click', () => { isSeqPlaying = false; clearSeqVoices(); });
+  document.getElementById('btnStop').addEventListener('click', stopSeq);
+  document.getElementById('btnMultiWrite').addEventListener('click', openMultiModal); // 绑定写谱按钮
+  document.getElementById('bpmSlider').addEventListener('input', e => document.getElementById('bpmVal').innerText = e.target.value);
+  
+  document.getElementById('keySelect').addEventListener('change', () => { lastChordNotes = []; updateScaleAndChords(); });
+  document.getElementById('toggleSolfege').addEventListener('change', updateScaleAndChords);
+  document.getElementById('octDown').addEventListener('click', () => { if(baseOctave > 1) { baseOctave--; document.getElementById('octDisplay').innerText = `音区: C${baseOctave}`; }});
+  document.getElementById('octUp').addEventListener('click', () => { if(baseOctave < 6) { baseOctave++; document.getElementById('octDisplay').innerText = `音区: C${baseOctave}`; }});
+  
+  const keyMap = { 'a':12,'w':13,'s':14,'e':15,'d':16,'f':17,'t':18,'g':19,'y':20,'h':21,'u':22,'j':23,'k':24,'o':25,'l':26 };
+  window.addEventListener('keydown', e => { if(keyMap[e.key.toLowerCase()] && !e.repeat && document.activeElement.tagName!=='INPUT' && document.activeElement.tagName!=='TEXTAREA') { const n=keyMap[e.key.toLowerCase()]; triggerVoice(n, 'user', 'user'); const el=document.querySelector(`.key[data-note="${n}"]`); if(el)el.classList.add('active'); }});
+  window.addEventListener('keyup', e => { if(keyMap[e.key.toLowerCase()] && document.activeElement.tagName!=='INPUT' && document.activeElement.tagName!=='TEXTAREA') { const n=keyMap[e.key.toLowerCase()]; releaseVoice(n, 'user'); const el=document.querySelector(`.key[data-note="${n}"]`); if(el)el.classList.remove('active'); }});
+
+  // 移动端基础初始化 + 防止键盘区域被浏览器手势接管
+  document.addEventListener('touchstart', (e) => {
+    if (e.target.closest && e.target.closest('.piano, .key')) e.preventDefault();
+  }, { passive: false });
+  window.onload = () => { initKeyboard(); updateScaleAndChords(); syncInspectorUI(); };
+</script>
+</body>
+</html>
