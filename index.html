@@ -6,7 +6,16 @@
 <title>SOUNDWORKSTATION · 多音轨音色设计工作站 FIXED</title>
 <style>
 :root{--bg-base:#0a0c10;--bg-panel:#13171f;--bg-card:#1c212b;--bg-hover:#252b36;--accent:#00e676;--accent-glow:rgba(0,230,118,.25);--accent-sec:#00b0ff;--text-main:#f1f5f9;--text-muted:#94a3b8;--border:#2e3646;--border-light:#3f4a5c;--font-stack:system-ui,-apple-system,sans-serif;--melody:#00b0ff;--chord:#a855f7;--bass:#ff9f43;--drums:#ff4d6d}
-*{box-sizing:border-box}body{background:var(--bg-base);color:var(--text-main);font-family:var(--font-stack);display:flex;justify-content:center;padding:24px 14px;margin:0;min-height:100vh}.synth-container{background:var(--bg-panel);padding:28px;border-radius:20px;box-shadow:0 25px 80px rgba(0,0,0,.8);width:1280px;max-width:100%;border:1px solid var(--border);display:flex;flex-direction:column;gap:18px}.header{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2px solid var(--border);padding-bottom:15px;flex-wrap:wrap;gap:15px}.main-title{color:var(--text-main);font-size:31px;letter-spacing:5px;font-weight:900;margin:0;text-shadow:0 0 30px var(--accent-glow);display:flex;align-items:center;gap:12px}.main-title span{color:var(--accent)}.master-meter{width:300px;height:35px;border-radius:8px;background:var(--bg-card);border:1px solid var(--border)}.module{background:var(--bg-card);padding:20px;border-radius:14px;border:1px solid var(--border);position:relative;display:flex;flex-direction:column}.module-title{font-size:13px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin:0 0 15px;display:flex;align-items:center;gap:8px}.module-title:before{content:"";display:block;width:4px;height:14px;background:var(--accent);border-radius:2px}.help-btn{cursor:pointer;color:var(--accent-sec);background:rgba(0,176,255,.15);border-radius:50%;width:19px;height:19px;display:inline-flex;justify-content:center;align-items:center;font-size:11px;margin-left:5px}.layout-top{display:grid;grid-template-columns:1.08fr 1.92fr;gap:18px}.btn{background:var(--bg-hover);color:var(--text-main);border:1px solid var(--border-light);padding:8px 14px;border-radius:6px;font-weight:600;cursor:pointer;transition:.2s;display:inline-flex;align-items:center;justify-content:center;gap:6px;font-size:13px}.btn:hover{background:var(--accent);color:#000;border-color:var(--accent)}.btn.primary{background:var(--accent);color:#000;border-color:var(--accent)}.btn.small{padding:4px 8px;font-size:11px;border-radius:4px}.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.daw-controls{display:flex;gap:9px;margin-bottom:14px;align-items:center;background:rgba(0,0,0,.2);padding:10px;border-radius:10px;border:1px solid var(--border);flex-wrap:wrap}.track-lane{display:flex;align-items:center;gap:8px;margin-bottom:9px;background:rgba(0,0,0,.15);padding:10px;border-radius:8px;border:1px solid transparent;flex-wrap:wrap;border-left:4px solid var(--track-color,#3f4a5c)}.track-label{flex:0 0 88px;font-size:12px;font-weight:800;color:var(--track-color,#00b0ff)}.track-input{flex:1;min-width:160px;height:32px;background:var(--bg-base);color:var(--accent);border:1px solid var(--border);padding:0 12px;font-family:monospace;font-size:13px;border-radius:6px;outline:none}.vol-box{display:flex;align-items:center;gap:6px;width:90px}.vol-box span{font-size:10px;color:var(--text-muted)}.oct-badge{font-size:10px;padding:2px 6px;background:var(--bg-hover);border-radius:4px;color:var(--track-color,#00e676);font-family:monospace;min-width:53px;text-align:center}.track-lane.melody{--track-color:var(--melody)}.track-lane.chord{--track-color:var(--chord)}.track-lane.bass{--track-color:var(--bass)}.track-lane.drums{--track-color:var(--drums)}.track-legend{display:flex;gap:8px;flex-wrap:wrap;margin:-2px 0 14px}.legend-chip{display:inline-flex;align-items:center;gap:6px;padding:4px 8px;border:1px solid var(--border);background:rgba(0,0,0,.17);border-radius:999px;font-size:10px;color:var(--text-muted)}.legend-dot{width:8px;height:8px;border-radius:50%}.legend-dot.melody{background:var(--melody)}.legend-dot.chord{background:var(--chord)}.legend-dot.bass{background:var(--bass)}.legend-dot.drums{background:var(--drums)}.inspector-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;gap:12px;flex-wrap:wrap}.inspector-tabs{display:flex;gap:7px;background:var(--bg-base);padding:6px;border-radius:10px;border:1px solid var(--border);flex:1;min-width:300px}.tab{flex:1;text-align:center;padding:8px 4px;font-size:12px;font-weight:bold;color:var(--text-muted);background:transparent;border:none;cursor:pointer;border-radius:6px}.tab.active{background:var(--accent);color:#000}select.styled-sel{background:var(--bg-base);color:var(--text-main);border:1px solid var(--border);padding:6px 10px;border-radius:6px;font-size:12px;outline:none;cursor:pointer}.inspector-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(195px,1fr));gap:12px}.param-group{background:rgba(0,0,0,.2);padding:14px;border-radius:10px;border:1px solid var(--border)}.param-group h4{margin:0 0 11px;font-size:11px;color:var(--accent-sec);border-bottom:1px dashed var(--border);padding-bottom:6px}.row{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;font-size:11px}.row>span:first-child{width:49px;color:var(--text-muted)}input[type=range]{-webkit-appearance:none;flex:1;margin:0 8px;background:transparent;height:16px}input[type=range]::-webkit-slider-runnable-track{width:100%;height:4px;background:var(--border-light);border-radius:2px}input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;height:14px;width:14px;border-radius:50%;background:var(--accent);margin-top:-5px;cursor:pointer}.val-box{width:43px;text-align:right;font-family:monospace;color:var(--accent);font-size:11px;background:var(--bg-base);padding:3px;border-radius:4px;border:1px solid var(--border)}.mode-bar,.metronome-panel,.chord-arp-controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:rgba(0,0,0,.18);padding:10px;border-radius:10px;border:1px solid var(--border)}.mode-btn{flex:1;min-width:180px}.mode-btn.selected{background:var(--accent);color:#000;border-color:var(--accent)}.status-pill{padding:4px 8px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:999px;font-size:10px;color:var(--text-muted)}.step-grid{display:grid;grid-template-columns:110px repeat(16,minmax(22px,1fr));gap:4px;align-items:center}.step-head{font-size:9px;text-align:center;color:var(--text-muted)}.step-label{font-size:11px;font-weight:800;padding:7px 8px;border-radius:6px;background:rgba(0,0,0,.2);border-left:4px solid var(--track-color)}.step-cell{min-height:58px;border-radius:5px;border:1px solid var(--border);background:#11151b;cursor:pointer;display:flex;flex-direction:column;align-items:stretch;justify-content:center;font-size:9px;color:var(--text-muted);user-select:none}.step-cell.on{background:var(--track-color);border-color:var(--track-color);color:#000;font-weight:900}.step-cell.drum-cycle-1{background:rgba(255,77,109,.32);color:#fff}.step-cell.drum-cycle-2{background:rgba(255,159,67,.6);color:#000;font-weight:800}.step-cell.drum-cycle-3{background:rgba(0,176,255,.45);color:#fff;font-weight:800}.step-cell.drum-cycle-4{background:rgba(168,85,247,.55);color:#fff;font-weight:800}.step-cell.current{outline:2px solid #fff;outline-offset:-2px}.step-sel{background:transparent;color:inherit;border:none;outline:none;font-size:10px;width:100%;height:25px;appearance:none;text-align:center;cursor:pointer;font-weight:800}.step-sel option{background:#1c212b;color:#f1f5f9}.step-help,.small-note{font-size:10px;color:var(--text-muted);margin-top:10px}.chord-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.chords-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(105px,1fr));gap:9px;margin-top:14px}.chord-card{background:rgba(0,0,0,.2);border:1px solid var(--border);padding:10px 5px;border-radius:10px;text-align:center;cursor:pointer;transition:.15s;display:flex;flex-direction:column;align-items:center;touch-action:none}.chord-card:hover,.chord-card.active{background:var(--accent);border-color:var(--accent);color:#000}.chord-card select{background:var(--bg-base);color:var(--text-muted);border:1px solid var(--border);border-radius:4px;font-size:10px;padding:2px;width:95%;margin-bottom:8px}.piano-wrapper{display:flex;background:var(--bg-base);padding:15px;border-radius:10px;overflow-x:auto;border:1px solid var(--border)}.piano{position:relative;height:164px;user-select:none}.key{position:absolute;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;padding-bottom:6px;font-weight:bold;border-radius:0 0 6px 6px;user-select:none;touch-action:none;transition:background 0.1s}.key.white{width:40px;height:164px;background:#eaebed;color:#333;border:1px solid #ccc;z-index:1;font-size:10px}.key.black{width:26px;height:96px;background:#171717;color:var(--accent);border:1px solid #000;z-index:2;font-size:9px}.key.active{background:var(--accent)!important;color:#000}.note-name{font-size:9px;line-height:1.1}.solfege{font-size:12px;line-height:1.2;font-weight:900}.black .note-name{font-size:8px}.black .solfege{font-size:9px}.hide-solfege .solfege{display:none!important}.hide-notename .note-name{display:none!important}.drum-legend{display:grid;grid-template-columns:repeat(7,minmax(75px,1fr));gap:7px;margin:7px 0 5px}.drum-pad{background:#161b23;border:1px solid var(--border);color:var(--text-main);border-radius:8px;padding:8px 5px;cursor:pointer;text-align:center;font-size:10px}.drum-pad:hover,.drum-pad.active{background:var(--drums);border-color:var(--drums);color:#000}.drum-pad b{display:block;font-size:12px}.drum-note{font-size:9px;color:var(--text-muted);margin-top:3px}.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;justify-content:center;align-items:center;z-index:1000;backdrop-filter:blur(5px)}.modal-content{background:var(--bg-panel);border:1px solid var(--border);padding:22px;border-radius:14px;width:850px;max-width:95%;max-height:90vh;overflow-y:auto;display:flex;flex-direction:column;gap:14px}.modal-track{display:flex;flex-direction:column;gap:8px;margin-bottom:8px}.modal-track textarea{background:var(--bg-base);color:var(--accent);border:1px solid var(--border);padding:12px;border-radius:6px;font-family:monospace;font-size:14px;resize:vertical;min-height:62px;outline:none}.mobile-keypad{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}.mobile-keypad button{background:var(--bg-hover);border:1px solid var(--border);color:var(--text-main);padding:8px;border-radius:4px;font-size:13px;font-weight:bold;cursor:pointer}.beat-light{width:12px;height:12px;border-radius:50%;background:#303643;border:1px solid var(--border-light)}.beat-light.flash{background:var(--accent);box-shadow:0 0 16px var(--accent-glow)}
+*{box-sizing:border-box}body{background:var(--bg-base);color:var(--text-main);font-family:var(--font-stack);display:flex;justify-content:center;padding:24px 14px;margin:0;min-height:100vh}.synth-container{background:var(--bg-panel);padding:28px;border-radius:20px;box-shadow:0 25px 80px rgba(0,0,0,.8);width:1280px;max-width:100%;border:1px solid var(--border);display:flex;flex-direction:column;gap:18px}.header{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2px solid var(--border);padding-bottom:15px;flex-wrap:wrap;gap:15px}.main-title{color:var(--text-main);font-size:31px;letter-spacing:5px;font-weight:900;margin:0;text-shadow:0 0 30px var(--accent-glow);display:flex;align-items:center;gap:12px}.main-title span{color:var(--accent)}.master-meter{width:300px;height:35px;border-radius:8px;background:var(--bg-card);border:1px solid var(--border)}.module{background:var(--bg-card);padding:20px;border-radius:14px;border:1px solid var(--border);position:relative;display:flex;flex-direction:column}.module-title{font-size:13px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin:0 0 15px;display:flex;align-items:center;gap:8px}.module-title:before{content:"";display:block;width:4px;height:14px;background:var(--accent);border-radius:2px}.help-btn{cursor:pointer;color:var(--accent-sec);background:rgba(0,176,255,.15);border-radius:50%;width:19px;height:19px;display:inline-flex;justify-content:center;align-items:center;font-size:11px;margin-left:5px}.layout-top{display:grid;grid-template-columns:1.08fr 1.92fr;gap:18px}.btn{background:var(--bg-hover);color:var(--text-main);border:1px solid var(--border-light);padding:8px 14px;border-radius:6px;font-weight:600;cursor:pointer;transition:.2s;display:inline-flex;align-items:center;justify-content:center;gap:6px;font-size:13px}.btn:hover{background:var(--accent);color:#000;border-color:var(--accent)}.btn.primary{background:var(--accent);color:#000;border-color:var(--accent)}.btn.small{padding:4px 8px;font-size:11px;border-radius:4px}.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.daw-controls{display:flex;gap:9px;margin-bottom:14px;align-items:center;background:rgba(0,0,0,.2);padding:10px;border-radius:10px;border:1px solid var(--border);flex-wrap:wrap}.track-lane{display:flex;align-items:center;gap:8px;margin-bottom:9px;background:rgba(0,0,0,.15);padding:10px;border-radius:8px;border:1px solid transparent;flex-wrap:wrap;border-left:4px solid var(--track-color,#3f4a5c)}.track-label{flex:0 0 88px;font-size:12px;font-weight:800;color:var(--track-color,#00b0ff)}.track-input{flex:1;min-width:160px;height:32px;background:var(--bg-base);color:var(--accent);border:1px solid var(--border);padding:0 12px;font-family:monospace;font-size:13px;border-radius:6px;outline:none}.vol-box{display:flex;align-items:center;gap:6px;width:90px}.vol-box span{font-size:10px;color:var(--text-muted)}.oct-badge{font-size:10px;padding:2px 6px;background:var(--bg-hover);border-radius:4px;color:var(--track-color,#00e676);font-family:monospace;min-width:53px;text-align:center}.track-lane.melody{--track-color:var(--melody)}.track-lane.chord{--track-color:var(--chord)}.track-lane.bass{--track-color:var(--bass)}.track-lane.drums{--track-color:var(--drums)}.track-legend{display:flex;gap:8px;flex-wrap:wrap;margin:-2px 0 14px}.legend-chip{display:inline-flex;align-items:center;gap:6px;padding:4px 8px;border:1px solid var(--border);background:rgba(0,0,0,.17);border-radius:999px;font-size:10px;color:var(--text-muted)}.legend-dot{width:8px;height:8px;border-radius:50%}.legend-dot.melody{background:var(--melody)}.legend-dot.chord{background:var(--chord)}.legend-dot.bass{background:var(--bass)}.legend-dot.drums{background:var(--drums)}.inspector-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;gap:12px;flex-wrap:wrap}.inspector-tabs{display:flex;gap:7px;background:var(--bg-base);padding:6px;border-radius:10px;border:1px solid var(--border);flex:1;min-width:300px}.tab{flex:1;text-align:center;padding:8px 4px;font-size:12px;font-weight:bold;color:var(--text-muted);background:transparent;border:none;cursor:pointer;border-radius:6px}.tab.active{background:var(--accent);color:#000}select.styled-sel{background:var(--bg-base);color:var(--text-main);border:1px solid var(--border);padding:6px 10px;border-radius:6px;font-size:12px;outline:none;cursor:pointer}.inspector-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(195px,1fr));gap:12px}.param-group{background:rgba(0,0,0,.2);padding:14px;border-radius:10px;border:1px solid var(--border)}.param-group h4{margin:0 0 11px;font-size:11px;color:var(--accent-sec);border-bottom:1px dashed var(--border);padding-bottom:6px}.row{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;font-size:11px}.row>span:first-child{width:49px;color:var(--text-muted)}input[type=range]{-webkit-appearance:none;flex:1;margin:0 8px;background:transparent;height:16px}input[type=range]::-webkit-slider-runnable-track{width:100%;height:4px;background:var(--border-light);border-radius:2px}input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;height:14px;width:14px;border-radius:50%;background:var(--accent);margin-top:-5px;cursor:pointer}.val-box{width:43px;text-align:right;font-family:monospace;color:var(--accent);font-size:11px;background:var(--bg-base);padding:3px;border-radius:4px;border:1px solid var(--border)}.mode-bar,.metronome-panel,.chord-arp-controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:rgba(0,0,0,.18);padding:10px;border-radius:10px;border:1px solid var(--border)}.mode-btn{flex:1;min-width:180px}.mode-btn.selected{background:var(--accent);color:#000;border-color:var(--accent)}.status-pill{padding:4px 8px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:999px;font-size:10px;color:var(--text-muted)}.step-grid{display:grid;grid-template-columns:110px repeat(16,minmax(22px,1fr));gap:4px;align-items:center}.step-head{font-size:9px;text-align:center;color:var(--text-muted)}.step-label{font-size:11px;font-weight:800;padding:7px 8px;border-radius:6px;background:rgba(0,0,0,.2);border-left:4px solid var(--track-color)}.step-cell{min-height:58px;border-radius:5px;border:1px solid var(--border);background:#11151b;cursor:pointer;display:flex;flex-direction:column;align-items:stretch;justify-content:center;font-size:9px;color:var(--text-muted);user-select:none}.step-cell.on{background:var(--track-color);border-color:var(--track-color);color:#000;font-weight:900}.step-cell.drum-cycle-1{background:rgba(255,77,109,.32);color:#fff}.step-cell.drum-cycle-2{background:rgba(255,159,67,.6);color:#000;font-weight:800}.step-cell.drum-cycle-3{background:rgba(0,176,255,.45);color:#fff;font-weight:800}.step-cell.drum-cycle-4{background:rgba(168,85,247,.55);color:#fff;font-weight:800}.step-cell.current{outline:2px solid #fff;outline-offset:-2px}
+.step-cell.step-group-start{border-left:2px solid var(--accent-sec)}
+.step-head.step-group-start{border-left:2px solid var(--accent-sec);padding-left:4px}
+.step-label{display:flex;align-items:center;justify-content:space-between;gap:6px;min-width:0}
+.step-label-text{min-width:0}
+.step-rhythm-copy{border:1px solid var(--border-light);background:rgba(0,176,255,.10);color:var(--accent-sec);border-radius:5px;padding:4px 6px;font-size:8px;font-weight:800;cursor:pointer;white-space:nowrap}
+.step-rhythm-copy:hover,.step-rhythm-copy.active{background:var(--accent-sec);color:#000}
+.rhythm-help{font-size:10px;color:var(--text-muted);margin-top:8px;line-height:1.6}
+.step-sel{background:transparent;color:inherit;border:none;outline:none;font-size:10px;width:100%;height:25px;appearance:none;text-align:center;cursor:pointer;font-weight:800}.step-sel option{background:#1c212b;color:#f1f5f9}.step-help,.small-note{font-size:10px;color:var(--text-muted);margin-top:10px}.step-drum-wrap{display:flex;flex-direction:column;gap:2px;width:100%}.step-drum-row{display:flex;align-items:center;gap:2px}.step-drum-row .step-sel{font-size:9px;height:22px;padding:0 1px}.step-drum-label{font-size:8px;color:var(--text-muted);width:12px;flex:0 0 12px;text-align:center}.step-subhead{font-size:8px;color:var(--text-muted);text-align:center;margin:1px 0}.step-cell.drum-active{background:rgba(255,77,109,.22);border-color:rgba(255,77,109,.7)}
+.chord-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.chords-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(105px,1fr));gap:9px;margin-top:14px}.chord-card{background:rgba(0,0,0,.2);border:1px solid var(--border);padding:10px 5px;border-radius:10px;text-align:center;cursor:pointer;transition:.15s;display:flex;flex-direction:column;align-items:center;touch-action:none}.chord-card:hover,.chord-card.active{background:var(--accent);border-color:var(--accent);color:#000}.chord-card select{background:var(--bg-base);color:var(--text-muted);border:1px solid var(--border);border-radius:4px;font-size:10px;padding:2px;width:95%;margin-bottom:8px}.piano-wrapper{display:flex;background:var(--bg-base);padding:15px;border-radius:10px;overflow-x:auto;border:1px solid var(--border)}.piano{position:relative;height:164px;user-select:none}.key{position:absolute;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;padding-bottom:6px;font-weight:bold;border-radius:0 0 6px 6px;user-select:none;touch-action:none;transition:background 0.1s}.key.white{width:40px;height:164px;background:#eaebed;color:#333;border:1px solid #ccc;z-index:1;font-size:10px}.key.black{width:26px;height:96px;background:#171717;color:var(--accent);border:1px solid #000;z-index:2;font-size:9px}.key.active{background:var(--accent)!important;color:#000}.note-name{font-size:9px;line-height:1.1}.solfege{font-size:12px;line-height:1.2;font-weight:900}.black .note-name{font-size:8px}.black .solfege{font-size:9px}.hide-solfege .solfege{display:none!important}.hide-notename .note-name{display:none!important}.drum-legend{display:grid;grid-template-columns:repeat(7,minmax(75px,1fr));gap:7px;margin:7px 0 5px}.drum-pad{background:#161b23;border:1px solid var(--border);color:var(--text-main);border-radius:8px;padding:8px 5px;cursor:pointer;text-align:center;font-size:10px}.drum-pad:hover,.drum-pad.active{background:var(--drums);border-color:var(--drums);color:#000}.drum-pad b{display:block;font-size:12px}.drum-note{font-size:9px;color:var(--text-muted);margin-top:3px}.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;justify-content:center;align-items:center;z-index:1000;backdrop-filter:blur(5px)}.modal-content{background:var(--bg-panel);border:1px solid var(--border);padding:22px;border-radius:14px;width:850px;max-width:95%;max-height:90vh;overflow-y:auto;display:flex;flex-direction:column;gap:14px}.modal-track{display:flex;flex-direction:column;gap:8px;margin-bottom:8px}.modal-track textarea{background:var(--bg-base);color:var(--accent);border:1px solid var(--border);padding:12px;border-radius:6px;font-family:monospace;font-size:14px;resize:vertical;min-height:62px;outline:none}.mobile-keypad{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}.mobile-keypad button{background:var(--bg-hover);border:1px solid var(--border);color:var(--text-main);padding:8px;border-radius:4px;font-size:13px;font-weight:bold;cursor:pointer}.beat-light{width:12px;height:12px;border-radius:50%;background:#303643;border:1px solid var(--border-light)}.beat-light.flash{background:var(--accent);box-shadow:0 0 16px var(--accent-glow)}
 
 .custom-chord-form{display:grid;grid-template-columns:120px 1fr;gap:10px 12px;align-items:center}
 .custom-chord-form label{font-size:12px;color:var(--text-muted)}
@@ -26,6 +35,16 @@
 .tutorial-panel code{background:#0d1117;border:1px solid var(--border);padding:2px 5px;border-radius:4px;color:var(--accent);font-family:monospace}
 .tutorial-tip{margin-top:12px;padding:10px 12px;background:rgba(0,176,255,.08);border-left:3px solid var(--accent-sec);border-radius:8px;color:var(--text-main);font-size:11px;line-height:1.7}
 
+
+/* ===== Common chord progression shortcuts ===== */
+.progression-panel{margin-top:12px;padding:11px;border:1px solid var(--border);border-radius:10px;background:rgba(0,0,0,.15)}
+.progression-title{font-size:11px;color:var(--accent-sec);font-weight:800;margin-bottom:8px;display:flex;align-items:center;gap:7px}
+.progression-title span{color:var(--text-muted);font-weight:500}
+.progression-buttons{display:flex;gap:7px;flex-wrap:wrap}
+.progression-btn{padding:7px 10px;border:1px solid var(--border-light);background:var(--bg-hover);color:var(--text-main);border-radius:7px;font-size:10px;font-weight:800;cursor:pointer;transition:.15s}
+.progression-btn:hover,.progression-btn.active{background:var(--accent);color:#000;border-color:var(--accent)}
+.progression-note{font-size:9px;color:var(--text-muted);margin-top:7px;line-height:1.55}
+@media(max-width:650px){.progression-btn{min-height:38px;padding:8px 10px}.progression-buttons{gap:6px}}
 </style>
 </head>
 <body>
@@ -90,7 +109,22 @@
     </div>
     <div class="status-pill" style="margin:8px 0 10px">每格 = 一个起音位置；每格可独立选择音高和时值。四条轨道可以同时发声。</div>
     <div id="stepGrid" class="step-grid"></div>
-    <div class="step-help">轨1/轨3：围绕当前调性选择音高；轨2：选择和弦级数；轨4：连续点击循环选择鼓点。</div>
+    <div class="step-help">轨1/轨3选择音符，轨2选择和弦；先选一拍内部的细分，再逐个输入子拍。例如选择“2个·八分”，即可输入 1、3；轨4鼓组保持独立。</div>
+
+    <div class="progression-panel">
+      <div class="progression-title">🎼 Step 常用和弦进行 <span>点击后直接填入轨2的 16 步</span></div>
+      <div class="progression-buttons">
+        <button class="progression-btn step-progression" data-prog="pop">I–V–vi–IV</button>
+        <button class="progression-btn step-progression" data-prog="axis">vi–IV–I–V</button>
+        <button class="progression-btn step-progression" data-prog="50s">I–vi–IV–V</button>
+        <button class="progression-btn step-progression" data-prog="jazz">ii–V–I</button>
+        <button class="progression-btn step-progression" data-prog="blues">I–IV–V–I</button>
+        <button class="progression-btn step-progression" data-prog="rock">I–V–IV–V</button>
+        <button class="progression-btn step-progression" data-prog="pachelbel">I–V–vi–iii–IV–I–IV–V</button>
+        <button class="progression-btn step-progression" data-prog="reset">清空轨2</button>
+      </div>
+      <div class="progression-note">默认每个和弦占 4 步；三和弦进行会自动延长最后一个和弦，八和弦进行会按 16 步循环压缩。和弦具体音色/七和弦/九和弦类型沿用下方“智能和弦系统”的当前选择。</div>
+    </div>
   </div>
 
   <div class="layout-top">
@@ -117,7 +151,23 @@
 
   <div class="module"><div class="metronome-panel"><strong style="color:var(--accent)">🎵 独立节拍器</strong><label class="status-pill"><input type="checkbox" id="metronomeToggle"> 开启</label><span style="font-size:11px">拍号</span><select id="timeNum" class="styled-sel"><option>2</option><option>3</option><option selected>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>12</option></select><span style="font-size:18px;font-weight:900">/</span><select id="timeDen" class="styled-sel"><option>2</option><option selected>4</option><option>8</option><option>16</option></select><button id="btnMetroTest" class="btn small">试听一拍</button><span id="metroSignatureText" class="status-pill">4/4</span><span id="beatLight" class="beat-light"></span><span class="small-note">BPM 与全局音序器统一。</span></div></div>
 
-  <div class="module"><div class="chord-top"><h3 class="module-title" style="margin:0">智能和弦系统 + 琶音器 <span class="help-btn" onclick="showHelp('CHORD')">❓</span></h3><div class="toolbar"><label style="font-size:12px;cursor:pointer"><input type="checkbox" id="toggleVoiceLeading" checked> 平滑就近连接</label><select id="keySelect" class="styled-sel"><option value="0">C 大调</option><option value="1">Db 大调</option><option value="2">D 大调</option><option value="3">Eb 大调</option><option value="4">E 大调</option><option value="5">F 大调</option><option value="6">Gb 大调</option><option value="7">G 大调</option><option value="8">Ab 大调</option><option value="9">A 大调</option><option value="10">Bb 大调</option><option value="11">B 大调</option></select></div></div><div class="chord-arp-controls"><span style="font-size:11px;color:var(--text-muted)">和弦播放方式</span><select id="chordPlayStyle" class="styled-sel"><option value="block" selected>柱式（同时）</option><option value="up">琶音 · 上行</option><option value="down">琶音 · 下行</option><option value="random">琶音 · 随机</option></select><span style="font-size:11px;color:var(--text-muted)">琶音速度</span><select id="arpRate" class="styled-sel"><option value="0.125">16分音符</option><option value="0.25" selected>8分音符</option><option value="0.5">4分音符</option></select><button id="btnCustomChord" class="btn small">🎛 自定义和弦</button><span class="small-note">按住和弦卡片听连续琶音；松开停止。</span></div><div class="chords-grid" id="chordsGrid"></div></div>
+  <div class="module"><div class="chord-top"><h3 class="module-title" style="margin:0">智能和弦系统 + 琶音器 <span class="help-btn" onclick="showHelp('CHORD')">❓</span></h3><div class="toolbar"><label style="font-size:12px;cursor:pointer"><input type="checkbox" id="toggleVoiceLeading" checked> 平滑就近连接</label><select id="keySelect" class="styled-sel"><option value="0">C 大调</option><option value="1">Db 大调</option><option value="2">D 大调</option><option value="3">Eb 大调</option><option value="4">E 大调</option><option value="5">F 大调</option><option value="6">Gb 大调</option><option value="7">G 大调</option><option value="8">Ab 大调</option><option value="9">A 大调</option><option value="10">Bb 大调</option><option value="11">B 大调</option></select></div></div><div class="chord-arp-controls"><span style="font-size:11px;color:var(--text-muted)">和弦播放方式</span><select id="chordPlayStyle" class="styled-sel"><option value="block" selected>柱式（同时）</option><option value="up">琶音 · 上行</option><option value="down">琶音 · 下行</option><option value="random">琶音 · 随机</option></select><span style="font-size:11px;color:var(--text-muted)">琶音速度</span><select id="arpRate" class="styled-sel"><option value="0.125">16分音符</option><option value="0.25" selected>8分音符</option><option value="0.5">4分音符</option></select><button id="btnCustomChord" class="btn small">🎛 自定义和弦</button><span class="small-note">按住和弦卡片听连续琶音；松开停止。</span></div><div class="chords-grid" id="chordsGrid"></div>
+
+    <div class="progression-panel">
+      <div class="progression-title">🎹 常用和弦进行 <span>点击后写入 DAW 轨2，并可立即播放试听</span></div>
+      <div class="progression-buttons">
+        <button class="progression-btn chord-progression" data-prog="pop">I–V–vi–IV · 流行</button>
+        <button class="progression-btn chord-progression" data-prog="axis">vi–IV–I–V · 抒情</button>
+        <button class="progression-btn chord-progression" data-prog="50s">I–vi–IV–V · 经典</button>
+        <button class="progression-btn chord-progression" data-prog="jazz">ii–V–I · 爵士</button>
+        <button class="progression-btn chord-progression" data-prog="blues">I–IV–V–I · 摇滚</button>
+        <button class="progression-btn chord-progression" data-prog="rock">I–V–IV–V · 摇滚</button>
+        <button class="progression-btn chord-progression" data-prog="pachelbel">I–V–vi–iii–IV–I–IV–V</button>
+        <button class="progression-btn chord-progression" data-prog="reset">清空轨2</button>
+      </div>
+      <div class="progression-note">当前 Key 会自动决定实际和弦名称；例如在 C 大调中 I–V–vi–IV = C–G–Am–F。当前和弦卡片所选的类型（Maj7、m7、9、自定义等）会用于轨2播放。</div>
+    </div>
+  </div>
 
   <div class="module"><div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><h3 class="module-title" style="margin:0">键盘 · 实时显示 <span class="help-btn" onclick="showHelp('KEYBOARD')">❓</span></h3><div class="toolbar"><label class="status-pill"><input type="checkbox" id="showSolfege" checked> 唱名</label><label class="status-pill"><input type="checkbox" id="showNoteName" checked> 音名</label><span class="status-pill">调性：<span id="keyboardKeyName">C</span>大调</span><button class="btn small" onclick="shiftKeyboardOct(-1)">-1 八度</button><button class="btn small" onclick="shiftKeyboardOct(1)">+1 八度</button></div></div><div class="piano-wrapper"><div class="piano" id="piano"></div></div></div>
 </div>
@@ -468,6 +518,104 @@ function getRawChordNotes(index){
 }
 function getChordNotes(index){let notes=getRawChordNotes(index);if(document.getElementById('toggleVoiceLeading').checked)notes=applyVoiceLeading(lastChordNotes,notes);return notes}
 
+// ========================= COMMON CHORD PROGRESSIONS =========================
+const COMMON_PROGRESSIONS={
+  pop:[1,5,6,4],
+  axis:[6,4,1,5],
+  '50s':[1,6,4,5],
+  jazz:[2,5,1],
+  blues:[1,4,5,1],
+  rock:[1,5,4,5],
+  pachelbel:[1,5,6,3,4,1,4,5]
+};
+
+function progressionDegreeText(degrees){
+  const roman=['','I','ii','iii','IV','V','vi','vii°'];
+  return degrees.map(d=>roman[d]||'').join(' ');
+}
+
+function progressionToDawText(degrees){
+  if(!Array.isArray(degrees)||!degrees.length)return '';
+  // DAW 每个 '-' 代表再占一拍；这里让常见四和弦进行每个和弦占 4 拍。
+  if(degrees.length===3){
+    // ii–V–I：最后的 I 自动延长为两小节。
+    return `${degrees[0]} - - - | ${degrees[1]} - - - | ${degrees[2]} - - - | ${degrees[2]} - - -`;
+  }
+  if(degrees.length===8){
+    // 八和弦进行：每个和弦占 2 拍，刚好 4 小节。
+    return degrees.map(d=>`${d} -`).join(' | ');
+  }
+  const expanded=degrees.slice(0,4);
+  return expanded.map(d=>`${d} - - -`).join(' | ');
+}
+
+function setStepChordProgression(key){
+  const cells=stepState.chord;
+  cells.forEach((v,i)=>{cells[i]={subdiv:1,events:[{pitchOffset:null}]}});
+  if(key==='reset'){
+    buildStepGrid();
+    markProgressionButton('.step-progression',key);
+    requestLiveSequenceRefresh();
+    return;
+  }
+  const degrees=COMMON_PROGRESSIONS[key];
+  if(!degrees)return;
+  let seq=[];
+  if(degrees.length===3){
+    seq=[...degrees, degrees[2]];
+  }else if(degrees.length===8){
+    seq=degrees.slice();
+  }else{
+    seq=degrees.slice(0,4);
+  }
+  const per=16/seq.length;
+  for(let i=0;i<16;i++){
+    const idx=Math.min(seq.length-1,Math.floor(i/per));
+    cells[i]={subdiv:1,events:[{pitchOffset:seq[idx]-1}]};
+  }
+  buildStepGrid();
+  markProgressionButton('.step-progression',key);
+  requestLiveSequenceRefresh();
+}
+
+function applyChordProgressionToDaw(key,playNow=true){
+  const input=document.getElementById('chordInput');
+  if(!input)return;
+  if(key==='reset'){
+    input.value='';
+  }else{
+    const degrees=COMMON_PROGRESSIONS[key];
+    if(!degrees)return;
+    input.value=progressionToDawText(degrees);
+  }
+  lastChordNotes=[];
+  markProgressionButton('.chord-progression',key);
+  requestLiveSequenceRefresh();
+  if(playNow && key!=='reset'){
+    // 直接从当前位置重新读取轨2；不破坏其他轨道。
+    if(seqRunning&&playbackMode==='daw'){
+      refreshSequenceFromLiveEdit();
+    }else{
+      playDaw();
+    }
+  }
+}
+
+function markProgressionButton(selector,key){
+  document.querySelectorAll(selector).forEach(b=>
+    b.classList.toggle('active',b.dataset.prog===key)
+  );
+}
+
+function bindProgressionButtons(){
+  document.querySelectorAll('.step-progression').forEach(btn=>{
+    btn.addEventListener('click',()=>setStepChordProgression(btn.dataset.prog));
+  });
+  document.querySelectorAll('.chord-progression').forEach(btn=>{
+    btn.addEventListener('click',()=>applyChordProgressionToDaw(btn.dataset.prog,true));
+  });
+}
+
 // ========================= CHORD UI =========================
 function updateChords(){
  const grid=document.getElementById('chordsGrid');
@@ -744,28 +892,189 @@ function stopSequence(update=true){
 function setTransport(t){const e=document.getElementById('transportStatus');if(e)e.textContent=t}
 
 // ========================= STEP =========================
-const STEP_COUNT=16;let stepResolution=.25,stepLoopLength=4;
-const stepState={melody:Array.from({length:STEP_COUNT},()=>({pitchOffset:null,duration:1})),chord:Array.from({length:STEP_COUNT},()=>({pitchOffset:null,duration:1})),bass:Array.from({length:STEP_COUNT},()=>({pitchOffset:null,duration:1})),drums:Array(STEP_COUNT).fill(0)};
+const STEP_COUNT=16;
+let stepResolution=.25,stepLoopLength=4;
+// 轨1旋律、轨2和弦、轨3贝斯：每一拍可细分为 1/2/3/4 个子拍。
+// 轨4鼓组恢复为最初的稳定模式：每一个 Step 只选择一个鼓声，点击循环切换。
+const stepState={
+ melody:Array.from({length:STEP_COUNT},()=>({subdiv:1,events:[{pitchOffset:null}]})),
+ chord:Array.from({length:STEP_COUNT},()=>({subdiv:1,events:[{pitchOffset:null}]})),
+ bass:Array.from({length:STEP_COUNT},()=>({subdiv:1,events:[{pitchOffset:null}]})),
+ drums:Array(STEP_COUNT).fill(0)
+};
+const STEP_SUBDIVISIONS=[
+ {value:1,label:'1个 · 一拍'},
+ {value:2,label:'2个 · 八分'},
+ {value:3,label:'3个 · 三连'},
+ {value:4,label:'4个 · 十六分'}
+];
+function ensureStepState(track,i){
+ if(!stepState[track][i]||typeof stepState[track][i]!=='object')stepState[track][i]={subdiv:1,events:[{pitchOffset:null}]};
+ const n=Math.max(1,Math.min(4,Number(stepState[track][i].subdiv)||1));
+ stepState[track][i].subdiv=n;
+ if(!Array.isArray(stepState[track][i].events))stepState[track][i].events=[];
+ while(stepState[track][i].events.length<n)stepState[track][i].events.push({pitchOffset:null});
+ stepState[track][i].events=stepState[track][i].events.slice(0,n);
+}
 function getStepResolution(){return Number(document.getElementById('stepResolution').value)||.25}
-function makeStepNoteOptions(track,root){if(track==='chord')return '<option value="">· 休止</option>'+chordDictionary.map((d,i)=>`<option value="${i}">${d.degree} · ${namesForChordDegree(i)}</option>`).join('');let h='<option value="">· 休止</option>';for(let o=-12;o<=24;o++){const m=60+root+o;h+=`<option value="${o}">${noteName(m)}${o===0?' · 根音':''}</option>`}return h}
+function makeStepNoteOptions(track,root){
+ if(track==='chord')return '<option value="">· 休</option>'+chordDictionary.map((d,i)=>`<option value="${i}">${d.degree} · ${namesForChordDegree(i)}</option>`).join('');
+ let h='<option value="">· 休</option>';
+ for(let o=-12;o<=24;o++){const m=60+root+o;h+=`<option value="${o}">${noteName(m)}${o===0?' · 根音':''}</option>`}
+ return h;
+}
 function namesForChordDegree(i){const d=chordDictionary[i];const v=d&&d.variants&&d.variants[userChordSelections[i]||'triad'];return v?v.label:(d?.degree||'')}
-function makeDurationOptions(value){return [['1','♩'],['.5','♪'],['.25','♬'],['.3333333333','♪³']].map(([v,t])=>`<option value="${v}" ${Math.abs(Number(v)-Number(value))<.0001?'selected':''}>${t}</option>`).join('')}
-function buildStepGrid(){const grid=document.getElementById('stepGrid');grid.innerHTML='<div></div>'+Array.from({length:STEP_COUNT},(_,i)=>`<div class="step-head">${i+1}</div>`).join('');const root=Number(document.getElementById('keySelect').value),tracks=[['melody','轨1 旋律'],['chord','轨2 和弦'],['bass','轨3 贝斯'],['drums','轨4 鼓组']];tracks.forEach(([track,label])=>{const lab=document.createElement('div');lab.className='step-label';lab.style.setProperty('--track-color',`var(--${track})`);lab.textContent=label;grid.appendChild(lab);for(let i=0;i<STEP_COUNT;i++){const c=document.createElement('div');c.className='step-cell';c.dataset.track=track;c.dataset.step=i;if(track==='drums'){updateStepCell(c);c.addEventListener('click',()=>{stepState.drums[i]=(stepState.drums[i]+1)%5;updateStepCell(c);requestLiveSequenceRefresh()})}else{const sel=document.createElement('select');sel.className='step-sel';sel.innerHTML=makeStepNoteOptions(track,root);sel.value=stepState[track][i].pitchOffset==null?'':String(stepState[track][i].pitchOffset);if(sel.value!=='')c.classList.add('on');sel.addEventListener('change',e=>{stepState[track][i].pitchOffset=e.target.value===''?null:Number(e.target.value);c.classList.toggle('on',e.target.value!=='');requestLiveSequenceRefresh()});const dur=document.createElement('select');dur.className='step-sel';dur.innerHTML=makeDurationOptions(stepState[track][i].duration);dur.addEventListener('change',e=>{stepState[track][i].duration=Number(e.target.value);requestLiveSequenceRefresh()});c.append(sel,dur)}grid.appendChild(c)}})}
-function updateStepCell(cell){const i=Number(cell.dataset.step),v=stepState.drums[i],names=['','K','S','H','C'];cell.className='step-cell';cell.textContent=v?names[v]:'·';if(v)cell.classList.add('drum-cycle-'+v)}
-function clearStep(){['melody','chord','bass'].forEach(t=>stepState[t]=Array.from({length:STEP_COUNT},()=>({pitchOffset:null,duration:1})));stepState.drums.fill(0);buildStepGrid();stopSequence()}
-function buildStepSequence(){stepResolution=getStepResolution();stepLoopLength=STEP_COUNT*stepResolution;const root=Number(document.getElementById('keySelect').value),events=[];for(let i=0;i<STEP_COUNT;i++){const start=i*stepResolution,m=stepState.melody[i];if(m.pitchOffset!=null)events.push({pitch:60+root+m.pitchOffset+(trackOctOffsets.melody||0)*12,start,duration:Math.min(m.duration,stepLoopLength-start),track:'melody'});const c=stepState.chord[i];if(c.pitchOffset!=null&&chordDictionary[c.pitchOffset])getRawChordNotes(c.pitchOffset).forEach(p=>events.push({pitch:p,start,duration:Math.min(c.duration,stepLoopLength-start),track:'chord'}));const b=stepState.bass[i];if(b.pitchOffset!=null)events.push({pitch:36+root+b.pitchOffset+(trackOctOffsets.bass||0)*12,start,duration:Math.min(b.duration,stepLoopLength-start),track:'bass'});const dm={1:'kick',2:'snare',3:'closedHat',4:'clap'};if(stepState.drums[i])events.push({drum:dm[stepState.drums[i]],start,duration:Math.min(.45,stepResolution),track:'drums'})}return events}
+function makeStepSubdivOptions(v){return STEP_SUBDIVISIONS.map(x=>`<option value="${x.value}" ${Number(v)===x.value?'selected':''}>${x.label}</option>`).join('')}
+function updateSubBeatCellState(cell,track,i){ensureStepState(track,i);cell.classList.toggle('on',stepState[track][i].events.some(e=>e.pitchOffset!=null))}
+function renderStepEventSelectors(track,i,cell,root){
+ ensureStepState(track,i);
+ const wrap=cell.querySelector('.step-events');
+ if(!wrap)return;
+ wrap.innerHTML='';
+ stepState[track][i].events.forEach((ev,subIdx)=>{
+  const row=document.createElement('div');row.style.display='flex';row.style.alignItems='center';row.style.gap='3px';
+  const lab=document.createElement('span');lab.style.cssText='font-size:8px;color:var(--text-muted);width:12px;text-align:center;flex:0 0 12px';lab.textContent=String(subIdx+1);
+  const sel=document.createElement('select');sel.className='step-sel';sel.innerHTML=makeStepNoteOptions(track,root);sel.value=ev.pitchOffset==null?'':String(ev.pitchOffset);sel.title=`子事件 ${subIdx+1}`;
+  sel.addEventListener('change',e=>{ev.pitchOffset=e.target.value===''?null:Number(e.target.value);updateSubBeatCellState(cell,track,i);requestLiveSequenceRefresh()});
+  row.append(lab,sel);wrap.appendChild(row);
+ });
+ updateSubBeatCellState(cell,track,i);
+}
+function buildStepGrid(){
+ const grid=document.getElementById('stepGrid');if(!grid)return;
+ grid.innerHTML='<div></div>'+Array.from({length:STEP_COUNT},(_,i)=>{const g=Math.floor(i/4)+1,b=(i%4)+1;const cls=i%4===0?'step-head step-group-start':'step-head';return `<div class="${cls}" title="第${g}组 · 第${b}拍">G${g}·${b}</div>`}).join('');
+ const root=Number(document.getElementById('keySelect').value)||0;
+ const tracks=[['melody','轨1 旋律'],['chord','轨2 和弦'],['bass','轨3 贝斯'],['drums','轨4 鼓组']];
+ tracks.forEach(([track,label])=>{
+  const lab=document.createElement('div');lab.className='step-label';lab.style.setProperty('--track-color',`var(--${track})`);
+  const text=document.createElement('span');text.className='step-label-text';text.textContent=label;
+  const copy=document.createElement('button');copy.type='button';copy.className='step-rhythm-copy';copy.dataset.track=track;copy.textContent='复制G1节奏 → G2–G4';copy.title='只复制节奏型，不复制音符/和弦选择';
+  copy.addEventListener('click',e=>{e.stopPropagation();track==='drums'?copyDrumRhythmPattern():copyRhythmPattern(track)});
+  lab.append(text,copy);grid.appendChild(lab);
+  for(let i=0;i<STEP_COUNT;i++){
+   const c=document.createElement('div');c.className='step-cell';c.dataset.track=track;c.dataset.step=i;if(i%4===0)c.classList.add('step-group-start');
+   if(track==='drums'){
+    // 鼓组恢复原始稳定模式：一个格子就是一个鼓点；每次点击循环 K/S/H/C/空。
+    c.addEventListener('click',()=>{
+     stepState.drums[i]=(stepState.drums[i]+1)%5;
+     const names=['','K','S','H','C'];
+     c.className='step-cell';
+     if(stepState.drums[i]){
+      c.classList.add('drum-cycle-'+stepState.drums[i]);
+      c.textContent=names[stepState.drums[i]];
+     }else{
+      c.textContent='·';
+     }
+     requestLiveSequenceRefresh();
+    });
+    const names=['','K','S','H','C'];
+    if(stepState.drums[i]){c.classList.add('drum-cycle-'+stepState.drums[i]);c.textContent=names[stepState.drums[i]];}else c.textContent='·';
+    grid.appendChild(c);continue;
+   }
+   ensureStepState(track,i);const st=stepState[track][i];
+   const sub=document.createElement('select');sub.className='step-sel';sub.title='选择这一拍内部的细分';sub.innerHTML=makeStepSubdivOptions(st.subdiv);
+   sub.addEventListener('change',e=>{st.subdiv=Number(e.target.value)||1;ensureStepState(track,i);renderStepEventSelectors(track,i,c,root);requestLiveSequenceRefresh()});
+   c.appendChild(sub);
+   const hint=document.createElement('div');hint.className='step-subhead';hint.textContent=st.subdiv===1?'这一拍':'共 '+st.subdiv+' 个子拍';c.appendChild(hint);
+   const wrap=document.createElement('div');wrap.className='step-events';c.appendChild(wrap);
+   renderStepEventSelectors(track,i,c,root);
+   grid.appendChild(c);
+  }
+ });
+}
+// 复制第1组（前4拍）的节奏骨架到后面3组。
+// 旋律/和弦/贝斯：复制细分数量与有声/休止位置，不复制目标组的音符。
+function copyRhythmPattern(track){
+ if(!['melody','chord','bass'].includes(track))return;
+ for(let group=1;group<4;group++){
+  for(let beat=0;beat<4;beat++){
+   const srcIndex=beat,dstIndex=group*4+beat;
+   ensureStepState(track,srcIndex);ensureStepState(track,dstIndex);
+   const srcCell=stepState[track][srcIndex],dstCell=stepState[track][dstIndex];
+   dstCell.subdiv=srcCell.subdiv;
+   while(dstCell.events.length<dstCell.subdiv)dstCell.events.push({pitchOffset:null});
+   dstCell.events=dstCell.events.slice(0,dstCell.subdiv);
+   for(let j=0;j<dstCell.subdiv;j++){
+    const srcEvent=srcCell.events[j]||{pitchOffset:null};
+    const dstEvent=dstCell.events[j]||(dstCell.events[j]={pitchOffset:null});
+    if(srcEvent.pitchOffset==null)dstEvent.pitchOffset=null;
+   }
+  }
+ }
+ buildStepGrid();
+ requestLiveSequenceRefresh();
+ markRhythmCopyButton(track);
+}
+
+// 鼓组：复制G1有/无鼓点的位置，保留目标已有的鼓种；空位有鼓点时用Kick作为占位。
+function copyDrumRhythmPattern(){
+ for(let group=1;group<4;group++){
+  for(let beat=0;beat<4;beat++){
+   const src=stepState.drums[beat],dstIndex=group*4+beat;
+   if(src===0)stepState.drums[dstIndex]=0;
+   else if(stepState.drums[dstIndex]===0)stepState.drums[dstIndex]=1;
+  }
+ }
+ buildStepGrid();
+ requestLiveSequenceRefresh();
+ markRhythmCopyButton('drums');
+}
+
+function markRhythmCopyButton(track){
+ document.querySelectorAll('.step-rhythm-copy').forEach(b=>b.classList.toggle('active',b.dataset.track===track));
+}
+
+function updateStepCell(cell){
+ const i=Number(cell.dataset.step),v=stepState.drums[i],names=['','K','S','H','C'];
+ cell.className='step-cell';
+ cell.textContent=v?names[v]:'·';
+ if(v)cell.classList.add('drum-cycle-'+v);
+}
+function clearStep(){
+ ['melody','chord','bass'].forEach(t=>stepState[t]=Array.from({length:STEP_COUNT},()=>({subdiv:1,events:[{pitchOffset:null}]})));
+ stepState.drums.fill(0);
+ buildStepGrid();stopSequence();
+}
+function buildStepSequence(){
+ stepResolution=getStepResolution();stepLoopLength=STEP_COUNT*stepResolution;
+ const root=Number(document.getElementById('keySelect').value)||0,events=[];
+ for(let i=0;i<STEP_COUNT;i++){
+  const start=i*stepResolution,cellDur=stepResolution;
+  ['melody','chord','bass'].forEach(track=>{
+   ensureStepState(track,i);
+   const st=stepState[track][i],subDur=cellDur/st.subdiv;
+   st.events.forEach((ev,j)=>{
+    if(ev.pitchOffset==null)return;
+    const at=start+j*subDur;
+    if(track==='chord'){
+     const idx=Number(ev.pitchOffset);
+     if(chordDictionary[idx])getRawChordNotes(idx).forEach(p=>events.push({pitch:p,start:at,duration:Math.max(.04,subDur*.92),track:'chord'}));
+    }else if(track==='melody'){
+     events.push({pitch:60+root+Number(ev.pitchOffset)+(trackOctOffsets.melody||0)*12,start:at,duration:Math.max(.04,subDur*.92),track:'melody'});
+    }else{
+     events.push({pitch:36+root+Number(ev.pitchOffset)+(trackOctOffsets.bass||0)*12,start:at,duration:Math.max(.04,subDur*.92),track:'bass'});
+    }
+   });
+  });
+  // 鼓组：一个 Step 一个鼓声，保持最初稳定实现。
+  const drumMap={1:'kick',2:'snare',3:'closedHat',4:'clap'};
+  const drum=stepState.drums[i];
+  if(drum&&drumMap[drum])events.push({drum:drumMap[drum],start,duration:Math.min(.45,stepResolution),track:'drums'});
+ }
+ return events;
+}
 function markStepPlayhead(local){const idx=Math.max(0,Math.min(STEP_COUNT-1,Math.floor(local/Math.max(stepResolution,.0001))));document.querySelectorAll('.step-cell.current').forEach(c=>c.classList.remove('current'));document.querySelectorAll(`.step-cell[data-step="${idx}"]`).forEach(c=>c.classList.add('current'))}
 
 // ==================== PLAYBACK LIVE EDIT ====================
 let liveEditTimer=null;
 function requestLiveSequenceRefresh(){
-  if(!seqRunning)return;
-  clearTimeout(liveEditTimer);
-  liveEditTimer=setTimeout(()=>{liveEditTimer=null;refreshSequenceFromLiveEdit();},35);
+ if(!seqRunning)return;
+ clearTimeout(liveEditTimer);
+ liveEditTimer=setTimeout(()=>{liveEditTimer=null;refreshSequenceFromLiveEdit();},35);
 }
 ['melody','chord','bass','drums'].forEach(t=>{
-  const el=document.getElementById(t+'Input');
-  if(el){el.addEventListener('input',requestLiveSequenceRefresh);el.addEventListener('change',requestLiveSequenceRefresh);}
+ const el=document.getElementById(t+'Input');
+ if(el){el.addEventListener('input',requestLiveSequenceRefresh);el.addEventListener('change',requestLiveSequenceRefresh);}
 });
 
 // ========================= INSPECTOR =========================
@@ -773,7 +1082,7 @@ const inspectorKeys=['source','cutoff','resonance','attack','decay','sustain','r
 function formatParam(k,v){if(k==='pan')return v===0?'C':v>0?'R'+Math.round(v*100):'L'+Math.round(-v*100);if(k==='cutoff')return Math.round(v);return Number(v).toFixed(k==='resonance'?1:2).replace(/\.00$/,'')}
 function syncInspectorUI(){const p=trackParams[currentEditingTrack];inspectorKeys.forEach(k=>{const e=document.getElementById('p_'+k);if(!e)return;e.value=p[k];const out=document.getElementById('v_'+k);if(out)out.textContent=formatParam(k,p[k])})}
 function setCurrentTrack(track){currentEditingTrack=track;document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.track===track));syncInspectorUI()}
-function showHelp(type){const h={DAW:'DAW 是四轨独立音频引擎：轨1旋律、轨2和弦、轨3贝斯、轨4鼓组。播放时切换通道条不会停止其他轨道。',STRIP:'每条轨道都有独立音色与效果器。选择轨道只改变“当前编辑对象”，不会切断正在播放的其他轨道。',CHORD:'和弦卡片支持柱式、上行、下行、随机琶音。',STEP:'Step Sequencer 使用与 DAW 相同的 Web Audio 精确调度，但四条轨道完全独立。',KEYBOARD:'点击键盘即可实时发声。键盘显示八度可以独立调整。'};alert(h[type]||'')}
+function showHelp(type){const h={DAW:'DAW 是四轨独立音频引擎：轨1旋律、轨2和弦、轨3贝斯、轨4鼓组。播放时切换通道条不会停止其他轨道。',STRIP:'每条轨道都有独立音色与效果器。选择轨道只改变“当前编辑对象”，不会切断正在播放的其他轨道。',CHORD:'智能和弦区的每张卡片对应当前 Key 中的一个级数：I、ii、iii、IV、V、vi、vii°。先在卡片下拉菜单选择和弦类型（如 Maj、m7、Maj7、7、9、Maj9、sus 和自定义），再按住卡片试听。柱式=同时发声；上行/下行/随机=按所选琶音速度依次发声，松开卡片停止。开启“平滑就近连接”后，会尽量让前后两个和弦的声部移动更小。下面的“常用和弦进行”按钮会把常用进行直接写入 DAW 轨2；当前 Key 会决定实际和弦名称，卡片当前选择的和弦类型也会沿用到播放。自定义和弦可输入相对于根音的半音音程，例如 0,4,7,10,15 = 7♯9。',STEP:'Step Sequencer 是 16 步循环网格。轨1/轨3每步选择音高，轨2每步选择 I～vii°，轨4连续点击切换鼓点。下面的“常用和弦进行”按钮会自动把进行填入轨2；每个进行会按照 16 步网格自动分配，并沿用和弦区当前的和弦类型设置。播放时修改格子会影响后续播放。',KEYBOARD:'点击键盘即可实时发声。键盘显示八度可以独立调整。'};alert(h[type]||'')}
 
 // ========================= KEYBOARD =========================
 function initKeyboard(){
@@ -848,7 +1157,7 @@ document.getElementById('loopToggle').addEventListener('change',()=>{});document
 document.querySelectorAll('.drum-pad').forEach(b=>b.addEventListener('pointerdown',()=>{triggerDrum(b.dataset.drum);b.classList.add('active');setTimeout(()=>b.classList.remove('active'),100)}));
 window.addEventListener('pointerup',()=>{ keyboardHeld.forEach((_,m)=>releaseHeldNote(m)); document.querySelectorAll('.chord-card.active').forEach(c=>c.classList.remove('active')); });
 window.addEventListener('resize',()=>{if(document.getElementById('piano'))initKeyboard()});
-window.addEventListener('load',()=>{initKeyboard();buildStepGrid();updateChords();syncInspectorUI();updateMetroText();setTransport('待机 · DAW')});
+window.addEventListener('load',()=>{initKeyboard();buildStepGrid();updateChords();syncInspectorUI();updateMetroText();bindProgressionButtons();setTransport('待机 · DAW')});
 </script>
 
 <script>
