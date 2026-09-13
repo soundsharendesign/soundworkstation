@@ -5,47 +5,491 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>SOUNDWORKSTATION · 多音轨音色设计工作站 FIXED</title>
 <style>
-:root{--bg-base:#0a0c10;--bg-panel:#13171f;--bg-card:#1c212b;--bg-hover:#252b36;--accent:#00e676;--accent-glow:rgba(0,230,118,.25);--accent-sec:#00b0ff;--text-main:#f1f5f9;--text-muted:#94a3b8;--border:#2e3646;--border-light:#3f4a5c;--font-stack:system-ui,-apple-system,sans-serif;--melody:#00b0ff;--chord:#a855f7;--bass:#ff9f43;--drums:#ff4d6d}
-*{box-sizing:border-box}body{background:var(--bg-base);color:var(--text-main);font-family:var(--font-stack);display:flex;justify-content:center;padding:24px 14px;margin:0;min-height:100vh}.synth-container{background:var(--bg-panel);padding:28px;border-radius:20px;box-shadow:0 25px 80px rgba(0,0,0,.8);width:1280px;max-width:100%;border:1px solid var(--border);display:flex;flex-direction:column;gap:18px}.header{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2px solid var(--border);padding-bottom:15px;flex-wrap:wrap;gap:15px}.main-title{color:var(--text-main);font-size:31px;letter-spacing:5px;font-weight:900;margin:0;text-shadow:0 0 30px var(--accent-glow);display:flex;align-items:center;gap:12px}.main-title span{color:var(--accent)}.master-meter{width:300px;height:35px;border-radius:8px;background:var(--bg-card);border:1px solid var(--border)}.module{background:var(--bg-card);padding:20px;border-radius:14px;border:1px solid var(--border);position:relative;display:flex;flex-direction:column}.module-title{font-size:13px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin:0 0 15px;display:flex;align-items:center;gap:8px}.module-title:before{content:"";display:block;width:4px;height:14px;background:var(--accent);border-radius:2px}.help-btn{cursor:pointer;color:var(--accent-sec);background:rgba(0,176,255,.15);border-radius:50%;width:19px;height:19px;display:inline-flex;justify-content:center;align-items:center;font-size:11px;margin-left:5px}.layout-top{display:grid;grid-template-columns:1.08fr 1.92fr;gap:18px}.btn{background:var(--bg-hover);color:var(--text-main);border:1px solid var(--border-light);padding:8px 14px;border-radius:6px;font-weight:600;cursor:pointer;transition:.2s;display:inline-flex;align-items:center;justify-content:center;gap:6px;font-size:13px}.btn:hover{background:var(--accent);color:#000;border-color:var(--accent)}.btn.primary{background:var(--accent);color:#000;border-color:var(--accent)}.btn.small{padding:4px 8px;font-size:11px;border-radius:4px}.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.daw-controls{display:flex;gap:9px;margin-bottom:14px;align-items:center;background:rgba(0,0,0,.2);padding:10px;border-radius:10px;border:1px solid var(--border);flex-wrap:wrap}.track-lane{display:flex;align-items:center;gap:8px;margin-bottom:9px;background:rgba(0,0,0,.15);padding:10px;border-radius:8px;border:1px solid transparent;flex-wrap:wrap;border-left:4px solid var(--track-color,#3f4a5c)}.track-label{flex:0 0 88px;font-size:12px;font-weight:800;color:var(--track-color,#00b0ff)}.track-input{flex:1;min-width:160px;height:32px;background:var(--bg-base);color:var(--accent);border:1px solid var(--border);padding:0 12px;font-family:monospace;font-size:13px;border-radius:6px;outline:none}.vol-box{display:flex;align-items:center;gap:6px;width:90px}.vol-box span{font-size:10px;color:var(--text-muted)}.oct-badge{font-size:10px;padding:2px 6px;background:var(--bg-hover);border-radius:4px;color:var(--track-color,#00e676);font-family:monospace;min-width:53px;text-align:center}.track-lane.melody{--track-color:var(--melody)}.track-lane.chord{--track-color:var(--chord)}.track-lane.bass{--track-color:var(--bass)}.track-lane.drums{--track-color:var(--drums)}.track-legend{display:flex;gap:8px;flex-wrap:wrap;margin:-2px 0 14px}.legend-chip{display:inline-flex;align-items:center;gap:6px;padding:4px 8px;border:1px solid var(--border);background:rgba(0,0,0,.17);border-radius:999px;font-size:10px;color:var(--text-muted)}.legend-dot{width:8px;height:8px;border-radius:50%}.legend-dot.melody{background:var(--melody)}.legend-dot.chord{background:var(--chord)}.legend-dot.bass{background:var(--bass)}.legend-dot.drums{background:var(--drums)}.inspector-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;gap:12px;flex-wrap:wrap}.inspector-tabs{display:flex;gap:7px;background:var(--bg-base);padding:6px;border-radius:10px;border:1px solid var(--border);flex:1;min-width:300px}.tab{flex:1;text-align:center;padding:8px 4px;font-size:12px;font-weight:bold;color:var(--text-muted);background:transparent;border:none;cursor:pointer;border-radius:6px}.tab.active{background:var(--accent);color:#000}select.styled-sel{background:var(--bg-base);color:var(--text-main);border:1px solid var(--border);padding:6px 10px;border-radius:6px;font-size:12px;outline:none;cursor:pointer}.inspector-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(195px,1fr));gap:12px}.param-group{background:rgba(0,0,0,.2);padding:14px;border-radius:10px;border:1px solid var(--border)}.param-group h4{margin:0 0 11px;font-size:11px;color:var(--accent-sec);border-bottom:1px dashed var(--border);padding-bottom:6px}.row{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;font-size:11px}.row>span:first-child{width:49px;color:var(--text-muted)}input[type=range]{-webkit-appearance:none;flex:1;margin:0 8px;background:transparent;height:16px}input[type=range]::-webkit-slider-runnable-track{width:100%;height:4px;background:var(--border-light);border-radius:2px}input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;height:14px;width:14px;border-radius:50%;background:var(--accent);margin-top:-5px;cursor:pointer}.val-box{width:43px;text-align:right;font-family:monospace;color:var(--accent);font-size:11px;background:var(--bg-base);padding:3px;border-radius:4px;border:1px solid var(--border)}.mode-bar,.metronome-panel,.chord-arp-controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:rgba(0,0,0,.18);padding:10px;border-radius:10px;border:1px solid var(--border)}.mode-btn{flex:1;min-width:180px}.mode-btn.selected{background:var(--accent);color:#000;border-color:var(--accent)}.status-pill{padding:4px 8px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:999px;font-size:10px;color:var(--text-muted)}.step-grid{display:grid;grid-template-columns:110px repeat(16,minmax(22px,1fr));gap:4px;align-items:center}.step-head{font-size:9px;text-align:center;color:var(--text-muted)}.step-label{font-size:11px;font-weight:800;padding:7px 8px;border-radius:6px;background:rgba(0,0,0,.2);border-left:4px solid var(--track-color)}.step-cell{min-height:58px;border-radius:5px;border:1px solid var(--border);background:#11151b;cursor:pointer;display:flex;flex-direction:column;align-items:stretch;justify-content:center;font-size:9px;color:var(--text-muted);user-select:none}.step-cell.on{background:var(--track-color);border-color:var(--track-color);color:#000;font-weight:900}.step-cell.drum-cycle-1{background:rgba(255,77,109,.32);color:#fff}.step-cell.drum-cycle-2{background:rgba(255,159,67,.6);color:#000;font-weight:800}.step-cell.drum-cycle-3{background:rgba(0,176,255,.45);color:#fff;font-weight:800}.step-cell.drum-cycle-4{background:rgba(168,85,247,.55);color:#fff;font-weight:800}.step-cell.current{outline:2px solid #fff;outline-offset:-2px}
-.step-cell.step-group-start{border-left:2px solid var(--accent-sec)}
-.step-head.step-group-start{border-left:2px solid var(--accent-sec);padding-left:4px}
-.step-label{display:flex;align-items:center;justify-content:space-between;gap:6px;min-width:0}
-.step-label-text{min-width:0}
-.step-rhythm-copy{border:1px solid var(--border-light);background:rgba(0,176,255,.10);color:var(--accent-sec);border-radius:5px;padding:4px 6px;font-size:8px;font-weight:800;cursor:pointer;white-space:nowrap}
-.step-rhythm-copy:hover,.step-rhythm-copy.active{background:var(--accent-sec);color:#000}
-.rhythm-help{font-size:10px;color:var(--text-muted);margin-top:8px;line-height:1.6}
-.step-sel{background:transparent;color:inherit;border:none;outline:none;font-size:10px;width:100%;height:25px;appearance:none;text-align:center;cursor:pointer;font-weight:800}.step-sel option{background:#1c212b;color:#f1f5f9}.step-help,.small-note{font-size:10px;color:var(--text-muted);margin-top:10px}.step-drum-wrap{display:flex;flex-direction:column;gap:2px;width:100%}.step-drum-row{display:flex;align-items:center;gap:2px}.step-drum-row .step-sel{font-size:9px;height:22px;padding:0 1px}.step-drum-label{font-size:8px;color:var(--text-muted);width:12px;flex:0 0 12px;text-align:center}.step-subhead{font-size:8px;color:var(--text-muted);text-align:center;margin:1px 0}.step-cell.drum-active{background:rgba(255,77,109,.22);border-color:rgba(255,77,109,.7)}
-.chord-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.chords-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(105px,1fr));gap:9px;margin-top:14px}.chord-card{background:rgba(0,0,0,.2);border:1px solid var(--border);padding:10px 5px;border-radius:10px;text-align:center;cursor:pointer;transition:.15s;display:flex;flex-direction:column;align-items:center;touch-action:none}.chord-card:hover,.chord-card.active{background:var(--accent);border-color:var(--accent);color:#000}.chord-card select{background:var(--bg-base);color:var(--text-muted);border:1px solid var(--border);border-radius:4px;font-size:10px;padding:2px;width:95%;margin-bottom:8px}.piano-wrapper{display:flex;background:var(--bg-base);padding:15px;border-radius:10px;overflow-x:auto;border:1px solid var(--border)}.piano{position:relative;height:164px;user-select:none}.key{position:absolute;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;padding-bottom:6px;font-weight:bold;border-radius:0 0 6px 6px;user-select:none;touch-action:none;transition:background 0.1s}.key.white{width:40px;height:164px;background:#eaebed;color:#333;border:1px solid #ccc;z-index:1;font-size:10px}.key.black{width:26px;height:96px;background:#171717;color:var(--accent);border:1px solid #000;z-index:2;font-size:9px}.key.active{background:var(--accent)!important;color:#000}.note-name{font-size:9px;line-height:1.1}.solfege{font-size:12px;line-height:1.2;font-weight:900}.black .note-name{font-size:8px}.black .solfege{font-size:9px}.hide-solfege .solfege{display:none!important}.hide-notename .note-name{display:none!important}.drum-legend{display:grid;grid-template-columns:repeat(7,minmax(75px,1fr));gap:7px;margin:7px 0 5px}.drum-pad{background:#161b23;border:1px solid var(--border);color:var(--text-main);border-radius:8px;padding:8px 5px;cursor:pointer;text-align:center;font-size:10px}.drum-pad:hover,.drum-pad.active{background:var(--drums);border-color:var(--drums);color:#000}.drum-pad b{display:block;font-size:12px}.drum-note{font-size:9px;color:var(--text-muted);margin-top:3px}.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;justify-content:center;align-items:center;z-index:1000;backdrop-filter:blur(5px)}.modal-content{background:var(--bg-panel);border:1px solid var(--border);padding:22px;border-radius:14px;width:850px;max-width:95%;max-height:90vh;overflow-y:auto;display:flex;flex-direction:column;gap:14px}.modal-track{display:flex;flex-direction:column;gap:8px;margin-bottom:8px}.modal-track textarea{background:var(--bg-base);color:var(--accent);border:1px solid var(--border);padding:12px;border-radius:6px;font-family:monospace;font-size:14px;resize:vertical;min-height:62px;outline:none}.mobile-keypad{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}.mobile-keypad button{background:var(--bg-hover);border:1px solid var(--border);color:var(--text-main);padding:8px;border-radius:4px;font-size:13px;font-weight:bold;cursor:pointer}.beat-light{width:12px;height:12px;border-radius:50%;background:#303643;border:1px solid var(--border-light)}.beat-light.flash{background:var(--accent);box-shadow:0 0 16px var(--accent-glow)}
+/* ============================================================
+   SOUNDWORKSTATION · 视觉重构
+   深色专业 DAW 风：分层面板 / 柔光强调 / 精细控件
+   ============================================================ */
+:root{
+ --bg-base:#06080c;--bg-panel:#0e1218;--bg-card:#151a23;--bg-hover:#212836;
+ --accent:#00e676;--accent-2:#00c46a;--accent-glow:rgba(0,230,118,.22);
+ --accent-sec:#00b0ff;--accent-sec-glow:rgba(0,176,255,.22);
+ --text-main:#eef2f7;--text-muted:#8b97a8;--text-dim:#5d6878;
+ --border:#252d3a;--border-light:#374356;
+ --melody:#00b0ff;--chord:#a855f7;--bass:#ff9f43;--drums:#ff4d6d;
+ --font-stack:system-ui,-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+ --radius:14px;--radius-sm:9px;
+ --shadow-lg:0 24px 70px rgba(0,0,0,.55),0 2px 8px rgba(0,0,0,.4);
+ --shadow-sm:0 4px 16px rgba(0,0,0,.28);
+}
+*{box-sizing:border-box}
+html{scrollbar-color:#2c3542 transparent}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#2b3442;border-radius:6px;border:2px solid transparent;background-clip:content-box}
+::-webkit-scrollbar-thumb:hover{background:#3c4859;background-clip:content-box}
 
+body{
+ background:
+  radial-gradient(1100px 520px at 12% -8%,rgba(0,230,118,.07),transparent 60%),
+  radial-gradient(900px 480px at 92% 4%,rgba(0,176,255,.08),transparent 62%),
+  radial-gradient(700px 500px at 50% 108%,rgba(168,85,247,.05),transparent 60%),
+  var(--bg-base);
+ color:var(--text-main);font-family:var(--font-stack);
+ display:flex;justify-content:center;padding:26px 14px;margin:0;min-height:100vh;
+ -webkit-font-smoothing:antialiased;
+}
+.synth-container{
+ background:linear-gradient(180deg,rgba(23,29,39,.92),rgba(13,17,23,.96));
+ padding:26px;border-radius:22px;box-shadow:var(--shadow-lg);
+ width:1320px;max-width:100%;border:1px solid rgba(255,255,255,.07);
+ display:flex;flex-direction:column;gap:18px;position:relative;
+}
+.synth-container::before{
+ content:"";position:absolute;inset:0;border-radius:22px;pointer-events:none;
+ background:linear-gradient(180deg,rgba(255,255,255,.05),transparent 120px);
+}
+
+/* ---------- 头部 ---------- */
+.header{
+ display:flex;justify-content:space-between;align-items:flex-end;gap:18px;flex-wrap:wrap;
+ border-bottom:1px solid rgba(255,255,255,.07);padding-bottom:16px;position:relative;
+}
+.header::after{
+ content:"";position:absolute;left:0;bottom:-1px;width:220px;height:2px;border-radius:2px;
+ background:linear-gradient(90deg,var(--accent),var(--accent-sec),transparent);
+}
+.main-title{
+ font-size:30px;letter-spacing:4px;font-weight:900;margin:0;display:flex;align-items:center;
+ background:linear-gradient(92deg,#ffffff 30%,#bfe9d4 70%,#9fd8ff);
+ -webkit-background-clip:text;background-clip:text;color:transparent;
+ filter:drop-shadow(0 0 22px rgba(0,230,118,.16));
+}
+.main-title span{
+ background:linear-gradient(92deg,var(--accent),#7dffc0 60%,var(--accent-sec));
+ -webkit-background-clip:text;background-clip:text;color:transparent;margin-left:.42em;
+}
+.master-meter{
+ width:300px;height:36px;border-radius:9px;background:#0a0e14;
+ border:1px solid rgba(255,255,255,.07);box-shadow:inset 0 1px 6px rgba(0,0,0,.6);
+}
+
+/* ---------- 模块卡片 ---------- */
+.module{
+ background:linear-gradient(180deg,rgba(255,255,255,.028),rgba(255,255,255,0) 46%),var(--bg-card);
+ padding:20px;border-radius:var(--radius);border:1px solid rgba(255,255,255,.06);
+ position:relative;display:flex;flex-direction:column;box-shadow:var(--shadow-sm);
+ transition:border-color .25s,transform .25s;
+}
+.module:hover{border-color:rgba(255,255,255,.1)}
+.module-title{
+ font-size:12px;color:#b9c4d4;text-transform:uppercase;letter-spacing:1.8px;font-weight:800;
+ margin:0 0 15px;display:flex;align-items:center;gap:9px;
+}
+.module-title:before{
+ content:"";display:block;width:4px;height:15px;border-radius:3px;
+ background:linear-gradient(180deg,var(--accent),var(--accent-sec));
+ box-shadow:0 0 10px var(--accent-glow);
+}
+.help-btn{
+ cursor:pointer;color:var(--accent-sec);background:rgba(0,176,255,.13);
+ border:1px solid rgba(0,176,255,.28);border-radius:50%;width:20px;height:20px;
+ display:inline-flex;justify-content:center;align-items:center;font-size:11px;margin-left:6px;
+ transition:.18s;flex:0 0 auto;
+}
+.help-btn:hover{background:var(--accent-sec);color:#000;transform:scale(1.08)}
+.layout-top{display:grid;grid-template-columns:1.05fr 1.95fr;gap:18px;align-items:start}
+
+/* ---------- 按钮 ---------- */
+.btn{
+ background:linear-gradient(180deg,#242c3a,#1b2230);color:var(--text-main);
+ border:1px solid var(--border-light);padding:8px 15px;border-radius:9px;font-weight:700;
+ cursor:pointer;transition:transform .12s,box-shadow .2s,background .2s,border-color .2s;
+ display:inline-flex;align-items:center;justify-content:center;gap:6px;font-size:13px;
+}
+.btn:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-1px);box-shadow:0 6px 18px rgba(0,230,118,.12)}
+.btn:active{transform:translateY(0);box-shadow:none}
+.btn.primary{
+ background:linear-gradient(135deg,#00e676,#00b80f);color:#03130a;border-color:transparent;
+ box-shadow:0 4px 18px rgba(0,230,118,.22);
+}
+.btn.primary:hover{color:#03130a;filter:brightness(1.07);box-shadow:0 6px 24px rgba(0,230,118,.34)}
+.btn.warn{border-color:rgba(255,77,109,.45);color:#ff8ea3}
+.btn.warn:hover{background:var(--drums);border-color:var(--drums);color:#000;box-shadow:0 6px 18px rgba(255,77,109,.25)}
+.btn.small{padding:5px 10px;font-size:11px;border-radius:7px}
+.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.mode-bar,.metronome-panel,.chord-arp-controls{
+ display:flex;gap:8px;align-items:center;flex-wrap:wrap;
+ background:linear-gradient(180deg,rgba(0,0,0,.26),rgba(0,0,0,.16));
+ padding:10px 12px;border-radius:11px;border:1px solid rgba(255,255,255,.05);
+}
+.mode-btn{flex:0 1 auto;min-width:150px}
+.mode-btn.selected{
+ background:linear-gradient(135deg,rgba(0,230,118,.18),rgba(0,176,255,.16));
+ color:var(--accent);border-color:rgba(0,230,118,.55);
+ box-shadow:inset 0 0 0 1px rgba(0,230,118,.18),0 0 16px rgba(0,230,118,.12);
+}
+.status-pill{
+ padding:4px 10px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.08);
+ border-radius:999px;font-size:10.5px;color:var(--text-muted);display:inline-flex;align-items:center;gap:6px;
+}
+#transportStatus{font-weight:700;letter-spacing:.4px;color:#cfd8e3}
+#transportStatus::before{
+ content:"";width:7px;height:7px;border-radius:50%;background:var(--text-dim);transition:.2s;
+}
+.beat-light{width:12px;height:12px;border-radius:50%;background:#28303d;border:1px solid var(--border-light);transition:.1s;flex:0 0 auto}
+.beat-light.flash{background:var(--accent);box-shadow:0 0 18px var(--accent),0 0 4px var(--accent)}
+
+/* ---------- DAW 轨道 ---------- */
+.daw-controls{
+ display:flex;gap:9px;margin-bottom:14px;align-items:center;flex-wrap:wrap;
+ background:linear-gradient(180deg,rgba(0,0,0,.28),rgba(0,0,0,.16));
+ padding:11px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.05);
+}
+.track-lane{
+ display:flex;align-items:center;gap:8px;margin-bottom:9px;flex-wrap:wrap;position:relative;
+ background:linear-gradient(180deg,rgba(0,0,0,.26),rgba(0,0,0,.14));
+ padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.05);
+ border-left:4px solid var(--track-color,#3f4a5c);overflow:hidden;transition:border-color .2s;
+}
+.track-lane::before{content:"";position:absolute;inset:0;background:var(--track-color);opacity:.05;pointer-events:none}
+.track-lane:hover{border-color:var(--track-color)}
+.track-label{flex:0 0 88px;font-size:12px;font-weight:800;color:var(--track-color,#00b0ff);position:relative}
+.track-input{
+ flex:1;min-width:160px;height:34px;background:rgba(0,0,0,.42);color:var(--track-color);
+ border:1px solid rgba(255,255,255,.07);padding:0 12px;font-family:ui-monospace,Consolas,monospace;
+ font-size:13px;border-radius:8px;outline:none;transition:.2s;position:relative;
+}
+.track-input:focus{border-color:var(--track-color);box-shadow:0 0 0 3px color-mix(in srgb,var(--track-color) 18%,transparent)}
+.vol-box{display:flex;align-items:center;gap:6px;width:96px;position:relative}
+.vol-box span{font-size:10px;color:var(--text-muted);letter-spacing:.5px}
+.oct-badge{
+ font-size:10px;padding:3px 7px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);
+ border-radius:6px;color:var(--track-color,#00e676);font-family:ui-monospace,monospace;
+ min-width:54px;text-align:center;position:relative;
+}
+.track-lane.melody{--track-color:var(--melody)}
+.track-lane.chord{--track-color:var(--chord)}
+.track-lane.bass{--track-color:var(--bass)}
+.track-lane.drums{--track-color:var(--drums)}
+.track-legend{display:flex;gap:8px;flex-wrap:wrap;margin:-2px 0 14px}
+.legend-chip{
+ display:inline-flex;align-items:center;gap:6px;padding:4px 10px;
+ border:1px solid rgba(255,255,255,.06);background:rgba(0,0,0,.2);
+ border-radius:999px;font-size:10px;color:var(--text-muted);
+}
+.legend-dot{width:8px;height:8px;border-radius:50%;box-shadow:0 0 8px currentColor}
+.legend-dot.melody{background:var(--melody);color:var(--melody)}
+.legend-dot.chord{background:var(--chord);color:var(--chord)}
+.legend-dot.bass{background:var(--bass);color:var(--bass)}
+.legend-dot.drums{background:var(--drums);color:var(--drums)}
+
+/* ---------- 通道条 ---------- */
+.inspector-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;gap:12px;flex-wrap:wrap}
+.inspector-tabs{
+ display:flex;gap:6px;background:rgba(0,0,0,.35);padding:5px;border-radius:11px;
+ border:1px solid rgba(255,255,255,.06);flex:1;min-width:300px;
+}
+.tab{
+ flex:1;text-align:center;padding:8px 4px;font-size:12px;font-weight:800;color:var(--text-muted);
+ background:transparent;border:none;cursor:pointer;border-radius:8px;transition:.18s;letter-spacing:.3px;
+}
+.tab:hover{color:var(--text-main);background:rgba(255,255,255,.05)}
+.tab.active{
+ background:linear-gradient(135deg,rgba(0,230,118,.2),rgba(0,176,255,.18));
+ color:var(--accent);box-shadow:inset 0 0 0 1px rgba(0,230,118,.35);
+}
+select.styled-sel{
+ background:#0d1118;color:var(--text-main);border:1px solid rgba(255,255,255,.09);
+ padding:7px 11px;border-radius:8px;font-size:12px;outline:none;cursor:pointer;transition:.2s;
+}
+select.styled-sel:hover{border-color:var(--accent-sec)}
+select.styled-sel option{background:#131924;color:#eef2f7}
+.inspector-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(205px,1fr));gap:12px}
+.param-group{
+ background:linear-gradient(180deg,rgba(0,0,0,.3),rgba(0,0,0,.18));
+ padding:14px;border-radius:11px;border:1px solid rgba(255,255,255,.05);
+}
+.param-group h4{
+ margin:0 0 11px;font-size:10.5px;color:var(--accent-sec);letter-spacing:1.1px;
+ border-bottom:1px dashed rgba(255,255,255,.1);padding-bottom:7px;text-transform:uppercase;
+}
+.row{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;font-size:11px;gap:6px}
+.row>span:first-child{width:52px;color:var(--text-muted);flex:0 0 52px}
+.val-box{
+ width:46px;text-align:right;font-family:ui-monospace,Consolas,monospace;color:var(--accent);
+ font-size:11px;background:rgba(0,0,0,.4);padding:3px 4px;border-radius:5px;
+ border:1px solid rgba(255,255,255,.06);flex:0 0 auto;
+}
+
+/* ---------- 滑块 ---------- */
+input[type=range]{
+ -webkit-appearance:none;appearance:none;flex:1;margin:0 6px;background:transparent;height:18px;cursor:pointer;
+}
+input[type=range]::-webkit-slider-runnable-track{
+ width:100%;height:5px;border-radius:3px;
+ background:linear-gradient(90deg,rgba(0,230,118,.55),rgba(0,176,255,.45)) no-repeat,
+  rgba(255,255,255,.1);
+ background-size:var(--fill,50%) 100%;
+}
+input[type=range]::-webkit-slider-thumb{
+ -webkit-appearance:none;height:15px;width:15px;border-radius:50%;margin-top:-5px;
+ background:radial-gradient(circle at 35% 30%,#ffffff,#9be8c0 60%,var(--accent));
+ border:1px solid rgba(0,0,0,.35);box-shadow:0 0 10px var(--accent-glow);transition:transform .12s;
+}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15)}
+input[type=range]::-moz-range-track{height:5px;border-radius:3px;background:rgba(255,255,255,.1)}
+input[type=range]::-moz-range-progress{height:5px;border-radius:3px;background:linear-gradient(90deg,var(--accent),var(--accent-sec))}
+input[type=range]::-moz-range-thumb{height:14px;width:14px;border-radius:50%;background:var(--accent);border:1px solid rgba(0,0,0,.35);box-shadow:0 0 10px var(--accent-glow)}
+.bend-bar{
+ display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px;padding:10px 13px;
+ background:linear-gradient(90deg,rgba(0,176,255,.09),rgba(0,0,0,.2));
+ border:1px solid rgba(0,176,255,.22);border-radius:11px;
+}
+.bend-bar input[type=range]{accent-color:var(--accent-sec);width:220px}
+#btnBendToggle.active{
+ background:linear-gradient(135deg,rgba(0,176,255,.25),rgba(0,176,255,.14));
+ color:#8fd8ff;border-color:rgba(0,176,255,.55);
+ box-shadow:inset 0 0 0 1px rgba(0,176,255,.2);
+}
+.strip-tools{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+
+/* ---------- STEP SEQUENCER ---------- */
+.step-grid{display:grid;grid-template-columns:128px repeat(16,minmax(22px,1fr));gap:4px;align-items:stretch}
+.step-head{
+ font-size:9px;text-align:center;color:var(--text-dim);padding:2px 0;font-family:ui-monospace,monospace;
+ border-radius:4px;letter-spacing:.4px;
+}
+.step-head.step-group-start{border-left:2px solid var(--accent-sec);padding-left:4px;color:var(--accent-sec)}
+.step-label{
+ display:flex;flex-direction:column;align-items:stretch;justify-content:center;gap:4px;
+ font-size:11px;font-weight:800;padding:7px 9px;border-radius:9px;
+ background:rgba(0,0,0,.2);
+ background:linear-gradient(90deg,color-mix(in srgb,var(--track-color) 16%,transparent),rgba(0,0,0,.2));
+ border:1px solid rgba(255,255,255,.05);border-left:4px solid var(--track-color);min-width:0;
+}
+.step-label-text{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.step-rhythm-copy{
+ border:1px solid rgba(0,176,255,.3);background:rgba(0,176,255,.1);color:var(--accent-sec);
+ border-radius:6px;padding:3px 5px;font-size:8.5px;font-weight:800;cursor:pointer;
+ white-space:nowrap;transition:.15s;text-align:center;
+}
+.step-rhythm-copy:hover{background:var(--accent-sec);color:#000}
+.step-rhythm-copy.active{background:var(--accent-sec);color:#000;box-shadow:0 0 12px var(--accent-sec-glow)}
+.step-sel{
+ background:transparent;color:inherit;border:none;outline:none;font-size:9.5px;width:100%;
+ height:22px;appearance:none;text-align:center;cursor:pointer;font-weight:800;
+ white-space:nowrap;overflow:hidden;text-overflow:clip;
+}
+.step-sel option{background:#131924;color:#eef2f7}
+.step-help,.small-note{font-size:10px;color:var(--text-muted);margin-top:10px;line-height:1.7}
+.step-subhead{font-size:7.5px;color:var(--text-dim);text-align:center;margin:1px 0;letter-spacing:.3px}
+.step-cell{
+ min-height:62px;border-radius:8px;border:1px solid rgba(255,255,255,.06);
+ background:linear-gradient(180deg,#10141b,#0c1016);cursor:pointer;
+ display:flex;flex-direction:column;align-items:stretch;justify-content:center;
+ font-size:9px;color:var(--text-muted);user-select:none;padding:3px 2px;
+ transition:border-color .15s,background .15s,transform .12s;
+}
+.step-cell:hover{border-color:var(--track-color,var(--border-light));transform:translateY(-1px)}
+.step-cell.on{
+ background:linear-gradient(180deg,rgba(0,176,255,.4),rgba(0,176,255,.16));
+ background:linear-gradient(180deg,color-mix(in srgb,var(--track-color) 42%,#0c1016),color-mix(in srgb,var(--track-color) 20%,#0c1016));
+ border-color:var(--track-color);color:#fff;font-weight:900;
+ box-shadow:inset 0 0 14px color-mix(in srgb,var(--track-color) 22%,transparent);
+}
+.step-cell.step-group-start{border-left:2px solid rgba(0,176,255,.55)}
+.step-cell.current{
+ outline:2px solid var(--accent);outline-offset:-2px;
+ box-shadow:0 0 16px rgba(0,230,118,.35),inset 0 0 12px rgba(0,230,118,.1);
+}
+.step-cell.drum-active{background:rgba(255,77,109,.22);border-color:rgba(255,77,109,.7)}
+.step-events{display:flex;flex-direction:column;gap:2px;width:100%}
+.step-drum-row{display:flex;align-items:center;gap:3px}
+.step-drum-label{font-size:7.5px;color:var(--text-dim);width:9px;flex:0 0 9px;text-align:center}
+.step-drum-chip{
+ flex:1;min-width:0;height:16px;border-radius:5px;border:1px solid rgba(255,255,255,.09);
+ background:rgba(255,255,255,.04);color:var(--text-dim);font-size:9px;font-weight:900;
+ cursor:pointer;padding:0;line-height:1;transition:.13s;font-family:ui-monospace,monospace;
+}
+.step-drum-chip:hover{border-color:var(--drums);color:#fff;background:rgba(255,77,109,.18);transform:translateY(-1px)}
+.step-drum-chip.on{background:var(--drums);border-color:var(--drums);color:#2a0008;box-shadow:0 0 10px rgba(255,77,109,.35)}
+.step-drum-chip.on[data-drum="closedHat"],
+.step-drum-chip.on[data-drum="openHat"],
+.step-drum-chip.on[data-drum="crash"]{background:var(--accent-sec);border-color:var(--accent-sec);color:#001523;box-shadow:0 0 10px var(--accent-sec-glow)}
+.step-drum-chip.on[data-drum="tom"]{background:var(--chord);border-color:var(--chord);color:#fff;box-shadow:0 0 10px rgba(168,85,247,.35)}
+.rhythm-help{font-size:10px;color:var(--text-muted);margin-top:8px;line-height:1.6}
+
+/* ---------- 和弦 ---------- */
+.chord-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.chords-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(106px,1fr));gap:10px;margin-top:14px}
+.chord-card{
+ background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(0,0,0,.22));
+ border:1px solid rgba(255,255,255,.07);padding:11px 6px;border-radius:11px;text-align:center;
+ cursor:pointer;transition:transform .15s,box-shadow .2s,background .2s,border-color .2s;
+ display:flex;flex-direction:column;align-items:center;touch-action:none;
+}
+.chord-card:hover{
+ background:linear-gradient(180deg,rgba(0,230,118,.16),rgba(0,176,255,.1));
+ border-color:rgba(0,230,118,.5);transform:translateY(-2px);
+ box-shadow:0 10px 26px rgba(0,230,118,.14);color:#eafff3;
+}
+.chord-card.active{
+ background:linear-gradient(180deg,var(--accent),#00c46a);border-color:var(--accent);color:#000;
+ box-shadow:0 8px 26px rgba(0,230,118,.35);
+}
+.chord-card select{
+ background:rgba(0,0,0,.42);color:var(--text-muted);border:1px solid rgba(255,255,255,.08);
+ border-radius:6px;font-size:9.5px;padding:3px;width:94%;margin-bottom:8px;outline:none;cursor:pointer;
+}
+.chord-card select option{background:#131924;color:#eef2f7}
+
+/* ---------- 键盘 ---------- */
+.piano-wrapper{
+ display:flex;background:linear-gradient(180deg,#080b10,#0b0f15);padding:16px;border-radius:12px;
+ overflow-x:auto;border:1px solid rgba(255,255,255,.06);box-shadow:inset 0 2px 14px rgba(0,0,0,.6);
+}
+.piano{position:relative;height:164px;user-select:none}
+.key{
+ position:absolute;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;
+ justify-content:flex-end;align-items:center;padding-bottom:6px;font-weight:bold;
+ border-radius:0 0 6px 6px;user-select:none;touch-action:none;transition:background .1s,box-shadow .1s;
+}
+.key.white{
+ width:40px;height:164px;background:linear-gradient(180deg,#f8fafc,#e2e7ee 88%,#c9d1da);
+ color:#333;border:1px solid #b9c2cc;z-index:1;font-size:10px;
+ box-shadow:inset 0 -5px 8px rgba(0,0,0,.08),0 2px 3px rgba(0,0,0,.35);
+}
+.key.white:active{background:linear-gradient(180deg,#dfe9f2,#c9d6e2)}
+.key.black{
+ width:26px;height:96px;background:linear-gradient(180deg,#2b3138,#0e1114 70%,#000);
+ color:var(--accent);border:1px solid #000;z-index:2;font-size:9px;
+ box-shadow:0 4px 8px rgba(0,0,0,.6),inset 0 -3px 6px rgba(255,255,255,.06);
+}
+.key.active{background:linear-gradient(180deg,#7dffc0,var(--accent) 70%,#00b55f)!important;color:#03130a!important;box-shadow:0 0 18px rgba(0,230,118,.55)!important}
+.note-name{font-size:9px;line-height:1.1;opacity:.75}
+.solfege{font-size:12px;line-height:1.2;font-weight:900}
+.black .note-name{font-size:8px}
+.black .solfege{font-size:9px}
+.hide-solfege .solfege{display:none!important}
+.hide-notename .note-name{display:none!important}
+
+/* ---------- 鼓垫 ---------- */
+.drum-legend{display:grid;grid-template-columns:repeat(7,minmax(75px,1fr));gap:8px;margin:8px 0 5px}
+.drum-pad{
+ background:linear-gradient(180deg,#1a212b,#12161d);border:1px solid rgba(255,255,255,.07);
+ color:var(--text-main);border-radius:10px;padding:9px 5px;cursor:pointer;text-align:center;
+ font-size:10px;transition:transform .12s,box-shadow .2s,background .2s;position:relative;overflow:hidden;
+}
+.drum-pad b{display:block;font-size:12px;letter-spacing:.5px}
+.drum-pad::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--pad-color,transparent);opacity:.85}
+.drum-pad[data-drum="kick"]{--pad-color:var(--drums)}
+.drum-pad[data-drum="snare"]{--pad-color:var(--bass)}
+.drum-pad[data-drum="closedHat"],.drum-pad[data-drum="openHat"]{--pad-color:var(--accent-sec)}
+.drum-pad[data-drum="clap"]{--pad-color:var(--chord)}
+.drum-pad[data-drum="tom"]{--pad-color:#4ade80}
+.drum-pad[data-drum="crash"]{--pad-color:#facc15}
+.drum-pad:hover{transform:translateY(-2px);border-color:var(--pad-color,var(--border-light));box-shadow:0 8px 20px rgba(0,0,0,.4)}
+.drum-pad.active{background:var(--pad-color,var(--drums));color:#000;transform:translateY(1px)}
+.drum-note{font-size:9px;color:var(--text-muted);margin-top:3px}
+.drum-pad.active .drum-note{color:rgba(0,0,0,.65)}
+
+/* ---------- 弹窗 ---------- */
+.modal-overlay{position:fixed;inset:0;background:rgba(3,5,8,.86);display:flex;justify-content:center;align-items:center;z-index:1000;backdrop-filter:blur(7px)}
+.modal-content{
+ background:linear-gradient(180deg,#171d27,#101520);border:1px solid rgba(255,255,255,.1);
+ padding:24px;border-radius:16px;width:850px;max-width:95%;max-height:90vh;overflow-y:auto;
+ display:flex;flex-direction:column;gap:14px;box-shadow:0 30px 90px rgba(0,0,0,.7);
+}
+.modal-track{display:flex;flex-direction:column;gap:8px;margin-bottom:8px}
+.modal-track textarea{
+ background:rgba(0,0,0,.45);color:var(--accent);border:1px solid rgba(255,255,255,.08);
+ padding:12px;border-radius:9px;font-family:ui-monospace,Consolas,monospace;font-size:14px;
+ resize:vertical;min-height:62px;outline:none;transition:.2s;
+}
+.modal-track textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,230,118,.14)}
+.mobile-keypad{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.mobile-keypad button{
+ background:linear-gradient(180deg,#242c3a,#1a212c);border:1px solid rgba(255,255,255,.08);
+ color:var(--text-main);padding:9px;border-radius:7px;font-size:13px;font-weight:bold;cursor:pointer;transition:.12s;
+}
+.mobile-keypad button:hover{background:var(--accent);color:#000;border-color:var(--accent)}
 .custom-chord-form{display:grid;grid-template-columns:120px 1fr;gap:10px 12px;align-items:center}
 .custom-chord-form label{font-size:12px;color:var(--text-muted)}
-.custom-chord-form input{background:var(--bg-base);color:var(--text-main);border:1px solid var(--border);padding:9px 10px;border-radius:6px;outline:none;width:100%;font-family:system-ui,-apple-system,sans-serif}
-.custom-chord-help{font-size:10px;color:var(--text-muted);line-height:1.65;background:rgba(0,0,0,.18);border:1px solid var(--border);padding:10px;border-radius:8px}
-@media(max-width:1000px){.layout-top{grid-template-columns:1fr}.drum-legend{grid-template-columns:repeat(4,1fr)}.step-grid{grid-template-columns:78px repeat(16,60px);overflow-x:auto;padding-bottom:5px}.synth-container{padding:18px}}
-@media(max-width:650px){body{padding:7px}.synth-container{padding:11px;border-radius:14px}.main-title{font-size:20px;letter-spacing:2px}.master-meter{width:100%;height:30px}.daw-controls{align-items:stretch}.track-label{flex-basis:75px}.inspector-tabs{min-width:100%}.drum-legend{grid-template-columns:repeat(2,1fr)}.step-grid{grid-template-columns:65px repeat(16,60px)}.key.white{width:35px}.key.black{width:23px}.piano{height:164px}.piano-wrapper{padding:10px}}
+.custom-chord-form input{
+ background:rgba(0,0,0,.42);color:var(--text-main);border:1px solid rgba(255,255,255,.09);
+ padding:9px 10px;border-radius:8px;outline:none;width:100%;font-family:var(--font-stack);transition:.2s;
+}
+.custom-chord-form input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,230,118,.13)}
+.custom-chord-help{
+ font-size:10px;color:var(--text-muted);line-height:1.65;background:rgba(0,0,0,.25);
+ border:1px solid rgba(255,255,255,.06);padding:10px;border-radius:9px;
+}
 
+/* ---------- 教程面板 / 进行按钮 ---------- */
 .tutorial-wrap{position:relative;flex:0 0 auto}
-.tutorial-toggle{background:linear-gradient(135deg,#00e676,#00b0ff);color:#06110c;border:0;border-radius:10px;padding:9px 13px;font-weight:900;cursor:pointer;font-size:12px;box-shadow:0 0 22px rgba(0,230,118,.16)}
-.tutorial-toggle:hover{filter:brightness(1.06)}
-.tutorial-panel{display:none;position:absolute;right:0;top:44px;width:min(760px,calc(100vw - 30px));max-height:78vh;overflow:auto;z-index:50;background:rgba(19,23,31,.98);border:1px solid var(--border-light);border-radius:14px;padding:18px;box-shadow:0 24px 70px rgba(0,0,0,.65);backdrop-filter:blur(12px)}
+.tutorial-toggle{
+ background:linear-gradient(135deg,#00e676,#00b0ff);color:#05130c;border:0;border-radius:10px;
+ padding:10px 15px;font-weight:900;cursor:pointer;font-size:12px;
+ box-shadow:0 6px 24px rgba(0,230,118,.2);transition:.18s;
+}
+.tutorial-toggle:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.tutorial-panel{
+ display:none;position:absolute;right:0;top:46px;width:min(760px,calc(100vw - 30px));max-height:78vh;
+ overflow:auto;z-index:50;background:rgba(13,17,23,.98);border:1px solid rgba(255,255,255,.1);
+ border-radius:14px;padding:20px;box-shadow:0 26px 80px rgba(0,0,0,.7);backdrop-filter:blur(14px);
+}
 .tutorial-panel.open{display:block}
 .tutorial-panel h3{margin:0 0 12px;color:var(--accent);font-size:18px}
 .tutorial-panel h4{margin:15px 0 7px;color:var(--accent-sec);font-size:12px;letter-spacing:.5px}
 .tutorial-panel p{margin:6px 0;color:var(--text-main);font-size:12px;line-height:1.75}
-.tutorial-panel code{background:#0d1117;border:1px solid var(--border);padding:2px 5px;border-radius:4px;color:var(--accent);font-family:monospace}
-.tutorial-tip{margin-top:12px;padding:10px 12px;background:rgba(0,176,255,.08);border-left:3px solid var(--accent-sec);border-radius:8px;color:var(--text-main);font-size:11px;line-height:1.7}
-
-
-/* ===== Common chord progression shortcuts ===== */
-.progression-panel{margin-top:12px;padding:11px;border:1px solid var(--border);border-radius:10px;background:rgba(0,0,0,.15)}
-.progression-title{font-size:11px;color:var(--accent-sec);font-weight:800;margin-bottom:8px;display:flex;align-items:center;gap:7px}
+.tutorial-panel code{background:#0a0e14;border:1px solid rgba(255,255,255,.08);padding:2px 5px;border-radius:4px;color:var(--accent);font-family:ui-monospace,monospace}
+.tutorial-tip{
+ margin-top:12px;padding:11px 13px;background:rgba(0,176,255,.08);
+ border-left:3px solid var(--accent-sec);border-radius:9px;color:var(--text-main);font-size:11px;line-height:1.7;
+}
+.progression-panel{
+ margin-top:13px;padding:12px 13px;border:1px solid rgba(255,255,255,.06);border-radius:11px;
+ background:linear-gradient(180deg,rgba(0,0,0,.26),rgba(0,0,0,.14));
+}
+.progression-title{font-size:11px;color:var(--accent-sec);font-weight:800;margin-bottom:9px;display:flex;align-items:center;gap:7px;letter-spacing:.4px}
 .progression-title span{color:var(--text-muted);font-weight:500}
 .progression-buttons{display:flex;gap:7px;flex-wrap:wrap}
-.progression-btn{padding:7px 10px;border:1px solid var(--border-light);background:var(--bg-hover);color:var(--text-main);border-radius:7px;font-size:10px;font-weight:800;cursor:pointer;transition:.15s}
-.progression-btn:hover,.progression-btn.active{background:var(--accent);color:#000;border-color:var(--accent)}
-.progression-note{font-size:9px;color:var(--text-muted);margin-top:7px;line-height:1.55}
-@media(max-width:650px){.progression-btn{min-height:38px;padding:8px 10px}.progression-buttons{gap:6px}}
-</style>
+.progression-btn{
+ padding:7px 11px;border:1px solid rgba(255,255,255,.09);
+ background:linear-gradient(180deg,#222a37,#1a212c);color:var(--text-main);border-radius:8px;
+ font-size:10px;font-weight:800;cursor:pointer;transition:.15s;
+}
+.progression-btn:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-1px)}
+.progression-btn.active{background:var(--accent);color:#000;border-color:var(--accent);box-shadow:0 4px 16px rgba(0,230,118,.3)}
+.progression-note{font-size:9px;color:var(--text-muted);margin-top:8px;line-height:1.6}
+
+/* ---------- 响应式 ---------- */
+@media(max-width:1000px){
+ .layout-top{grid-template-columns:1fr}
+ .drum-legend{grid-template-columns:repeat(4,1fr)}
+ .step-grid{grid-template-columns:104px repeat(16,58px);overflow-x:auto;padding-bottom:6px}
+ .synth-container{padding:18px}
+}
+@media(max-width:650px){
+ body{padding:7px}
+ .synth-container{padding:11px;border-radius:14px}
+ .main-title{font-size:20px;letter-spacing:2px}
+ .master-meter{width:100%;height:30px}
+ .daw-controls{align-items:stretch}
+ .track-label{flex-basis:75px}
+ .inspector-tabs{min-width:100%}
+ .drum-legend{grid-template-columns:repeat(2,1fr)}
+ .step-grid{grid-template-columns:92px repeat(16,58px)}
+ .key.white{width:35px}
+ .key.black{width:23px}
+ .piano{height:164px}
+ .piano-wrapper{padding:10px}
+ .bend-bar input[type=range]{width:100%!important}
+ .strip-tools{width:100%}
+ .progression-btn{min-height:38px;padding:8px 10px}
+ .progression-buttons{gap:6px}
+}
+$</style>
 </head>
 <body>
 <div class="synth-container">
@@ -105,11 +549,11 @@
   <div class="module">
     <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
       <h3 class="module-title" style="margin:0">STEP SEQUENCER <span class="help-btn" onclick="showHelp('STEP')">❓</span></h3>
-      <div class="toolbar"><button id="btnUseStep" class="btn mode-btn">使用 Step Sequencer</button><button id="btnStepPlay" class="btn primary">▶ Step 播放</button><button id="btnStepClear" class="btn">清空</button><span style="font-size:11px;color:var(--text-muted)">起音网格</span><select id="stepResolution" class="styled-sel"><option value="1">♩ 四分</option><option value="0.5">♪ 八分</option><option value="0.25" selected>♬ 十六分</option><option value="0.3333333333">♪³ 八分三连</option></select></div>
+      <div class="toolbar"><button id="btnUseStep" class="btn mode-btn">使用 Step Sequencer</button><button id="btnStepPlay" class="btn primary">▶ Step 播放</button><button id="btnStepClear" class="btn">清空</button><span style="font-size:11px;color:var(--text-muted)">BPM</span><input type="range" id="stepBpmSlider" min="60" max="240" step="1" value="120" style="width:90px"><span id="stepBpmVal" class="val-box">120</span><span style="font-size:11px;color:var(--text-muted)">起音网格</span><select id="stepResolution" class="styled-sel"><option value="1">♩ 四分</option><option value="0.5">♪ 八分</option><option value="0.25" selected>♬ 十六分</option><option value="0.3333333333">♪³ 八分三连</option></select></div>
     </div>
     <div class="status-pill" style="margin:8px 0 10px">每格 = 一个起音位置；每格可独立选择音高和时值。四条轨道可以同时发声。</div>
     <div id="stepGrid" class="step-grid"></div>
-    <div class="step-help">轨1/轨3选择音符，轨2选择和弦；先选一拍内部的细分，再逐个输入子拍。例如选择“2个·八分”，即可输入 1、3；轨4鼓组保持独立。</div>
+    <div class="step-help">四条轨道用法一致：先选这一拍的<strong>细分</strong>（一拍 / 八分 / 三连 / 十六分），再逐个设置子拍。轨1/轨3用下拉选音符，轨2选择和弦级数，轨4点击芯片循环切换鼓声（空 → K 底鼓 → S 军鼓 → H 闭镲 → O 开镲 → C 拍手 → T 通鼓 → R 吊镲）。例如轨4选“4个·十六分”，就能在一拍里排出十六分音符的鼓花。</div>
 
     <div class="progression-panel">
       <div class="progression-title">🎼 Step 常用和弦进行 <span>点击后直接填入轨2的 16 步</span></div>
@@ -140,9 +584,9 @@
 
     <div class="module">
       <h3 class="module-title">独立通道条 (Channel Strip) <span class="help-btn" onclick="showHelp('STRIP')">❓</span></h3>
-      <div class="inspector-header"><div class="inspector-tabs"><button class="tab active" data-track="melody">轨1 [旋律]</button><button class="tab" data-track="chord">轨2 [和弦]</button><button class="tab" data-track="bass">轨3 [贝斯]</button><button class="tab" data-track="drums">轨4 [鼓组]</button></div><select id="presetSelect" class="styled-sel"><option value="">✨ 选择音色预设...</option><option value="citypop">City Pop 电钢</option><option value="funkbass">Funk 合成贝斯</option><option value="shoegaze">Shoegaze 音墙</option><option value="jazzlead">爵士 R&B Lead</option><option value="drumkit">Acoustic Drum Kit</option><option value="save_custom">💾 保存当前为预设</option></select></div>
+      <div class="inspector-header"><div class="inspector-tabs"><button class="tab active" data-track="melody">轨1 [旋律]</button><button class="tab" data-track="chord">轨2 [和弦]</button><button class="tab" data-track="bass">轨3 [贝斯]</button><button class="tab" data-track="drums">轨4 [鼓组]</button></div><div class="strip-tools"><button id="btnParamZero" class="btn small" title="把 EQ / 失真 / 合唱 / 延迟 / 混响 / 声像 / ADSR 全部归零，只保留当前振荡器音色">🧹 参数清零</button><button id="btnParamReset" class="btn small" title="恢复当前轨道的出厂默认参数">↺ 参数重置</button><button id="btnParamResetAll" class="btn small" title="恢复全部四条轨道的出厂默认参数">↺ 全部重置</button><span id="stripStatus" class="status-pill"></span></div><select id="presetSelect" class="styled-sel"><option value="">✨ 选择音色预设...</option><option value="citypop">City Pop 电钢</option><option value="funkbass">Funk 合成贝斯</option><option value="shoegaze">Shoegaze 音墙</option><option value="jazzlead">爵士 R&B Lead</option><option value="drumkit">Acoustic Drum Kit</option><option value="save_custom">💾 保存当前为预设</option></select></div>
       <div class="inspector-grid">
-        <div class="param-group"><h4>OSC & FILTER</h4><select id="p_source" class="styled-sel" style="width:100%;margin-bottom:10px"><option value="sawtooth">锯齿波 (Sawtooth)</option><option value="square">方波 (Square)</option><option value="triangle">三角波 (Triangle)</option><option value="sine">正弦波 (Sine)</option><option value="piano">物理建模: 钢琴</option><option value="guitar">物理建模: 弹拨</option><option value="drumkit">鼓组</option></select><div class="row"><span>Cutoff</span><input type="range" id="p_cutoff" min="40" max="12000" step="10"><span id="v_cutoff" class="val-box"></span></div><div class="row"><span>Reso</span><input type="range" id="p_resonance" min="0" max="20" step=".1"><span id="v_resonance" class="val-box"></span></div><h4 style="margin-top:10px">ADSR</h4><div class="row"><span>A</span><input type="range" id="p_attack" min=".001" max="2" step=".01"><span id="v_attack" class="val-box"></span></div><div class="row"><span>D</span><input type="range" id="p_decay" min=".01" max="2" step=".01"><span id="v_decay" class="val-box"></span></div><div class="row"><span>S</span><input type="range" id="p_sustain" min="0" max="1" step=".01"><span id="v_sustain" class="val-box"></span></div><div class="row"><span>R</span><input type="range" id="p_release" min=".01" max="4" step=".01"><span id="v_release" class="val-box"></span></div></div>
+        <div class="param-group"><h4>OSC & FILTER</h4><select id="p_source" class="styled-sel" style="width:100%;margin-bottom:10px"><optgroup label="基础波形"><option value="sawtooth">锯齿波 (Sawtooth)</option><option value="square">方波 (Square)</option><option value="triangle">三角波 (Triangle)</option><option value="sine">正弦波 (Sine)</option></optgroup><optgroup label="键盘乐器"><option value="piano">🎹 三角钢琴 Piano</option><option value="epiano">🎹 电钢琴 Rhodes EP</option><option value="organ">⛪ 管风琴 Organ</option><option value="clav">🎹 古钢琴 Clavinet</option></optgroup><optgroup label="旋律打击乐器"><option value="marimba">🎼 马林巴 Marimba</option><option value="bell">🔔 钟琴 Glockenspiel</option><option value="musicbox">🎵 音乐盒 Music Box</option></optgroup><optgroup label="弦乐"><option value="violin">🎻 小提琴 Violin</option><option value="cello">🎻 大提琴 Cello</option><option value="erhu">🎻 二胡 Erhu</option><option value="harp">🎼 竖琴 Harp</option><option value="pizzicato">🎻 拨弦 Pizzicato</option></optgroup><optgroup label="吉他与弹拨"><option value="guitar">🎸 民谣吉他 Steel Guitar</option><option value="nylonguitar">🎸 尼龙吉他 Nylon Guitar</option><option value="guzheng">🎼 古筝 Guzheng</option></optgroup><optgroup label="管乐"><option value="flute">🎶 长笛 Flute</option><option value="clarinet">🎷 单簧管 Clarinet</option><option value="sax">🎷 中音萨克斯 Alto Sax</option><option value="trumpet">🎺 小号 Trumpet</option></optgroup><optgroup label="其他"><option value="choir">🎤 人声合唱 Choir</option><option value="accordion">🎹 手风琴 Accordion</option><option value="drumkit">🥁 鼓组 Drum Kit</option></optgroup></select><div class="row"><span>Cutoff</span><input type="range" id="p_cutoff" min="40" max="12000" step="10"><span id="v_cutoff" class="val-box"></span></div><div class="row"><span>Reso</span><input type="range" id="p_resonance" min="0" max="20" step=".1"><span id="v_resonance" class="val-box"></span></div><h4 style="margin-top:10px">音源特性 (乐器音色微调)</h4><div class="row"><span>明亮度</span><input type="range" id="p_bright" min="0" max="1" step=".01"><span id="v_bright" class="val-box"></span></div><div class="row"><span>延音</span><input type="range" id="p_damp" min="0" max="1" step=".01"><span id="v_damp" class="val-box"></span></div><div class="row"><span>颤音</span><input type="range" id="p_vibrato" min="0" max="1" step=".01"><span id="v_vibrato" class="val-box"></span></div><h4 style="margin-top:10px">ADSR</h4><div class="row"><span>A</span><input type="range" id="p_attack" min=".001" max="2" step=".01"><span id="v_attack" class="val-box"></span></div><div class="row"><span>D</span><input type="range" id="p_decay" min=".01" max="2" step=".01"><span id="v_decay" class="val-box"></span></div><div class="row"><span>S</span><input type="range" id="p_sustain" min="0" max="1" step=".01"><span id="v_sustain" class="val-box"></span></div><div class="row"><span>R</span><input type="range" id="p_release" min=".01" max="4" step=".01"><span id="v_release" class="val-box"></span></div></div>
         <div class="param-group"><h4>EQ & SATURATION</h4><div class="row"><span>High</span><input type="range" id="p_eqHigh" min="-15" max="15" step=".5"><span id="v_eqHigh" class="val-box"></span></div><div class="row"><span>Low</span><input type="range" id="p_eqLow" min="-15" max="15" step=".5"><span id="v_eqLow" class="val-box"></span></div><div class="row"><span>Drive</span><input type="range" id="p_distDrive" min="0" max="100" step="1"><span id="v_distDrive" class="val-box"></span></div><h4 style="margin-top:10px">CHORUS FX</h4><div class="row"><span>Mix</span><input type="range" id="p_chorusMix" min="0" max="1" step=".05"><span id="v_chorusMix" class="val-box"></span></div><div class="row"><span>Rate</span><input type="range" id="p_chorusRate" min=".1" max="10" step=".1"><span id="v_chorusRate" class="val-box"></span></div></div>
         <div class="param-group"><h4>SPATIAL (空间)</h4><div class="row"><span>DlyTime</span><input type="range" id="p_delayTime" min=".05" max="1" step=".05"><span id="v_delayTime" class="val-box"></span></div><div class="row"><span>DlyMix</span><input type="range" id="p_delayMix" min="0" max="1" step=".05"><span id="v_delayMix" class="val-box"></span></div><div class="row"><span>RevMix</span><input type="range" id="p_reverbMix" min="0" max="1" step=".05"><span id="v_reverbMix" class="val-box"></span></div><div class="row"><span>Pan</span><input type="range" id="p_pan" min="-1" max="1" step=".05"><span id="v_pan" class="val-box"></span></div></div>
       </div>
@@ -169,7 +613,9 @@
     </div>
   </div>
 
-  <div class="module"><div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><h3 class="module-title" style="margin:0">键盘 · 实时显示 <span class="help-btn" onclick="showHelp('KEYBOARD')">❓</span></h3><div class="toolbar"><label class="status-pill"><input type="checkbox" id="showSolfege" checked> 唱名</label><label class="status-pill"><input type="checkbox" id="showNoteName" checked> 音名</label><span class="status-pill">调性：<span id="keyboardKeyName">C</span>大调</span><button class="btn small" onclick="shiftKeyboardOct(-1)">-1 八度</button><button class="btn small" onclick="shiftKeyboardOct(1)">+1 八度</button></div></div><div class="piano-wrapper"><div class="piano" id="piano"></div></div></div>
+  <div class="module"><div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><h3 class="module-title" style="margin:0">键盘 · 实时显示 <span class="help-btn" onclick="showHelp('KEYBOARD')">❓</span></h3><div class="toolbar"><label class="status-pill"><input type="checkbox" id="showSolfege" checked> 唱名</label><label class="status-pill"><input type="checkbox" id="showNoteName" checked> 音名</label><span class="status-pill">调性：<span id="keyboardKeyName">C</span>大调</span><button class="btn small" onclick="shiftKeyboardOct(-1)">-1 八度</button><button class="btn small" onclick="shiftKeyboardOct(1)">+1 八度</button><button class="btn small" onclick="shiftKeyboardTranspose(-1)" title="整体下移一个半音">♭ 移调 −</button><span id="transposeVal" class="val-box">0</span><button class="btn small" onclick="shiftKeyboardTranspose(1)" title="整体上移一个半音">移调 + ♯</button><button class="btn small" onclick="resetKeyboardTranspose()">移调归零</button><button id="btnBendToggle" class="btn small" title="打开/关闭弯音轮">🎛 弯音轮</button></div></div>
+    <div id="bendBar" class="bend-bar" style="display:none"><span style="font-size:11px;color:var(--text-muted)">弯音</span><input type="range" id="bendSlider" min="-200" max="200" step="1" value="0" style="width:220px"><span id="bendVal" class="val-box">0 音分</span><button id="btnBendCenter" class="btn small">回中</button><label class="status-pill"><input type="checkbox" id="bendAutoCenter" checked> 松手自动回中</label><span style="font-size:11px;color:var(--text-muted)">±200 音分 = ±2 半音，拖动时正在发声的音会实时跟着推拉</span></div>
+    <div class="piano-wrapper"><div class="piano" id="piano"></div></div></div>
 </div>
 
 <div id="multiSeqModal" class="modal-overlay" style="display:none"><div class="modal-content"><h3 style="color:var(--accent);margin:0">📝 移动端快捷打谱面板</h3><div style="font-size:12px;color:var(--text-muted);margin-bottom:4px">语法：[1 2] = 八分音符，{1 2 3} = 三连音，' = 高八度，, = 低八度，- = 延音/空拍；鼓组：K/S/CH/OH/C/T/R。</div><div class="modal-track"><div style="display:flex;justify-content:space-between"><label style="color:var(--melody);font-weight:bold">轨1 [旋律]</label><div><button class="btn small" onclick="shiftOct('melody',-1)">-1八度</button> <button class="btn small" onclick="shiftOct('melody',1)">+1八度</button></div></div><textarea id="modalMelody" onfocus="activeText='modalMelody'"></textarea></div><div class="modal-track"><div style="display:flex;justify-content:space-between"><label style="color:var(--chord);font-weight:bold">轨2 [和弦]</label><div><button class="btn small" onclick="shiftOct('chord',-1)">-1八度</button> <button class="btn small" onclick="shiftOct('chord',1)">+1八度</button></div></div><textarea id="modalChord" onfocus="activeText='modalChord'"></textarea></div><div class="modal-track"><div style="display:flex;justify-content:space-between"><label style="color:var(--bass);font-weight:bold">轨3 [贝斯]</label><div><button class="btn small" onclick="shiftOct('bass',-1)">-1八度</button> <button class="btn small" onclick="shiftOct('bass',1)">+1八度</button></div></div><textarea id="modalBass" onfocus="activeText='modalBass'"></textarea></div><div class="modal-track"><div style="display:flex;justify-content:space-between"><label style="color:var(--drums);font-weight:bold">轨4 [鼓组]</label><div style="font-size:10px;color:var(--text-muted)">K S CH OH C T R</div></div><textarea id="modalDrums" onfocus="activeText='modalDrums'"></textarea></div><div class="mobile-keypad"><button onclick="insertTxt('1')">1</button><button onclick="insertTxt('2')">2</button><button onclick="insertTxt('3')">3</button><button onclick="insertTxt('4')">4</button><button onclick="insertTxt('5')">5</button><button onclick="insertTxt('6')">6</button><button onclick="insertTxt('7')">7</button><button onclick="insertTxt('0')">0(休)</button><button onclick="insertTxt('-')">-(延)</button><button onclick="insertTxt(&quot;'&quot;)">' (高)</button><button onclick="insertTxt(',')">, (低)</button><button onclick="insertTxt('[ ]')">[ ](八分)</button><button onclick="insertTxt('{ }')">{ }(三连)</button><button onclick="insertTxt(' | ')">|</button></div><div style="display:flex;justify-content:flex-end;gap:12px;margin-top:10px"><button class="btn" onclick="document.getElementById('multiSeqModal').style.display='none'">取消</button><button class="btn primary" onclick="applyMultiModal()">确认写入并播放</button></div></div></div>
@@ -199,11 +645,44 @@
 <script>
 // ========================= DATA =========================
 const trackParams={
- melody:{source:'sawtooth',attack:.05,decay:.3,sustain:.7,release:.8,cutoff:6000,resonance:1,eqLow:0,eqHigh:4,distDrive:0,chorusMix:0,chorusRate:2,pan:0,delayTime:.3,delayMix:.25,reverbMix:.18},
- chord:{source:'guitar',attack:.01,decay:1,sustain:.3,release:1.5,cutoff:4000,resonance:1,eqLow:-2,eqHigh:2,distDrive:0,chorusMix:.3,chorusRate:1.5,pan:0,delayTime:.4,delayMix:0,reverbMix:.3},
- bass:{source:'triangle',attack:.03,decay:.2,sustain:.8,release:.4,cutoff:800,resonance:2,eqLow:6,eqHigh:0,distDrive:15,chorusMix:0,chorusRate:1,pan:0,delayTime:.3,delayMix:0,reverbMix:0},
- drums:{source:'drumkit',attack:.001,decay:.1,sustain:.7,release:.08,cutoff:11000,resonance:.5,eqLow:2,eqHigh:3,distDrive:0,chorusMix:.02,chorusRate:2,pan:0,delayTime:.12,delayMix:0,reverbMix:.06}
+ melody:{source:'sawtooth',bright:.55,damp:.5,vibrato:0,attack:.05,decay:.3,sustain:.7,release:.8,cutoff:6000,resonance:1,eqLow:0,eqHigh:4,distDrive:0,chorusMix:0,chorusRate:2,pan:0,delayTime:.3,delayMix:.25,reverbMix:.18},
+ chord:{source:'guitar',bright:.55,damp:.6,vibrato:0,attack:.01,decay:1,sustain:.3,release:1.5,cutoff:4000,resonance:1,eqLow:-2,eqHigh:2,distDrive:0,chorusMix:.3,chorusRate:1.5,pan:0,delayTime:.4,delayMix:0,reverbMix:.3},
+ bass:{source:'triangle',bright:.5,damp:.4,vibrato:0,attack:.03,decay:.2,sustain:.8,release:.4,cutoff:800,resonance:2,eqLow:6,eqHigh:0,distDrive:15,chorusMix:0,chorusRate:1,pan:0,delayTime:.3,delayMix:0,reverbMix:0},
+ drums:{source:'drumkit',bright:.5,damp:.3,vibrato:0,attack:.001,decay:.1,sustain:.7,release:.08,cutoff:11000,resonance:.5,eqLow:2,eqHigh:3,distDrive:0,chorusMix:.02,chorusRate:2,pan:0,delayTime:.12,delayMix:0,reverbMix:.06}
 };
+// 出厂默认值快照：用于“参数重置”。必须在任何用户操作之前克隆。
+const DEFAULT_TRACK_PARAMS=JSON.parse(JSON.stringify(trackParams));
+// “参数清零”用的中性值：所有效果量归零、滤波器全开、包络变成直通门（保留当前振荡器音色）。
+const NEUTRAL_TRACK_PARAMS={eqLow:0,eqHigh:0,distDrive:0,chorusMix:0,delayMix:0,reverbMix:0,pan:0,resonance:0,cutoff:12000,attack:.001,decay:.01,sustain:1,release:.01,bright:.5,damp:.5,vibrato:0};
+
+// ========================= 真实乐器音源定义 =========================
+// type: ks=Karplus-Strong 拨弦物理建模 / fm=FM 合成 / add=加式合成（多泛音叠加）
+//       bow=弓弦 / wind=木管 / brass=铜管（基础波形 + 共振峰 + 起音特征）
+// gain 为逐乐器实测后的响度补偿，让所有音源落在同一电平上，避免切换乐器时忽大忽小或削顶。
+const INSTRUMENT_SPECS={
+ piano:      {type:'add',gain:.54,partials:[[1,1,'triangle'],[2,.42,'sine'],[3,.2,'sine'],[4,.1,'sine']],decayRamp:.16,hammer:.05},
+ epiano:     {type:'fm',gain:.72,ratio:2,index:230,indexDecay:.55},
+ organ:      {type:'add',gain:0.31,partials:[[1,1,'sine'],[2,.72,'sine'],[3,.46,'sine'],[4,.3,'sine'],[6,.2,'sine']]},
+ clav:       {type:'ks',gain:3.1,bright:.85,damp:.982,len:1.6},
+ bell:       {type:'fm',gain:.63,ratio:3.5,index:900,indexDecay:1.8},
+ marimba:    {type:'fm',gain:.75,ratio:4,index:420,indexDecay:.25,decayRamp:.45},
+ musicbox:   {type:'fm',gain:.80,ratio:5.5,index:340,indexDecay:.9},
+ violin:     {type:'bow',gain:0.33,wave:'sawtooth',formant:2800,q:1.1,fGain:9,attack:.13,vib:.45},
+ cello:      {type:'bow',gain:0.47,wave:'sawtooth',formant:1150,q:1.3,fGain:9,attack:.2,vib:.38},
+ erhu:       {type:'bow',gain:0.49,wave:'sawtooth',formant:1500,q:3.2,fGain:12,attack:.16,vib:.85},
+ harp:       {type:'ks',gain:2.8,bright:.5,damp:.9965,len:2.6},
+ pizzicato:  {type:'ks',gain:4.4,bright:.55,damp:.978,len:1.1},
+ guitar:     {type:'ks',gain:2.4,bright:.62,damp:.9955,len:2.6},
+ nylonguitar:{type:'ks',gain:3.5,bright:.34,damp:.994,len:2.4},
+ guzheng:    {type:'ks',gain:2.1,bright:.72,damp:.9972,len:3},
+ flute:      {type:'wind',gain:.66,wave:'sine',breath:.10,attack:.07,vib:.25,formant:2000,q:.8,fGain:6},
+ clarinet:   {type:'wind',gain:.38,wave:'square',breath:.02,attack:.05,vib:.12,formant:1250,q:1.4,fGain:8},
+ sax:        {type:'wind',gain:0.45,wave:'sawtooth',breath:.05,attack:.06,vib:.5,formant:950,q:2.2,fGain:10},
+ trumpet:    {type:'brass',gain:.66,wave:'sawtooth',attack:.045,vib:.18,openRamp:.22},
+ choir:      {type:'add',gain:.47,partials:[[1,1,'sine'],[2,.5,'sine'],[3,.26,'sine']],attack:.22,vib:.45,formant:780,q:2.5,fGain:8},
+ accordion:  {type:'add',gain:.56,partials:[[1,1,'sawtooth'],[1.006,.65,'sawtooth'],[2,.22,'sawtooth']],attack:.04,vib:.14}
+};
+const BASIC_WAVE_GAIN={sawtooth:.58,square:.49,triangle:.76,sine:.68,drumkit:.7};
 const timbrePresets={
  citypop:{source:'piano',attack:.05,decay:.8,sustain:.4,release:1.5,cutoff:4500,resonance:1,eqLow:2,eqHigh:3,distDrive:0,chorusMix:.6,chorusRate:.8,pan:0,delayTime:.35,delayMix:.2,reverbMix:.4},
  funkbass:{source:'sawtooth',attack:.01,decay:.15,sustain:.1,release:.1,cutoff:1500,resonance:6,eqLow:8,eqHigh:1,distDrive:10,chorusMix:0,chorusRate:1,pan:0,delayTime:.1,delayMix:0,reverbMix:0},
@@ -309,6 +788,8 @@ let userChordSelections=Array(7).fill('triad');
 let trackOctOffsets={melody:0,chord:0,bass:0};
 let currentEditingTrack='melody';
 let activeText='modalMelody';
+let keyboardTranspose=0;
+let bendCents=0;
 let keyboardOctOffset=0;
 let lastChordNotes=[];
 let playbackMode='daw';
@@ -335,6 +816,7 @@ function initAudio(){
   const AC=window.AudioContext||window.webkitAudioContext;
   if(!AC){alert('当前浏览器不支持 Web Audio API');return;}
   audioCtx=new AC();
+  if(audioCtx.state==='suspended')audioCtx.resume().catch(()=>{});
   masterGain=audioCtx.createGain(); masterGain.gain.value=.58;
   masterAnalyser=audioCtx.createAnalyser(); masterAnalyser.fftSize=1024;
   masterGain.connect(masterAnalyser).connect(audioCtx.destination);
@@ -376,8 +858,8 @@ function applyLiveTrackParams(track){
 function applyVolumes(){
   ['melody','chord','bass','drums'].forEach(t=>{const el=document.getElementById('vol_'+t);if(channelStrips[t]&&el)channelStrips[t].fader.gain.value=Number(el.value);});
 }
-function scheduleGainEnvelope(gain,when,duration,p){
-  const a=Math.max(.001,p.attack),d=Math.max(.005,p.decay),r=Math.max(.01,p.release),sus=Math.max(.0001,Math.min(1,p.sustain));
+function scheduleGainEnvelope(gain,when,duration,p,releaseScale){
+  const a=Math.max(.001,p.attack),d=Math.max(.005,p.decay),r=Math.max(.01,p.release*(releaseScale==null?1:releaseScale)),sus=Math.max(.0001,Math.min(1,p.sustain));
   const end=Math.max(when+.025,when+duration);
   const releaseStart=Math.max(when+a+d+.01,end-r*.45);
   gain.gain.cancelScheduledValues(when);gain.gain.setValueAtTime(.0001,when);
@@ -387,18 +869,137 @@ function scheduleGainEnvelope(gain,when,duration,p){
   gain.gain.linearRampToValueAtTime(.0001,end);
   return end;
 }
-function connectAndRegisterVoice(source,env,filter,track,when,end,midi=null){
-  const id='v'+(++voiceSerial),voice={id,source,env,filter,track,end,midi};
+function stopNode(n){if(!n)return;try{n.stop()}catch{}try{n.disconnect()}catch{}}
+function stopVoiceNodes(v){(v.nodes||[]).forEach(stopNode);(v.oscs||[]).forEach(stopNode);v.nodes=[];}
+function connectAndRegisterVoice(source,env,filter,track,when,end,midi=null,extraNodes=null,oscs=null){
+  const id='v'+(++voiceSerial),voice={id,source,env,filter,track,end,midi,nodes:extraNodes||[],oscs:oscs||[]};
   liveVoices.set(id,voice);
-  const cleanup=Math.max(0,(end-audioCtx.currentTime+0.2)*1000);
-  setTimeout(()=>{liveVoices.delete(id);try{source.stop()}catch{};try{source.disconnect()}catch{};try{env.disconnect()}catch{};try{filter?.disconnect()}catch{}},cleanup);
+  const cleanup=Math.max(0,(end-audioCtx.currentTime+0.25)*1000);
+  setTimeout(()=>{liveVoices.delete(id);stopNode(source);stopNode(env);stopNode(filter);stopVoiceNodes(voice);},cleanup);
   return id;
 }
-function buildGuitarSource(freq,when){
-  const buffer=audioCtx.createBuffer(1,Math.floor(audioCtx.sampleRate*1.2),audioCtx.sampleRate),data=buffer.getChannelData(0),period=Math.max(2,Math.floor(audioCtx.sampleRate/freq));
-  for(let i=0;i<period;i++)data[i]=Math.random()*2-1;
-  for(let i=period;i<data.length;i++)data[i]=.498*(data[i-period]+data[i-period+1]||0)*.995;
-  const src=audioCtx.createBufferSource();src.buffer=buffer;src.loop=true;src.start(when);return src;
+// ---------- 乐器音源构建 ----------
+let noiseBuffer=null;
+function getNoiseBuffer(){
+  if(noiseBuffer)return noiseBuffer;
+  const n=Math.floor(audioCtx.sampleRate*2);
+  noiseBuffer=audioCtx.createBuffer(1,n,audioCtx.sampleRate);
+  const d=noiseBuffer.getChannelData(0);
+  for(let i=0;i<n;i++)d[i]=Math.random()*2-1;
+  return noiseBuffer;
+}
+const ksCache=new Map();
+function buildKSSource(freq,t,key,bright,damp,seconds,midi){
+  // 拨弦类用缓存：同一个（乐器+音高+亮度+阻尼）组合只生成一次波形
+  const ck=key+'|'+midi+'|'+Math.round(bright*16)+'|'+Math.round(damp*500);
+  let buf=ksCache.get(ck);
+  if(!buf){
+    const sr=audioCtx.sampleRate,n=Math.floor(sr*(seconds||2.5)),period=Math.max(2,Math.round(sr/freq));
+    buf=audioCtx.createBuffer(1,n,sr);
+    const d=buf.getChannelData(0);
+    let lp=0;
+    for(let i=0;i<period;i++){const w=Math.random()*2-1;lp+=(w-lp)*bright;d[i]=lp;}
+    for(let i=period;i<n;i++)d[i]=damp*.5*(d[i-period]+d[i-period+1]);
+    const fade=Math.floor(n*.12);
+    for(let i=0;i<fade;i++)d[n-fade+i]*=1-i/fade;
+    if(ksCache.size>48)ksCache.clear();
+    ksCache.set(ck,buf);
+  }
+  const src=audioCtx.createBufferSource();
+  src.buffer=buf;src.loop=false;src.start(t);
+  return src;
+}
+function buildFMSource(freq,t,ratio,index,indexDecay,extras,oscs){
+  const car=audioCtx.createOscillator();car.type='sine';car.frequency.setValueAtTime(freq,t);
+  const mod=audioCtx.createOscillator();mod.type='sine';mod.frequency.setValueAtTime(freq*ratio,t);
+  const mg=audioCtx.createGain();
+  mg.gain.setValueAtTime(Math.max(1,index),t);
+  mg.gain.exponentialRampToValueAtTime(Math.max(1,index*.02),t+Math.max(.05,indexDecay));
+  mod.connect(mg).connect(car.frequency);
+  car.start(t);mod.start(t);
+  extras.push(mod,mg);
+  oscs.push(car,mod);
+  return car;
+}
+function buildAdditiveSource(freq,t,partials,extras,oscs){
+  const mix=audioCtx.createGain();mix.gain.value=1;
+  partials.forEach(([ratio,gain,type])=>{
+    const o=audioCtx.createOscillator();o.type=type||'sine';
+    o.frequency.setValueAtTime(freq*ratio,t);
+    const g=audioCtx.createGain();g.gain.value=gain;
+    o.connect(g).connect(mix);
+    o.start(t);
+    extras.push(o,g);oscs.push(o);
+  });
+  extras.push(mix);
+  return mix;
+}
+function attachVibrato(oscs,t,depthCents,rate,delay,extras){
+  if(!(depthCents>.5)||!oscs.length)return;
+  const lfo=audioCtx.createOscillator();lfo.type='sine';lfo.frequency.value=rate;
+  const amp=audioCtx.createGain();
+  amp.gain.setValueAtTime(0,t);
+  amp.gain.linearRampToValueAtTime(depthCents,t+(delay||0)+.28);
+  lfo.connect(amp);
+  oscs.forEach(o=>{try{amp.connect(o.detune)}catch{}});
+  lfo.start(t);
+  extras.push(lfo,amp);
+}
+function buildInstrumentSource(name,spec,freq,t,midi,u){
+  const extras=[],oscs=[];
+  if(!spec){
+    const o=audioCtx.createOscillator();
+    o.type=(name==='drumkit')?'triangle':name;
+    o.frequency.setValueAtTime(freq,t);
+    o.start(t);
+    oscs.push(o);
+    return {node:o,oscs,extras};
+  }
+  let node,pre=null;
+  if(spec.type==='ks'){
+    const dmp=Math.max(.9,Math.min(.9995,(spec.damp||.995)+(u.damp-.5)*.012));
+    const brt=Math.max(.05,Math.min(1,(spec.bright||.5)*(.6+u.bright*.8)));
+    node=buildKSSource(freq,t,name,brt,dmp,spec.len||2.5,midi);
+  }else if(spec.type==='fm'){
+    node=buildFMSource(freq,t,spec.ratio,spec.index*(.4+u.bright*1.3),spec.indexDecay,extras,oscs);
+  }else if(spec.type==='add'){
+    node=buildAdditiveSource(freq,t,spec.partials,extras,oscs);
+    if(spec.hammer){ // 钢琴榔头敲击的瞬态噪声
+      const n=audioCtx.createBufferSource();n.buffer=getNoiseBuffer();n.loop=true;
+      const hp=audioCtx.createBiquadFilter();hp.type='bandpass';hp.frequency.value=Math.min(6000,freq*3);hp.Q.value=.6;
+      const ng=audioCtx.createGain();
+      ng.gain.setValueAtTime(spec.hammer*(.5+u.bright),t);
+      ng.gain.exponentialRampToValueAtTime(.0001,t+.09);
+      n.connect(hp).connect(ng).connect(node);
+      n.start(t);n.stop(t+.12);
+      extras.push(n,hp,ng);
+    }
+  }else{
+    const o=audioCtx.createOscillator();
+    o.type=spec.wave||'sine';
+    o.frequency.setValueAtTime(freq,t);
+    o.start(t);
+    oscs.push(o);
+    node=o;
+    if(spec.breath){ // 管乐气声
+      const mix=audioCtx.createGain();o.connect(mix);
+      const n=audioCtx.createBufferSource();n.buffer=getNoiseBuffer();n.loop=true;
+      const bp=audioCtx.createBiquadFilter();bp.type='bandpass';bp.frequency.value=Math.min(7000,freq*2.2);bp.Q.value=.7;
+      const ng=audioCtx.createGain();ng.gain.value=spec.breath*(.4+u.bright*1.4);
+      n.connect(bp).connect(ng).connect(mix);
+      n.start(t);
+      extras.push(mix,n,bp,ng);
+      node=mix;
+    }
+  }
+  if(spec.formant){ // 共振峰：决定乐器的"腔体"音色
+    pre=audioCtx.createBiquadFilter();
+    pre.type='peaking';
+    pre.frequency.value=spec.formant;
+    pre.Q.value=spec.q||1.2;
+    pre.gain.value=spec.fGain||8;
+  }
+  return {node,oscs,extras,pre};
 }
 function playNoteAt(midi,track='melody',duration=0.4,when=null){
   initAudio();
@@ -409,20 +1010,47 @@ function playNoteAt(midi,track='melody',duration=0.4,when=null){
   const env=audioCtx.createGain();
   const f=audioCtx.createBiquadFilter();
   f.type='lowpass';
-  f.frequency.setValueAtTime(Math.min(Math.max(p.cutoff,40),18000),t);
-  f.Q.value=p.resonance;
-  let src;
-  if(p.source==='guitar')src=buildGuitarSource(freq,t);
-  else{
-    src=audioCtx.createOscillator();
-    src.type=p.source==='piano'?'triangle':(p.source==='drumkit'?'triangle':p.source);
-    src.frequency.setValueAtTime(freq,t);
-    src.start(t);
+  const spec=INSTRUMENT_SPECS[p.source];
+  const uBright=Math.max(0,Math.min(1,p.bright==null?.55:p.bright));
+  const uDamp=Math.max(0,Math.min(1,p.damp==null?.5:p.damp));
+  const uVib=Math.max(0,Math.min(1,p.vibrato==null?0:p.vibrato));
+  const cutoff=Math.max(40,Math.min(18000,p.cutoff*(0.35+uBright*1.7)));
+  // 铜管：起音时滤波向上打开，模拟吹奏时泛音变亮
+  if(spec&&spec.openRamp){
+    f.frequency.setValueAtTime(Math.max(120,cutoff*.22),t);
+    f.frequency.exponentialRampToValueAtTime(cutoff,t+spec.openRamp);
+  }else{
+    f.frequency.setValueAtTime(cutoff,t);
   }
-  src.connect(f).connect(env).connect(s.input);
-  if(p.source==='piano')f.frequency.exponentialRampToValueAtTime(Math.max(300,Math.min(5000,p.cutoff*.15)),t+Math.min(1.6,Math.max(.2,p.decay+0.4)));
-  const end=scheduleGainEnvelope(env,t,Math.max(.03,duration),p);
-  const id=connectAndRegisterVoice(src,env,f,track,t,end,midi);
+  f.Q.value=p.resonance;
+  const built=buildInstrumentSource(p.source,spec,freq,t,midi,{bright:uBright,damp:uDamp,vib:uVib});
+  const src=built.node,extras=built.extras,oscs=built.oscs;
+  let chain;
+  if(built.pre){src.connect(built.pre);chain=built.pre;extras.push(built.pre);}
+  else chain=src;
+  // 弯音轮：以音分为单位实时推拉音高（作用于所有带音高的振荡器）。
+  if(bendCents&&track!=='drums')oscs.forEach(o=>{try{o.detune.setValueAtTime(bendCents,t)}catch{}});
+  const vibDepth=Math.min(95,uVib*60+(spec&&spec.vib?spec.vib*22:0));
+  if(vibDepth>.5)attachVibrato(oscs,t,vibDepth,5.1+(spec&&spec.vib?spec.vib*1.6:0),.16,extras);
+  chain.connect(f);
+  // 起音特征（弓弦/管乐的柔和进入），与用户的 ADSR 串联叠加
+  if(spec&&spec.attack){
+    const art=audioCtx.createGain();
+    art.gain.setValueAtTime(.0001,t);
+    art.gain.exponentialRampToValueAtTime(1,t+spec.attack);
+    f.connect(art);chain=art;extras.push(art);
+  }
+  // 逐乐器响度补偿（实测校准，避免切换乐器时忽大忽小）
+  const outGain=(spec&&spec.gain)||BASIC_WAVE_GAIN[p.source]||1;
+  if(Math.abs(outGain-1)>.001){
+    const og=audioCtx.createGain();og.gain.value=outGain;
+    chain.connect(og);chain=og;extras.push(og);
+  }
+  chain.connect(env).connect(s.input);
+  // 钢琴/马林巴这类音头亮、余音暗的乐器：滤波随时间下沉
+  if(spec&&spec.decayRamp)f.frequency.exponentialRampToValueAtTime(Math.max(220,Math.min(9000,cutoff*spec.decayRamp)),t+Math.min(1.8,Math.max(.2,p.decay+.4)));
+  const end=scheduleGainEnvelope(env,t,Math.max(.03,duration),p,(0.6+uDamp*0.9));
+  const id=connectAndRegisterVoice(src,env,f,track,t,end,midi,extras,oscs);
   setTimeout(()=>{document.querySelectorAll(`.key[data-midi="${midi}"]`).forEach(k=>k.classList.add('active'));},Math.max(0,(t-audioCtx.currentTime)*1000));
   setTimeout(()=>{if(keyVoicesForMidi(midi)>0)return;document.querySelectorAll(`.key[data-midi="${midi}"]`).forEach(k=>k.classList.remove('active'));},Math.max(20,(end-audioCtx.currentTime)*1000+80));
   return id;
@@ -446,10 +1074,7 @@ function releaseVoiceById(id,fade=.055){
   }catch{}
   setTimeout(()=>{
     if(!liveVoices.has(id))return;
-    try{v.source.stop()}catch{}
-    try{v.source.disconnect()}catch{}
-    try{v.env.disconnect()}catch{}
-    try{v.filter?.disconnect()}catch{}
+    stopNode(v.source);stopNode(v.env);stopNode(v.filter);stopVoiceNodes(v);
     liveVoices.delete(id);
     if(v.midi!=null&&keyVoicesForMidi(v.midi)===0){
       document.querySelectorAll(`.key[data-midi="${v.midi}"]`).forEach(k=>k.classList.remove('active'));
@@ -474,10 +1099,7 @@ function releaseHeldNote(midi){
 
 function stopAllVoices(){
   liveVoices.forEach(v=>{
-    try{v.source.stop()}catch{}
-    try{v.source.disconnect()}catch{}
-    try{v.env.disconnect()}catch{}
-    try{v.filter?.disconnect()}catch{}
+    stopNode(v.source);stopNode(v.env);stopNode(v.filter);stopVoiceNodes(v);
   });
   liveVoices.clear();
   keyboardHeld.clear();
@@ -486,6 +1108,23 @@ function stopAllVoices(){
   document.querySelectorAll('.drum-pad.active').forEach(k=>k.classList.remove('active'));
 }
 
+// ========================= PITCH BEND (弯音轮) =========================
+function applyBendToLiveVoices(){
+  if(!audioCtx)return;
+  const now=audioCtx.currentTime;
+  liveVoices.forEach(v=>{
+    if(v.track==='drums')return;
+    const list=(v.oscs&&v.oscs.length)?v.oscs:[v.source];
+    list.forEach(o=>{try{o.detune?.cancelScheduledValues(now);o.detune?.setTargetAtTime(bendCents,now,.012)}catch{}});
+  });
+}
+function setBend(cents,syncUI=true){
+  bendCents=Math.max(-200,Math.min(200,Math.round(Number(cents)||0)));
+  if(syncUI){const s=document.getElementById('bendSlider');if(s)s.value=bendCents;}
+  const v=document.getElementById('bendVal');
+  if(v)v.textContent=(bendCents>0?'+':'')+bendCents+' 音分';
+  applyBendToLiveVoices();
+}
 function keyVoicesForMidi(midi){
   let n=0;
   liveVoices.forEach(v=>{if(v.midi===midi)n++});
@@ -790,19 +1429,46 @@ function stopChordPerformance(){
 
 // ========================= DAW PARSER =========================
 function parseJianpuTrack(text,rootKey,trackName){
- const notes=[];let beat=0,dur=1,i=0,scale=[0,2,4,5,7,9,11],lastEvents=[];
+ const notes=[];let beat=0,dur=1,i=0,scale=[0,2,4,5,7,9,11],lastEvents=[],lastNotes=[];
  text=String(text||'');
- while(i<text.length){const c=text[i];if(c==='[')dur=.5;else if(c===']')dur=1;else if(c==='{')dur=1/3;else if(c==='}')dur=1;else if((c>='1'&&c<='7')||c==='0'){
+ while(i<text.length){const c=text[i];if(c==='[')dur=.5;else if(c===']')dur=1;else if(c==='{')dur=1/3;else if(c==='}')dur=1;
+  else if(c==='-'){beat+=dur;lastNotes.forEach(n=>{n.duration+=dur});}
+  else if(c==='0'){beat+=dur;lastEvents=[];lastNotes=[];}
+  else if(c>='1'&&c<='7'){
    let mods='',j=i+1;while(j<text.length&&"'-,".includes(text[j])){mods+=text[j];j++}i=j-1;let add=(trackOctOffsets[trackName]||0)*12;for(const m of mods){if(m==="'")add+=12;else if(m===',')add-=12}const deg=Number(c)-1;
-   if(c==='0'){beat+=dur;lastEvents=[];}else{let nts=[];if(trackName==='chord'){const idx=deg,dict=chordDictionary[idx],variant=userChordSelections[idx]||'triad',struct=variant==='custom'&&dict.custom?dict.custom:(dict[variant]||dict.triad);nts=struct.map(n=>48+rootKey+n+add);if(document.getElementById('toggleVoiceLeading').checked)nts=applyVoiceLeading(lastEvents,nts);lastEvents=nts.slice();}
-    else if(trackName==='bass')nts=[36+rootKey+scale[deg]+add];else nts=[60+rootKey+scale[deg]+add];nts.forEach(p=>notes.push({pitch:p,start:beat,duration:dur,track:trackName}));lastEvents=nts;beat+=dur;}
- }else if(c==='-')beat+=dur;else if(c==='|'){}
- i++}
+   let nts=[];
+   if(trackName==='chord'){
+     // 关键修复：和弦结构统一走 getChordStructure()，并补上该级数在当前调中的根音偏移 dict.root
+     const idx=Math.max(0,Math.min(chordDictionary.length-1,deg));
+     const dict=chordDictionary[idx];
+     const struct=getChordStructure(idx);
+     nts=(struct.intervals||[]).map(n=>48+rootKey+dict.root+n+add);
+     if(document.getElementById('toggleVoiceLeading')?.checked)nts=applyVoiceLeading(lastEvents,nts);
+     lastEvents=nts.slice();
+   }
+   else if(trackName==='bass')nts=[36+rootKey+scale[deg]+add];else nts=[60+rootKey+scale[deg]+add];
+   lastNotes=[];
+   nts.forEach(p=>{const n={pitch:p,start:beat,duration:dur,track:trackName};notes.push(n);lastNotes.push(n)});
+   lastEvents=nts;beat+=dur;
+  }
+  i++}
  return notes;
 }
 function parseDrumTrack(text){const tokens=String(text||'').toUpperCase().replace(/\|/g,' ').trim().split(/\s+/).filter(Boolean),notes=[];let beat=0;const map={K:'kick',S:'snare',CH:'closedHat',OH:'openHat',C:'clap',T:'tom',R:'crash'};tokens.forEach(tok=>{if(tok==='-'||tok==='0'){beat+=1;return}if(map[tok])notes.push({drum:map[tok],start:beat,duration:.45,track:'drums'});beat+=1});return notes}
 function buildDawSequence(){const root=Number(document.getElementById('keySelect').value);return [...parseJianpuTrack(document.getElementById('melodyInput').value,root,'melody'),...parseJianpuTrack(document.getElementById('chordInput').value,root,'chord'),...parseJianpuTrack(document.getElementById('bassInput').value,root,'bass'),...parseDrumTrack(document.getElementById('drumsInput').value)]}
-function getDawLength(events){const auto=Math.max(4,...events.map(n=>n.start+n.duration));const bars=document.getElementById('loopBars').value;if(bars==='auto')return auto;return Number(bars)*4}
+function getDawLength(events){const auto=Math.max(4,...events.map(n=>n.start+n.duration));const el=document.getElementById('loopBars');const bars=el?el.value:'auto';if(bars==='auto')return auto;return Number(bars)*4}
+// 解析兜底：任何一条轨道写错都不应该让整个 DAW 静音，出错时把原因显示到走带状态条。
+function safeBuildEvents(kind){
+  try{
+    const ev=(kind==='step'?buildStepSequence():buildDawSequence());
+    if(!Array.isArray(ev))return [];
+    return ev.slice().sort((a,b)=>a.start-b.start);
+  }catch(err){
+    console.error('音序解析失败：',err);
+    setTransport((kind==='step'?'STEP':'DAW')+' 解析出错：'+(err&&err.message?err.message:err));
+    return [];
+  }
+}
 
 // ========================= SCHEDULER =========================
 let sequenceEvents=[],sequenceLength=16,seqStartAudio=0,schedulerTimer=null,uiFrame=null,seqRunning=false,scheduledCycle=0,scheduledEventIndex=0;
@@ -841,7 +1507,7 @@ function refreshSequenceFromLiveEdit(){
   if(document.getElementById('loopToggle').checked)currentBeat%=oldLength;
   else currentBeat=Math.min(currentBeat,oldLength);
 
-  sequenceEvents=(mode==='step'?buildStepSequence():buildDawSequence()).slice().sort((a,b)=>a.start-b.start);
+  sequenceEvents=safeBuildEvents(mode);
   sequenceLength=Math.max(.25,mode==='step'?stepLoopLength:getDawLength(sequenceEvents));
 
   if(!sequenceEvents.length){
@@ -866,7 +1532,7 @@ function refreshSequenceFromLiveEdit(){
 function startSequence(kind){
   initAudio();if(!audioCtx)return;
   stopSequence(false);playbackMode=kind;
-  sequenceEvents=(kind==='step'?buildStepSequence():buildDawSequence()).slice().sort((a,b)=>a.start-b.start);
+  sequenceEvents=safeBuildEvents(kind);
   if(!sequenceEvents.length){setTransport(kind.toUpperCase()+'：没有可播放内容');return}
   sequenceLength=kind==='step'?stepLoopLength:getDawLength(sequenceEvents);sequenceLength=Math.max(.25,sequenceLength);
   seqRunning=true;seqStartAudio=audioCtx.currentTime+.08;scheduledCycle=0;scheduledEventIndex=0;applyVolumes();
@@ -900,21 +1566,37 @@ const stepState={
  melody:Array.from({length:STEP_COUNT},()=>({subdiv:1,events:[{pitchOffset:null}]})),
  chord:Array.from({length:STEP_COUNT},()=>({subdiv:1,events:[{pitchOffset:null}]})),
  bass:Array.from({length:STEP_COUNT},()=>({subdiv:1,events:[{pitchOffset:null}]})),
- drums:Array(STEP_COUNT).fill(0)
+ drums:Array.from({length:STEP_COUNT},()=>({subdiv:1,events:[{pitchOffset:null,drum:null}]}))
 };
 const STEP_SUBDIVISIONS=[
- {value:1,label:'1个 · 一拍'},
- {value:2,label:'2个 · 八分'},
- {value:3,label:'3个 · 三连'},
- {value:4,label:'4个 · 十六分'}
+ {value:1,label:'1 · 一拍'},
+ {value:2,label:'2 · 八分'},
+ {value:3,label:'3 · 三连'},
+ {value:4,label:'4 · 十六分'}
 ];
+// 鼓组子事件可选的鼓声；点击芯片按顺序循环。
+const STEP_DRUM_TYPES=[
+ {value:'',label:'·',name:'空'},
+ {value:'kick',label:'K',name:'底鼓'},
+ {value:'snare',label:'S',name:'军鼓'},
+ {value:'closedHat',label:'H',name:'闭镲'},
+ {value:'openHat',label:'O',name:'开镲'},
+ {value:'clap',label:'C',name:'拍手'},
+ {value:'tom',label:'T',name:'通鼓'},
+ {value:'crash',label:'R',name:'吊镲'}
+];
+const STEP_DRUM_CYCLE=[null,'kick','snare','closedHat','openHat','clap','tom','crash'];
+function cycleDrumValue(v){const i=STEP_DRUM_CYCLE.indexOf(v==null?null:v);return STEP_DRUM_CYCLE[(i<0?0:i+1)%STEP_DRUM_CYCLE.length]}
+function drumTypeName(v){const t=STEP_DRUM_TYPES.find(x=>x.value===v);return t?t.name:'空（点击循环切换）'}
+function drumShortName(v){const t=STEP_DRUM_TYPES.find(x=>x.value===v);return t&&t.value?t.label:'·'}
 function ensureStepState(track,i){
- if(!stepState[track][i]||typeof stepState[track][i]!=='object')stepState[track][i]={subdiv:1,events:[{pitchOffset:null}]};
+ if(!stepState[track][i]||typeof stepState[track][i]!=='object')stepState[track][i]={subdiv:1,events:[{pitchOffset:null,drum:null}]};
  const n=Math.max(1,Math.min(4,Number(stepState[track][i].subdiv)||1));
  stepState[track][i].subdiv=n;
  if(!Array.isArray(stepState[track][i].events))stepState[track][i].events=[];
- while(stepState[track][i].events.length<n)stepState[track][i].events.push({pitchOffset:null});
+ while(stepState[track][i].events.length<n)stepState[track][i].events.push({pitchOffset:null,drum:null});
  stepState[track][i].events=stepState[track][i].events.slice(0,n);
+ stepState[track][i].events.forEach(e=>{if(e.drum===undefined)e.drum=null});
 }
 function getStepResolution(){return Number(document.getElementById('stepResolution').value)||.25}
 function makeStepNoteOptions(track,root){
@@ -926,6 +1608,34 @@ function makeStepNoteOptions(track,root){
 function namesForChordDegree(i){const d=chordDictionary[i];const v=d&&d.variants&&d.variants[userChordSelections[i]||'triad'];return v?v.label:(d?.degree||'')}
 function makeStepSubdivOptions(v){return STEP_SUBDIVISIONS.map(x=>`<option value="${x.value}" ${Number(v)===x.value?'selected':''}>${x.label}</option>`).join('')}
 function updateSubBeatCellState(cell,track,i){ensureStepState(track,i);cell.classList.toggle('on',stepState[track][i].events.some(e=>e.pitchOffset!=null))}
+function updateDrumCellState(cell,i){ensureStepState('drums',i);cell.classList.toggle('on',stepState.drums[i].events.some(e=>!!e.drum))}
+function renderDrumChips(i,cell){
+ ensureStepState('drums',i);
+ const wrap=cell.querySelector('.step-events');
+ if(!wrap)return;
+ wrap.innerHTML='';
+ stepState.drums[i].events.forEach((ev,subIdx)=>{
+  const row=document.createElement('div');row.className='step-drum-row';
+  const lab=document.createElement('span');lab.className='step-drum-label';lab.textContent=String(subIdx+1);
+  const chip=document.createElement('button');chip.type='button';chip.className='step-drum-chip';
+  const paint=()=>{
+   chip.textContent=drumShortName(ev.drum);
+   chip.classList.toggle('on',!!ev.drum);
+   if(ev.drum)chip.dataset.drum=ev.drum;else delete chip.dataset.drum;
+   chip.title='子拍 '+(subIdx+1)+' · '+drumTypeName(ev.drum);
+  };
+  paint();
+  chip.addEventListener('click',e=>{
+   e.stopPropagation();
+   ev.drum=cycleDrumValue(ev.drum);
+   paint();
+   updateDrumCellState(cell,i);
+   requestLiveSequenceRefresh();
+  });
+  row.append(lab,chip);wrap.appendChild(row);
+ });
+ updateDrumCellState(cell,i);
+}
 function renderStepEventSelectors(track,i,cell,root){
  ensureStepState(track,i);
  const wrap=cell.querySelector('.step-events');
@@ -948,27 +1658,21 @@ function buildStepGrid(){
  tracks.forEach(([track,label])=>{
   const lab=document.createElement('div');lab.className='step-label';lab.style.setProperty('--track-color',`var(--${track})`);
   const text=document.createElement('span');text.className='step-label-text';text.textContent=label;
-  const copy=document.createElement('button');copy.type='button';copy.className='step-rhythm-copy';copy.dataset.track=track;copy.textContent='复制G1节奏 → G2–G4';copy.title='只复制节奏型，不复制音符/和弦选择';
+  const copy=document.createElement('button');copy.type='button';copy.className='step-rhythm-copy';copy.dataset.track=track;copy.textContent='复制 G1 节奏';copy.title='把第 1 组（前 4 拍）的节奏型复制到 G2–G4，只复制节奏与细分，不复制音符/和弦/鼓声选择';
   copy.addEventListener('click',e=>{e.stopPropagation();track==='drums'?copyDrumRhythmPattern():copyRhythmPattern(track)});
   lab.append(text,copy);grid.appendChild(lab);
   for(let i=0;i<STEP_COUNT;i++){
    const c=document.createElement('div');c.className='step-cell';c.dataset.track=track;c.dataset.step=i;if(i%4===0)c.classList.add('step-group-start');
    if(track==='drums'){
-    // 鼓组恢复原始稳定模式：一个格子就是一个鼓点；每次点击循环 K/S/H/C/空。
-    c.addEventListener('click',()=>{
-     stepState.drums[i]=(stepState.drums[i]+1)%5;
-     const names=['','K','S','H','C'];
-     c.className='step-cell';
-     if(stepState.drums[i]){
-      c.classList.add('drum-cycle-'+stepState.drums[i]);
-      c.textContent=names[stepState.drums[i]];
-     }else{
-      c.textContent='·';
-     }
-     requestLiveSequenceRefresh();
-    });
-    const names=['','K','S','H','C'];
-    if(stepState.drums[i]){c.classList.add('drum-cycle-'+stepState.drums[i]);c.textContent=names[stepState.drums[i]];}else c.textContent='·';
+    // 鼓组现在与旋律轨一致：先选这一拍的细分（一拍/八分/三连/十六分），
+    // 再逐个点击子拍芯片循环切换鼓声（空→K→S→H→O→C→T→R）。
+    ensureStepState('drums',i);const dst=stepState.drums[i];
+    const dsub=document.createElement('select');dsub.className='step-sel';dsub.title='选择这一拍内部的细分';dsub.innerHTML=makeStepSubdivOptions(dst.subdiv);
+    dsub.addEventListener('change',e=>{dst.subdiv=Number(e.target.value)||1;ensureStepState('drums',i);renderDrumChips(i,c);requestLiveSequenceRefresh()});
+    c.appendChild(dsub);
+    const dhint=document.createElement('div');dhint.className='step-subhead';dhint.textContent=dst.subdiv===1?'这一拍':'共 '+dst.subdiv+' 个子拍';c.appendChild(dhint);
+    const dwrap=document.createElement('div');dwrap.className='step-events';c.appendChild(dwrap);
+    renderDrumChips(i,c);
     grid.appendChild(c);continue;
    }
    ensureStepState(track,i);const st=stepState[track][i];
@@ -1006,13 +1710,21 @@ function copyRhythmPattern(track){
  markRhythmCopyButton(track);
 }
 
-// 鼓组：复制G1有/无鼓点的位置，保留目标已有的鼓种；空位有鼓点时用Kick作为占位。
+// 鼓组：同样复制细分数量与"有声/休止"的节奏骨架。
 function copyDrumRhythmPattern(){
  for(let group=1;group<4;group++){
   for(let beat=0;beat<4;beat++){
-   const src=stepState.drums[beat],dstIndex=group*4+beat;
-   if(src===0)stepState.drums[dstIndex]=0;
-   else if(stepState.drums[dstIndex]===0)stepState.drums[dstIndex]=1;
+   const srcIndex=beat,dstIndex=group*4+beat;
+   ensureStepState('drums',srcIndex);ensureStepState('drums',dstIndex);
+   const src=stepState.drums[srcIndex],dst=stepState.drums[dstIndex];
+   dst.subdiv=src.subdiv;
+   while(dst.events.length<dst.subdiv)dst.events.push({pitchOffset:null,drum:null});
+   dst.events=dst.events.slice(0,dst.subdiv);
+   for(let j=0;j<dst.subdiv;j++){
+    const s=src.events[j]||{drum:null};
+    if(s.drum)dst.events[j].drum=dst.events[j].drum||'kick';
+    else dst.events[j].drum=null;
+   }
   }
  }
  buildStepGrid();
@@ -1024,15 +1736,9 @@ function markRhythmCopyButton(track){
  document.querySelectorAll('.step-rhythm-copy').forEach(b=>b.classList.toggle('active',b.dataset.track===track));
 }
 
-function updateStepCell(cell){
- const i=Number(cell.dataset.step),v=stepState.drums[i],names=['','K','S','H','C'];
- cell.className='step-cell';
- cell.textContent=v?names[v]:'·';
- if(v)cell.classList.add('drum-cycle-'+v);
-}
 function clearStep(){
  ['melody','chord','bass'].forEach(t=>stepState[t]=Array.from({length:STEP_COUNT},()=>({subdiv:1,events:[{pitchOffset:null}]})));
- stepState.drums.fill(0);
+ stepState.drums=Array.from({length:STEP_COUNT},()=>({subdiv:1,events:[{pitchOffset:null,drum:null}]}));
  buildStepGrid();stopSequence();
 }
 function buildStepSequence(){
@@ -1056,10 +1762,13 @@ function buildStepSequence(){
     }
    });
   });
-  // 鼓组：一个 Step 一个鼓声，保持最初稳定实现。
-  const drumMap={1:'kick',2:'snare',3:'closedHat',4:'clap'};
-  const drum=stepState.drums[i];
-  if(drum&&drumMap[drum])events.push({drum:drumMap[drum],start,duration:Math.min(.45,stepResolution),track:'drums'});
+  // 鼓组：同样支持一拍内的八分/三连/十六分子拍。
+  ensureStepState('drums',i);
+  const dst=stepState.drums[i],dSubDur=cellDur/dst.subdiv;
+  dst.events.forEach((ev,j)=>{
+   if(!ev.drum)return;
+   events.push({drum:ev.drum,start:start+j*dSubDur,duration:Math.min(.45,Math.max(.04,dSubDur*.92)),track:'drums'});
+  });
  }
  return events;
 }
@@ -1078,18 +1787,26 @@ function requestLiveSequenceRefresh(){
 });
 
 // ========================= INSPECTOR =========================
-const inspectorKeys=['source','cutoff','resonance','attack','decay','sustain','release','eqLow','eqHigh','distDrive','chorusMix','chorusRate','delayTime','delayMix','reverbMix','pan'];
-function formatParam(k,v){if(k==='pan')return v===0?'C':v>0?'R'+Math.round(v*100):'L'+Math.round(-v*100);if(k==='cutoff')return Math.round(v);return Number(v).toFixed(k==='resonance'?1:2).replace(/\.00$/,'')}
+const inspectorKeys=['source','bright','damp','vibrato','cutoff','resonance','attack','decay','sustain','release','eqLow','eqHigh','distDrive','chorusMix','chorusRate','delayTime','delayMix','reverbMix','pan'];
+function formatParam(k,v){if(k==='pan')return v===0?'C':v>0?'R'+Math.round(v*100):'L'+Math.round(-v*100);if(k==='cutoff')return Math.round(v);if(k==='bright'||k==='damp'||k==='vibrato')return Math.round(v*100)+'%';return Number(v).toFixed(k==='resonance'?1:2).replace(/\.00$/,'')}
 function syncInspectorUI(){const p=trackParams[currentEditingTrack];inspectorKeys.forEach(k=>{const e=document.getElementById('p_'+k);if(!e)return;e.value=p[k];const out=document.getElementById('v_'+k);if(out)out.textContent=formatParam(k,p[k])})}
-function setCurrentTrack(track){currentEditingTrack=track;document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.track===track));syncInspectorUI()}
-function showHelp(type){const h={DAW:'DAW 是四轨独立音频引擎：轨1旋律、轨2和弦、轨3贝斯、轨4鼓组。播放时切换通道条不会停止其他轨道。',STRIP:'每条轨道都有独立音色与效果器。选择轨道只改变“当前编辑对象”，不会切断正在播放的其他轨道。',CHORD:'智能和弦区的每张卡片对应当前 Key 中的一个级数：I、ii、iii、IV、V、vi、vii°。先在卡片下拉菜单选择和弦类型（如 Maj、m7、Maj7、7、9、Maj9、sus 和自定义），再按住卡片试听。柱式=同时发声；上行/下行/随机=按所选琶音速度依次发声，松开卡片停止。开启“平滑就近连接”后，会尽量让前后两个和弦的声部移动更小。下面的“常用和弦进行”按钮会把常用进行直接写入 DAW 轨2；当前 Key 会决定实际和弦名称，卡片当前选择的和弦类型也会沿用到播放。自定义和弦可输入相对于根音的半音音程，例如 0,4,7,10,15 = 7♯9。',STEP:'Step Sequencer 是 16 步循环网格。轨1/轨3每步选择音高，轨2每步选择 I～vii°，轨4连续点击切换鼓点。下面的“常用和弦进行”按钮会自动把进行填入轨2；每个进行会按照 16 步网格自动分配，并沿用和弦区当前的和弦类型设置。播放时修改格子会影响后续播放。',KEYBOARD:'点击键盘即可实时发声。键盘显示八度可以独立调整。'};alert(h[type]||'')}
+function setCurrentTrack(track){currentEditingTrack=track;document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.track===track));syncInspectorUI();updateStripStatus()}
+const TRACK_CN={melody:'轨1 旋律',chord:'轨2 和弦',bass:'轨3 贝斯',drums:'轨4 鼓组'};
+function updateStripStatus(msg){const el=document.getElementById('stripStatus');if(el)el.textContent=msg||('当前编辑：'+(TRACK_CN[currentEditingTrack]||currentEditingTrack))}
+function commitTrackParams(track){syncInspectorUI();initAudio();applyLiveTrackParams(track)}
+// 参数清零：效果器/声像/包络全部归零，只保留当前振荡器音色（source 不变）。
+function zeroTrackParams(){const t=currentEditingTrack;Object.assign(trackParams[t],NEUTRAL_TRACK_PARAMS);commitTrackParams(t);updateStripStatus('已清零 · '+(TRACK_CN[t]||t))}
+// 参数重置：恢复该轨出厂默认参数。
+function resetTrackParams(){const t=currentEditingTrack;trackParams[t]=JSON.parse(JSON.stringify(DEFAULT_TRACK_PARAMS[t]));commitTrackParams(t);updateStripStatus('已重置 · '+(TRACK_CN[t]||t))}
+function resetAllTrackParams(){['melody','chord','bass','drums'].forEach(t=>{trackParams[t]=JSON.parse(JSON.stringify(DEFAULT_TRACK_PARAMS[t]));initAudio();applyLiveTrackParams(t)});commitTrackParams(currentEditingTrack);updateStripStatus('已重置 · 全部四条轨道')}
+function showHelp(type){const h={DAW:'DAW 是四轨独立音频引擎：轨1旋律、轨2和弦、轨3贝斯、轨4鼓组。播放时切换通道条不会停止其他轨道。',STRIP:'每条轨道都有独立音色与效果器。选择轨道只改变“当前编辑对象”，不会切断正在播放的其他轨道。“参数清零”把 EQ/失真/合唱/延迟/混响/声像/包络全部归零并全开滤波，只保留当前振荡器音色；“参数重置”恢复该轨出厂默认；“全部重置”一次恢复四条轨道。音源下拉里除了基础波形，还有钢琴、电钢琴、管风琴、马林巴、钟琴、小提琴、大提琴、二胡、竖琴、民谣/尼龙吉他、古筝、长笛、单簧管、萨克斯、小号、人声合唱、手风琴等乐器音色；选好乐器后可用“音源特性”里的明亮度（音色明暗）、延音（余音长短/释放时间）、颤音（揉弦与气颤深度）继续微调。',CHORD:'智能和弦区的每张卡片对应当前 Key 中的一个级数：I、ii、iii、IV、V、vi、vii°。先在卡片下拉菜单选择和弦类型（如 Maj、m7、Maj7、7、9、Maj9、sus 和自定义），再按住卡片试听。柱式=同时发声；上行/下行/随机=按所选琶音速度依次发声，松开卡片停止。开启“平滑就近连接”后，会尽量让前后两个和弦的声部移动更小。下面的“常用和弦进行”按钮会把常用进行直接写入 DAW 轨2；当前 Key 会决定实际和弦名称，卡片当前选择的和弦类型也会沿用到播放。自定义和弦可输入相对于根音的半音音程，例如 0,4,7,10,15 = 7♯9。',STEP:'Step Sequencer 是 16 步循环网格。四条轨道用法一致：先选每拍的细分（1个一拍 / 2个八分 / 3个三连 / 4个十六分），再逐个子拍输入内容。轨1旋律与轨3贝斯用下拉选音符，轨2选择和弦级数 I～vii°，轨4鼓组点击每一行的芯片循环切换鼓声（空→K底鼓→S军鼓→H闭镲→O开镲→C拍手→T通鼓→R吊镲），所以一拍里也能写出八分、三连和十六分的鼓花。下面的“常用和弦进行”按钮会自动把进行填入轨2；播放时修改格子会即时生效。',KEYBOARD:'点击键盘即可实时发声。键盘显示八度可以独立调整。“移调 ±”以半音为单位整体平移键盘（音名、唱名、发声一起变），“移调归零”回到原调。“弯音轮”打开后可实时推拉音高（±200 音分 = ±2 半音），拖动时正在发声的音会跟着滑动；默认松手自动回中，取消勾选后可保持弯音状态。'};alert(h[type]||'')}
 
 // ========================= KEYBOARD =========================
 function initKeyboard(){
   const div=document.getElementById('piano');
   div.innerHTML='';
   keyboardHeld.clear();
-  const baseMidi=52+keyboardOctOffset*12,whiteW=window.innerWidth<=650?35:40,blackW=window.innerWidth<=650?23:26;
+  const baseMidi=52+keyboardOctOffset*12+keyboardTranspose,whiteW=window.innerWidth<=650?35:40,blackW=window.innerWidth<=650?23:26;
   div.style.width=(34*whiteW)+'px';
   let wi=0;
   for(let i=0;i<48;i++){
@@ -1123,6 +1840,10 @@ function initKeyboard(){
 }
 function renderKeyboardLabels(){const root=Number(document.getElementById('keySelect').value),names=['C','Db','D','Eb','E','F','Gb','G','Ab','A','Bb','B'];document.getElementById('keyboardKeyName').textContent=names[root];document.querySelectorAll('.key').forEach(k=>{const m=Number(k.dataset.midi);k.querySelector('.note-name').textContent=noteName(m);k.querySelector('.solfege').textContent=solfegeFor(m,root)})}
 function shiftKeyboardOct(dir){keyboardOctOffset+=dir;initKeyboard()}
+// 移调：整体以半音为单位平移键盘（音名、唱名、实际发声一起走）。
+function updateTransposeUI(){const el=document.getElementById('transposeVal');if(el)el.textContent=(keyboardTranspose>0?'+':'')+keyboardTranspose+' 半音'}
+function shiftKeyboardTranspose(dir){keyboardTranspose=Math.max(-24,Math.min(24,keyboardTranspose+dir));updateTransposeUI();initKeyboard()}
+function resetKeyboardTranspose(){keyboardTranspose=0;updateTransposeUI();initKeyboard()}
 
 // ========================= MODAL / OCTAVE =========================
 function shiftOct(track,dir){trackOctOffsets[track]=(trackOctOffsets[track]||0)+dir;const el=document.getElementById('oct_'+track);if(el)el.textContent=(trackOctOffsets[track]>=0?'+':'')+trackOctOffsets[track]+' 8va';updateChords();renderKeyboardLabels()}
@@ -1149,7 +1870,7 @@ document.getElementById('presetSelect').addEventListener('change',e=>{const key=
 ['melody','chord','bass','drums'].forEach(t=>document.getElementById('vol_'+t).addEventListener('input',applyVolumes));
 document.getElementById('btnPlay').addEventListener('click',()=>{if(seqRunning&&playbackMode==='daw')stopSequence();else playDaw()});document.getElementById('btnStop').addEventListener('click',stopSequence);document.getElementById('btnStepPlay').addEventListener('click',()=>{if(seqRunning&&playbackMode==='step')stopSequence();else playStep()});document.getElementById('btnStepClear').addEventListener('click',clearStep);document.getElementById('btnUseDaw').addEventListener('click',()=>{playbackMode='daw';document.getElementById('btnUseDaw').classList.add('selected');document.getElementById('btnUseStep').classList.remove('selected');setTransport('待机 · DAW')});document.getElementById('btnUseStep').addEventListener('click',()=>{playbackMode='step';document.getElementById('btnUseStep').classList.add('selected');document.getElementById('btnUseDaw').classList.remove('selected');setTransport('待机 · STEP')});document.getElementById('btnMultiWrite').addEventListener('click',openMultiModal);
 document.getElementById('stepResolution').addEventListener('change',()=>{stepResolution=getStepResolution();stepLoopLength=STEP_COUNT*stepResolution;if(seqRunning&&playbackMode==='step')playStep()});document.getElementById('keySelect').addEventListener('change',()=>{lastChordNotes=[];updateChords();buildStepGrid();renderKeyboardLabels()});document.getElementById('showSolfege').addEventListener('change',e=>document.getElementById('piano').classList.toggle('hide-solfege',!e.target.checked));document.getElementById('showNoteName').addEventListener('change',e=>document.getElementById('piano').classList.toggle('hide-notename',!e.target.checked));
-document.getElementById('loopToggle').addEventListener('change',()=>{});document.getElementById('bpmSlider').addEventListener('input',e=>{document.getElementById('bpmVal').textContent=e.target.value;if(document.getElementById('metronomeToggle').checked)restartMetronome();if(seqRunning){const mode=playbackMode;startSequence(mode)}});document.getElementById('metronomeToggle').addEventListener('change',restartMetronome);document.getElementById('btnMetroTest').addEventListener('click',()=>{initAudio();playMetroClick(true)});['timeNum','timeDen'].forEach(id=>document.getElementById(id).addEventListener('change',()=>{updateMetroText();if(document.getElementById('metronomeToggle').checked)restartMetronome()}));document.getElementById('chordPlayStyle').addEventListener('change',stopChordPerformance);document.getElementById('btnCustomChord').addEventListener('click',()=>{
+document.getElementById('loopToggle').addEventListener('change',()=>{});/* bpmSlider 与 stepBpmSlider 已统一绑定到 applyBpm()，两处 BPM 实时同步 */document.getElementById('metronomeToggle').addEventListener('change',restartMetronome);document.getElementById('btnMetroTest').addEventListener('click',()=>{initAudio();playMetroClick(true)});['timeNum','timeDen'].forEach(id=>document.getElementById(id).addEventListener('change',()=>{updateMetroText();if(document.getElementById('metronomeToggle').checked)restartMetronome()}));document.getElementById('chordPlayStyle').addEventListener('change',stopChordPerformance);document.getElementById('btnCustomChord').addEventListener('click',()=>{
  const choice=prompt('请输入要自定义的级数：1=I，2=ii，3=iii，4=IV，5=V，6=vi，7=vii°','1');
  const idx=Math.max(0,Math.min(6,Number(choice)-1));
  if(Number.isFinite(idx))openCustomChordModal(idx);
@@ -1157,7 +1878,61 @@ document.getElementById('loopToggle').addEventListener('change',()=>{});document
 document.querySelectorAll('.drum-pad').forEach(b=>b.addEventListener('pointerdown',()=>{triggerDrum(b.dataset.drum);b.classList.add('active');setTimeout(()=>b.classList.remove('active'),100)}));
 window.addEventListener('pointerup',()=>{ keyboardHeld.forEach((_,m)=>releaseHeldNote(m)); document.querySelectorAll('.chord-card.active').forEach(c=>c.classList.remove('active')); });
 window.addEventListener('resize',()=>{if(document.getElementById('piano'))initKeyboard()});
-window.addEventListener('load',()=>{initKeyboard();buildStepGrid();updateChords();syncInspectorUI();updateMetroText();bindProgressionButtons();setTransport('待机 · DAW')});
+// 浏览器自动播放策略：任何一次真实用户交互都尝试恢复被挂起的音频上下文。
+['pointerdown','keydown','touchstart'].forEach(ev=>window.addEventListener(ev,()=>{if(audioCtx&&audioCtx.state==='suspended')audioCtx.resume().catch(()=>{})},{passive:true}));
+
+// ========================= BPM / 通道条工具 / 弯音轮 绑定 =========================
+function applyBpm(v){
+  const n=Math.max(60,Math.min(240,Math.round(Number(v)||120)));
+  ['bpmSlider','stepBpmSlider'].forEach(id=>{const e=document.getElementById(id);if(e)e.value=n});
+  ['bpmVal','stepBpmVal'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent=n});
+  if(document.getElementById('metronomeToggle').checked)restartMetronome();
+  if(seqRunning)startSequence(playbackMode);
+  return n;
+}
+['bpmSlider','stepBpmSlider'].forEach(id=>{const el=document.getElementById(id);if(el)el.addEventListener('input',e=>applyBpm(e.target.value))});
+
+['btnParamZero','btnParamReset','btnParamResetAll'].forEach((id,i)=>{
+  const el=document.getElementById(id);if(!el)return;
+  el.addEventListener('click',()=>{
+    if(i===0)zeroTrackParams();
+    else if(i===1)resetTrackParams();
+    else if(confirm('确定要把四条轨道的参数全部恢复出厂默认吗？'))resetAllTrackParams();
+  });
+});
+
+const bendToggle=document.getElementById('btnBendToggle'),bendBar=document.getElementById('bendBar'),bendSlider=document.getElementById('bendSlider');
+if(bendToggle&&bendBar)bendToggle.addEventListener('click',()=>{
+  const open=(bendBar.style.display==='none');
+  bendBar.style.display=open?'flex':'none';
+  bendToggle.classList.toggle('active',open);
+});
+if(bendSlider){
+  bendSlider.addEventListener('input',e=>setBend(e.target.value,false));
+  const springBack=()=>{const ac=document.getElementById('bendAutoCenter');if(!ac||ac.checked)setBend(0)};
+  ['pointerup','mouseup','touchend','blur'].forEach(ev=>bendSlider.addEventListener(ev,springBack));
+}
+const bendCenter=document.getElementById('btnBendCenter');
+if(bendCenter)bendCenter.addEventListener('click',()=>setBend(0));
+
+function initNewControls(){
+  const mb=document.getElementById('bpmSlider'),sb=document.getElementById('stepBpmSlider');
+  const v=mb?mb.value:120;
+  if(sb)sb.value=v;
+  ['bpmVal','stepBpmVal'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent=v});
+  updateTransposeUI();updateStripStatus();setBend(0);
+}
+// 滑块填充效果：让轨道左侧显示已选中的比例（纯视觉）。
+function paintRange(el){
+  if(!el||el.type!=='range')return;
+  const mn=Number(el.min),mx=Number(el.max),v=Number(el.value);
+  if(!isFinite(mn)||!isFinite(mx)||mx<=mn)return;
+  el.style.setProperty('--fill',((v-mn)/(mx-mn)*100).toFixed(2)+'%');
+}
+function paintAllRanges(){document.querySelectorAll('input[type=range]').forEach(paintRange)}
+document.addEventListener('input',e=>{if(e.target&&e.target.type==='range')paintRange(e.target)});
+document.addEventListener('change',e=>{if(e.target&&e.target.type==='range')paintRange(e.target)});
+window.addEventListener('load',()=>{initKeyboard();buildStepGrid();updateChords();syncInspectorUI();updateMetroText();bindProgressionButtons();initNewControls();paintAllRanges();setTransport('待机 · DAW')});
 </script>
 
 <script>
